@@ -1,0 +1,132 @@
+
+
+
+UPDATEDB(1L)                                         UPDATEDB(1L)
+
+
+NNAAMMEE
+       updatedb - update a file name database
+
+SSYYNNOOPPSSIISS
+       uuppddaatteeddbb [[_o_p_t_i_o_n_s]]
+
+DDEESSCCRRIIPPTTIIOONN
+       This  manual  page  documents the GNU version of uuppddaatteeddbb,
+       which updates file name databases used by GNU llooccaattee.  The
+       file  name  databases  contain lists of files that were in
+       particular directory trees when the  databases  were  last
+       updated.   The file name of the default database is deter-
+       mined  when  llooccaattee  and  uuppddaatteeddbb  are   configured   and
+       installed.   The  frequency  with  which the databases are
+       updated and the directories for which they contain entries
+       depend  on how often uuppddaatteeddbb is run, and with which argu-
+       ments.
+
+       In networked environments, it often makes sense to build a
+       database  at  the  root of each filesystem, containing the
+       entries for that filesystem.  uuppddaatteeddbb  is  then  run  for
+       each filesystem on the fileserver where that filesystem is
+       on a local disk, to prevent thrashing the network.   Users
+       can  select which databases llooccaattee searches using an envi-
+       ronment variable or command line option;  see  llooccaattee(1L).
+       Databases can not be concatenated together.
+
+       The  file  name  database format changed starting with GNU
+       ffiinndd and llooccaattee version 4.0 to allow machines with diffent
+       byte orderings to share the databases.  The new GNU llooccaattee
+       can read both the old and new database formats.   However,
+       old  versions of llooccaattee and ffiinndd produce incorrect results
+       if given a new-format database.
+
+OOPPTTIIOONNSS
+       ----llooccaallppaatthhss==''_p_a_t_h_1 _p_a_t_h_2_._._.''
+              Non-network directories to  put  in  the  database.
+              Default is /.
+
+       ----nneettppaatthhss==''_p_a_t_h_1 _p_a_t_h_2_._._.''
+              Network (NFS, AFS, RFS, etc.) directories to put in
+              the database.  Default is none.
+
+       ----pprruunneeppaatthhss==''_p_a_t_h_1 _p_a_t_h_2_._._.''
+              Directories to not put in the database, which would
+              otherwise  be.   Default  is /tmp /usr/tmp /var/tmp
+              /afs.
+
+       ----oouuttppuutt==_d_b_f_i_l_e
+              The database file to  build.   Default  is  system-
+              dependent, but typically /usr/local/var/locatedb.
+
+       ----nneettuusseerr==_u_s_e_r
+              The  user  to  search network directories as, using
+
+
+
+                                                                1
+
+
+
+
+
+UPDATEDB(1L)                                         UPDATEDB(1L)
+
+
+              ssuu(1).  Default is ddaaeemmoonn.
+
+       ----oolldd--ffoorrmmaatt
+              Create the database in the old  format  instead  of
+              the new one.
+
+       ----vveerrssiioonn
+              Print the version number of uuppddaatteeddbb and exit.
+
+       _-_-_h_e_l_p Print  a  summary  of  the  options to uuppddaatteeddbb and
+              exit.
+
+SSEEEE AALLSSOO
+       ffiinndd(1L),  llooccaattee(1L),  llooccaatteeddbb(5L),  xxaarrggss(1L)   FFiinnddiinngg
+       FFiilleess (on-line in Info, or printed)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                2
+
+

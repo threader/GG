@@ -1,0 +1,16 @@
+define=OpenCon,-30
+define=CloseCon,-36
+define=DoFormat,-42
+define=UserNotes,-48
+define=DefineChars,-54
+define=DisplayRaw,-60
+define=Display,-66
+define=Accept,-72
+define=AcceptString,-78
+define=SetMsgHandler,-84
+define=GetInfo,-90
+define=SetGfx,-96
+define=GotoXY,-102
+define=Cursor,-108
+define=Scroll,-114
+define=Convert,-120

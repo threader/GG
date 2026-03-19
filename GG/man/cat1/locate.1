@@ -1,0 +1,132 @@
+
+
+
+LOCATE(1L)                                             LOCATE(1L)
+
+
+NNAAMMEE
+       locate - list files in databases that match a pattern
+
+SSYYNNOOPPSSIISS
+       llooccaattee  [-d  path]  [--database=path] [--version] [--help]
+       pattern...
+
+DDEESSCCRRIIPPTTIIOONN
+       This manual page documents the GNU version of llooccaattee.  For
+       each  given pattern, llooccaattee searches one or more databases
+       of file names and displays the file names that contain the
+       pattern.  Patterns can contain shell-style metacharacters:
+       `*', `?', and `[]'.  The metacharacters do not  treat  `/'
+       or  `.'   specially.   Therefore,  a pattern `foo*bar' can
+       match a file name that contains `foo3/bar', and a  pattern
+       `*duck*'   can   match   a   file   name   that   contains
+       `lake/.ducky'.   Patterns  that   contain   metacharacters
+       should  be  quoted  to  protect them from expansion by the
+       shell.
+
+       If a pattern is a plain string -- it contains no metachar-
+       acters  --  llooccaattee displays all file names in the database
+       that contain that string anywhere.  If a pattern does con-
+       tain  metacharacters, llooccaattee only displays file names that
+       match the pattern exactly.  As  a  result,  patterns  that
+       contain  metacharacters  should  usually begin with a `*',
+       and will most often end with one as well.  The  exceptions
+       are  patterns  that  are  intended to explicitly match the
+       beginning or end of a file name.
+
+       The file name databases contain lists of files  that  were
+       on  the  system when the databases were last updated.  The
+       system administrator can  choose  the  file  name  of  the
+       default  database,  the frequency with which the databases
+       are updated, and the directories for  which  they  contain
+       entries; see uuppddaatteeddbb(1L).
+
+OOPPTTIIOONNSS
+       _-_d _p_a_t_h_, _-_-_d_a_t_a_b_a_s_e_=_p_a_t_h
+              Instead   of   searching   the  default  file  name
+              database, search the file name databases  in  _p_a_t_h,
+              which  is  a  colon-separated list of database file
+              names.  You can also use the  environment  variable
+              LLOOCCAATTEE__PPAATTHH  to  set  the list of database files to
+              search.  The option overrides the environment vari-
+              able if both are used.
+
+       The  file  name  database format changed starting with GNU
+       ffiinndd and llooccaattee version 4.0 to allow machines with diffent
+       byte  orderings  to  share the databases.  This version of
+       llooccaattee can automatically recognize and read databases pro-
+       duced for older versions of GNU llooccaattee or Unix versions of
+       llooccaattee or ffiinndd.
+
+
+
+
+                                                                1
+
+
+
+
+
+LOCATE(1L)                                             LOCATE(1L)
+
+
+       _-_-_h_e_l_p Print a summary of the options to llooccaattee and  exit.
+
+       _-_-_v_e_r_s_i_o_n
+              Print the version number of llooccaattee and exit.
+
+EENNVVIIRROONNMMEENNTT
+       LLOOCCAATTEE__PPAATTHH
+              Colon-separated list of databases to search.
+
+SSEEEE AALLSSOO
+       ffiinndd(1L),  llooccaatteeddbb(5L),  uuppddaatteeddbb(1L),  xxaarrggss(1L) FFiinnddiinngg
+       FFiilleess (on-line in Info, or printed)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                2
+
+
