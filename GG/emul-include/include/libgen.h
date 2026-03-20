@@ -1,49 +1,67 @@
-/* <!-- copyright */
 /*
- * Copyright (C) 2006 Tatsuhiro Tsujikawa
+ * $Id: libgen.h,v 1.7 2006/09/25 13:29:47 obarthel Exp $
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * :ts=4
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Portable ISO 'C' (1994) runtime library for the Amiga computer
+ * Copyright (c) 2002-2006 by Olaf Barthel <olsen (at) sourcery.han.de>
+ * All rights reserved.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * In addition, as a special exception, the copyright holders give
- * permission to link the code of portions of this program with the
- * OpenSSL library under certain conditions as described in each
- * individual source file, and distribute linked combinations
- * including the two.
- * You must obey the GNU General Public License in all respects
- * for all of the code used other than OpenSSL.  If you modify
- * file(s) with this exception, you may extend this exception to your
- * version of the file(s), but you are not obligated to do so.  If you
- * do not wish to do so, delete this exception statement from your
- * version.  If you delete this exception statement from all source
- * files in the program, then also delete it here.
+ *   - Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   - Neither the name of Olaf Barthel nor the names of contributors
+ *     may be used to endorse or promote products derived from this
+ *     software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ *****************************************************************************
+ *
+ * Documentation and source code for this library, and the most recent library
+ * build are available from <http://sourceforge.net/projects/clib2>.
+ *
+ *****************************************************************************
  */
-/* copyright --> */
 
-#ifndef _D_LIBGEN_H
-#define _D_LIBGEN_H 1
+#ifndef _LIBGEN_H
+#define _LIBGEN_H
+
+/****************************************************************************/
+
+/* The following is not part of the ISO 'C' (1994) standard. */
+
+/****************************************************************************/
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-char *basename __P((char *));
-char *basename_b __P((char *, const char *));
-char *dirname __P((char *));
+/****************************************************************************/
+
+char * basename(const char *path);
+char * dirname(const char *path);
+
+/****************************************************************************/
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* not _D_LIBGEN_H */
+/****************************************************************************/
+
+#endif /* _LIBGEN_H */

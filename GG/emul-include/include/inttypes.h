@@ -1,267 +1,220 @@
-/* Amiga - */
-#ifndef _SYS_INTTYPES_H_
-#define	_SYS_INTTYPES_H_
+#ifndef _INTTYPES_H_
+#define _INTTYPES_H_
 
+#include <stdint.h>
 #include <sys/cdefs.h>
-#include <machine/endian.h>
-#include <sys/types.h>
+
+
+#if !defined(__cplusplus) || defined(__STDC_FORMAT_MACROS)
+
+#define __PRI_8_LENGTH_MODIFIER__ "hh"
+#define __PRI_16_LENGTH_MODIFIER__ "h"
+#define __PRI_32_LENGTH_MODIFIER__ ""
+#define __PRI_64_LENGTH_MODIFIER__ "ll"
+
+#define PRId8 __PRI_8_LENGTH_MODIFIER__ "d"
+#define PRIi8 __PRI_8_LENGTH_MODIFIER__ "i"
+#define PRIo8 __PRI_8_LENGTH_MODIFIER__ "o"
+#define PRIu8 __PRI_8_LENGTH_MODIFIER__ "u"
+#define PRIx8 __PRI_8_LENGTH_MODIFIER__ "x"
+#define PRIX8 __PRI_8_LENGTH_MODIFIER__ "X"
+
+#define PRId16 __PRI_16_LENGTH_MODIFIER__ "d"
+#define PRIi16 __PRI_16_LENGTH_MODIFIER__ "i"
+#define PRIo16 __PRI_16_LENGTH_MODIFIER__ "o"
+#define PRIu16 __PRI_16_LENGTH_MODIFIER__ "u"
+#define PRIx16 __PRI_16_LENGTH_MODIFIER__ "x"
+#define PRIX16 __PRI_16_LENGTH_MODIFIER__ "X"
+
+#define PRId32 __PRI_32_LENGTH_MODIFIER__ "d"
+#define PRIi32 __PRI_32_LENGTH_MODIFIER__ "i"
+#define PRIo32 __PRI_32_LENGTH_MODIFIER__ "o"
+#define PRIu32 __PRI_32_LENGTH_MODIFIER__ "u"
+#define PRIx32 __PRI_32_LENGTH_MODIFIER__ "x"
+#define PRIX32 __PRI_32_LENGTH_MODIFIER__ "X"
+
+#define PRId64 __PRI_64_LENGTH_MODIFIER__ "d"
+#define PRIi64 __PRI_64_LENGTH_MODIFIER__ "i"
+#define PRIo64 __PRI_64_LENGTH_MODIFIER__ "o"
+#define PRIu64 __PRI_64_LENGTH_MODIFIER__ "u"
+#define PRIx64 __PRI_64_LENGTH_MODIFIER__ "x"
+#define PRIX64 __PRI_64_LENGTH_MODIFIER__ "X"
+
+#define PRIdLEAST8 PRId8
+#define PRIiLEAST8 PRIi8
+#define PRIoLEAST8 PRIo8
+#define PRIuLEAST8 PRIu8
+#define PRIxLEAST8 PRIx8
+#define PRIXLEAST8 PRIX8
+
+#define PRIdLEAST16 PRId16
+#define PRIiLEAST16 PRIi16
+#define PRIoLEAST16 PRIo16
+#define PRIuLEAST16 PRIu16
+#define PRIxLEAST16 PRIx16
+#define PRIXLEAST16 PRIX16
+
+#define PRIdLEAST32 PRId32
+#define PRIiLEAST32 PRIi32
+#define PRIoLEAST32 PRIo32
+#define PRIuLEAST32 PRIu32
+#define PRIxLEAST32 PRIx32
+#define PRIXLEAST32 PRIX32
+
+#define PRIdLEAST64 PRId64
+#define PRIiLEAST64 PRIi64
+#define PRIoLEAST64 PRIo64
+#define PRIuLEAST64 PRIu64
+#define PRIxLEAST64 PRIx64
+#define PRIXLEAST64 PRIX64
+
+#define PRIdFAST8 PRId8
+#define PRIiFAST8 PRIi8
+#define PRIoFAST8 PRIo8
+#define PRIuFAST8 PRIu8
+#define PRIxFAST8 PRIx8
+#define PRIXFAST8 PRIX8
+
+#define PRIdFAST16 PRId16
+#define PRIiFAST16 PRIi16
+#define PRIoFAST16 PRIo16
+#define PRIuFAST16 PRIu16
+#define PRIxFAST16 PRIx16
+#define PRIXFAST16 PRIX16
+
+#define PRIdFAST32 PRId32
+#define PRIiFAST32 PRIi32
+#define PRIoFAST32 PRIo32
+#define PRIuFAST32 PRIu32
+#define PRIxFAST32 PRIx32
+#define PRIXFAST32 PRIX32
+
+#define PRIdFAST64 PRId64
+#define PRIiFAST64 PRIi64
+#define PRIoFAST64 PRIo64
+#define PRIuFAST64 PRIu64
+#define PRIxFAST64 PRIx64
+#define PRIXFAST64 PRIX64
+
+#define PRIdPTR PRId32
+#define PRIiPTR PRIi32
+#define PRIoPTR PRIo32
+#define PRIuPTR PRIu32
+#define PRIxPTR PRIx32
+#define PRIXPTR PRIX32
+
+#define PRIdMAX PRId64
+#define PRIiMAX PRIi64
+#define PRIoMAX PRIo64
+#define PRIuMAX PRIu64
+#define PRIxMAX PRIx64
+#define PRIXMAX PRIX64
+
+
+#define __SCN_8_LENGTH_MODIFIER__ "hh"
+#define __SCN_16_LENGTH_MODIFIER__ "h"
+#define __SCN_32_LENGTH_MODIFIER__ ""
+#define __SCN_64_LENGTH_MODIFIER__ "ll"
+
+#define SCNd8 __SCN_8_LENGTH_MODIFIER__ "d"
+#define SCNi8 __SCN_8_LENGTH_MODIFIER__ "i"
+#define SCNo8 __SCN_8_LENGTH_MODIFIER__ "o"
+#define SCNu8 __SCN_8_LENGTH_MODIFIER__ "u"
+#define SCNx8 __SCN_8_LENGTH_MODIFIER__ "x"
+
+#define SCNd16 __SCN_16_LENGTH_MODIFIER__ "d"
+#define SCNi16 __SCN_16_LENGTH_MODIFIER__ "i"
+#define SCNo16 __SCN_16_LENGTH_MODIFIER__ "o"
+#define SCNu16 __SCN_16_LENGTH_MODIFIER__ "u"
+#define SCNx16 __SCN_16_LENGTH_MODIFIER__ "x"
+
+#define SCNd32 __SCN_32_LENGTH_MODIFIER__ "d"
+#define SCNi32 __SCN_32_LENGTH_MODIFIER__ "i"
+#define SCNo32 __SCN_32_LENGTH_MODIFIER__ "o"
+#define SCNu32 __SCN_32_LENGTH_MODIFIER__ "u"
+#define SCNx32 __SCN_32_LENGTH_MODIFIER__ "x"
+
+#define SCNd64 __SCN_64_LENGTH_MODIFIER__ "d"
+#define SCNi64 __SCN_64_LENGTH_MODIFIER__ "i"
+#define SCNo64 __SCN_64_LENGTH_MODIFIER__ "o"
+#define SCNu64 __SCN_64_LENGTH_MODIFIER__ "u"
+#define SCNx64 __SCN_64_LENGTH_MODIFIER__ "x"
+
+#define SCNdLEAST8 SCNd8
+#define SCNiLEAST8 SCNi8
+#define SCNoLEAST8 SCNo8
+#define SCNuLEAST8 SCNu8
+#define SCNxLEAST8 SCNx8
+
+#define SCNdLEAST16 SCNd16
+#define SCNiLEAST16 SCNi16
+#define SCNoLEAST16 SCNo16
+#define SCNuLEAST16 SCNu16
+#define SCNxLEAST16 SCNx16
+
+#define SCNdLEAST32 SCNd32
+#define SCNiLEAST32 SCNi32
+#define SCNoLEAST32 SCNo32
+#define SCNuLEAST32 SCNu32
+#define SCNxLEAST32 SCNx32
+
+#define SCNdLEAST64 SCNd64
+#define SCNiLEAST64 SCNi64
+#define SCNoLEAST64 SCNo64
+#define SCNuLEAST64 SCNu64
+#define SCNxLEAST64 SCNx64
+
+#define SCNdFAST8 SCNd8
+#define SCNiFAST8 SCNi8
+#define SCNoFAST8 SCNo8
+#define SCNuFAST8 SCNu8
+#define SCNxFAST8 SCNx8
+
+#define SCNdFAST16 SCNd16
+#define SCNiFAST16 SCNi16
+#define SCNoFAST16 SCNo16
+#define SCNuFAST16 SCNu16
+#define SCNxFAST16 SCNx16
+
+#define SCNdFAST32 SCNd32
+#define SCNiFAST32 SCNi32
+#define SCNoFAST32 SCNo32
+#define SCNuFAST32 SCNu32
+#define SCNxFAST32 SCNx32
+
+#define SCNdFAST64 SCNd64
+#define SCNiFAST64 SCNi64
+#define SCNoFAST64 SCNo64
+#define SCNuFAST64 SCNu64
+#define SCNxFAST64 SCNx64
+
+#define SCNdPTR SCNd32
+#define SCNiPTR SCNi32
+#define SCNoPTR SCNo32
+#define SCNuPTR SCNu32
+#define SCNxPTR SCNx32
+
+#define SCNdMAX SCNd64
+#define SCNiMAX SCNi64
+#define SCNoMAX SCNo64
+#define SCNuMAX SCNu64
+#define SCNxMAX SCNx64
+
+#endif
 
 
 __BEGIN_DECLS
+typedef struct {
+	intmax_t quot;  /* quotient */
+	intmax_t rem;   /* remainder */
+} imaxdiv_t;
 
-# if __WORDSIZE == 64
-#  define __PRI64_PREFIX        "l"
-#  define __PRIPTR_PREFIX       "l"
-# else
-#  define __PRI64_PREFIX        "ll"
-#  define __PRIPTR_PREFIX
-# endif
+intmax_t imaxabs __P((intmax_t));
+imaxdiv_t imaxdiv __P((intmax_t, intmax_t));
 
-/* Macros for printing format specifiers.  */
-
-/* Decimal notation.  */
-# define PRId8          "d"
-# define PRId16         "d"
-# define PRId32         "d"
-# define PRId64         __PRI64_PREFIX "d"
-
-# define PRIdLEAST8     "d"
-# define PRIdLEAST16    "d"
-# define PRIdLEAST32    "d"
-# define PRIdLEAST64    __PRI64_PREFIX "d"
-
-# define PRIdFAST8      "d"
-# define PRIdFAST16     "d"
-# define PRIdFAST32     "d"
-# define PRIdFAST64     __PRI64_PREFIX "d"
-
-
-# define PRIi8          "i"
-# define PRIi16         "i"
-# define PRIi32         "i"
-# define PRIi64         __PRI64_PREFIX "i"
-
-# define PRIiLEAST8     "i"
-# define PRIiLEAST16    "i"
-# define PRIiLEAST32    "i"
-# define PRIiLEAST64    __PRI64_PREFIX "i"
-
-# define PRIiFAST8      "i"
-# define PRIiFAST16     "i"
-# define PRIiFAST32     "i"
-# define PRIiFAST64     __PRI64_PREFIX "i"
-
-/* Octal notation.  */
-# define PRIo8          "o"
-# define PRIo16         "o"
-# define PRIo32         "o"
-# define PRIo64         __PRI64_PREFIX "o"
-
-# define PRIoLEAST8     "o"
-# define PRIoLEAST16    "o"
-# define PRIoLEAST32    "o"
-# define PRIoLEAST64    __PRI64_PREFIX "o"
-
-# define PRIoFAST8      "o"
-# define PRIoFAST16     "o"
-# define PRIoFAST32     "o"
-# define PRIoFAST64     __PRI64_PREFIX "o"
-
-/* Unsigned integers.  */
-# define PRIu8          "u"
-# define PRIu16         "u"
-# define PRIu32         "u"
-# define PRIu64         __PRI64_PREFIX "u"
-
-# define PRIuLEAST8     "u"
-# define PRIuLEAST16    "u"
-# define PRIuLEAST32    "u"
-# define PRIuLEAST64    __PRI64_PREFIX "u"
-
-# define PRIuFAST8      "u"
-# define PRIuFAST16     "u"
-# define PRIuFAST32     "u"
-# define PRIuFAST64     __PRI64_PREFIX "u"
-
-/* lowercase hexadecimal notation.  */
-# define PRIx8          "x"
-# define PRIx16         "x"
-# define PRIx32         "x"
-# define PRIx64         __PRI64_PREFIX "x"
-
-# define PRIxLEAST8     "x"
-# define PRIxLEAST16    "x"
-# define PRIxLEAST32    "x"
-# define PRIxLEAST64    __PRI64_PREFIX "x"
-
-# define PRIxFAST8      "x"
-# define PRIxFAST16     "x"
-# define PRIxFAST32     "x"
-# define PRIxFAST64     __PRI64_PREFIX "x"
-
-/* UPPERCASE hexadecimal notation.  */
-# define PRIX8          "X"
-# define PRIX16         "X"
-# define PRIX32         "X"
-# define PRIX64         __PRI64_PREFIX "X"
-
-# define PRIXLEAST8     "X"
-# define PRIXLEAST16    "X"
-# define PRIXLEAST32    "X"
-# define PRIXLEAST64    __PRI64_PREFIX "X"
-
-# define PRIXFAST8      "X"
-# define PRIXFAST16     "X"
-# define PRIXFAST32     "X"
-# define PRIXFAST64     __PRI64_PREFIX "X"
-
-
-/* Macros for printing `intmax_t' and `uintmax_t'.  */
-# define PRIdMAX        __PRI64_PREFIX "d"
-# define PRIiMAX        __PRI64_PREFIX "i"
-# define PRIoMAX        __PRI64_PREFIX "o"
-# define PRIuMAX        __PRI64_PREFIX "u"
-# define PRIxMAX        __PRI64_PREFIX "x"
-# define PRIXMAX        __PRI64_PREFIX "X"
-
-
-/* Macros for printing `intptr_t' and `uintptr_t'.  */
-# define PRIdPTR        __PRIPTR_PREFIX "d"
-# define PRIiPTR        __PRIPTR_PREFIX "i"
-# define PRIoPTR        __PRIPTR_PREFIX "o"
-# define PRIuPTR        __PRIPTR_PREFIX "u"
-# define PRIxPTR        __PRIPTR_PREFIX "x"
-# define PRIXPTR        __PRIPTR_PREFIX "X"
-
-
-/* Macros for scanning format specifiers.  */
-
-/* Signed decimal notation.  */
-# define SCNd8          "hhd"
-# define SCNd16         "hd"
-# define SCNd32         "d"
-# define SCNd64         __PRI64_PREFIX "d"
-
-# define SCNdLEAST8     "hhd"
-# define SCNdLEAST16    "hd"
-# define SCNdLEAST32    "d"
-# define SCNdLEAST64    __PRI64_PREFIX "d"
-
-# define SCNdFAST8      "hhd"
-# define SCNdFAST16     __PRIPTR_PREFIX "d"
-# define SCNdFAST32     __PRIPTR_PREFIX "d"
-# define SCNdFAST64     __PRI64_PREFIX "d"
-
-/* Signed decimal notation.  */
-# define SCNi8          "hhi"
-# define SCNi16         "hi"
-# define SCNi32         "i"
-# define SCNi64         __PRI64_PREFIX "i"
-
-# define SCNiLEAST8     "hhi"
-# define SCNiLEAST16    "hi"
-# define SCNiLEAST32    "i"
-# define SCNiLEAST64    __PRI64_PREFIX "i"
-
-# define SCNiFAST8      "hhi"
-# define SCNiFAST16     __PRIPTR_PREFIX "i"
-# define SCNiFAST32     __PRIPTR_PREFIX "i"
-# define SCNiFAST64     __PRI64_PREFIX "i"
-
-/* Unsigned decimal notation.  */
-# define SCNu8          "hhu"
-# define SCNu16         "hu"
-# define SCNu32         "u"
-# define SCNu64         __PRI64_PREFIX "u"
-
-# define SCNuLEAST8     "hhu"
-# define SCNuLEAST16    "hu"
-# define SCNuLEAST32    "u"
-# define SCNuLEAST64    __PRI64_PREFIX "u"
-
-# define SCNuFAST8      "hhu"
-# define SCNuFAST16     __PRIPTR_PREFIX "u"
-# define SCNuFAST32     __PRIPTR_PREFIX "u"
-# define SCNuFAST64     __PRI64_PREFIX "u"
-
-/* Octal notation.  */
-# define SCNo8          "hho"
-# define SCNo16         "ho"
-# define SCNo32         "o"
-# define SCNo64         __PRI64_PREFIX "o"
-
-# define SCNoLEAST8     "hho"
-# define SCNoLEAST16    "ho"
-# define SCNoLEAST32    "o"
-# define SCNoLEAST64    __PRI64_PREFIX "o"
-
-# define SCNoFAST8      "hho"
-# define SCNoFAST16     __PRIPTR_PREFIX "o"
-# define SCNoFAST32     __PRIPTR_PREFIX "o"
-# define SCNoFAST64     __PRI64_PREFIX "o"
-
-/* Hexadecimal notation.  */
-# define SCNx8          "hhx"
-# define SCNx16         "hx"
-# define SCNx32         "x"
-# define SCNx64         __PRI64_PREFIX "x"
-
-# define SCNxLEAST8     "hhx"
-# define SCNxLEAST16    "hx"
-# define SCNxLEAST32    "x"
-# define SCNxLEAST64    __PRI64_PREFIX "x"
-
-# define SCNxFAST8      "hhx"
-# define SCNxFAST16     __PRIPTR_PREFIX "x"
-# define SCNxFAST32     __PRIPTR_PREFIX "x"
-# define SCNxFAST64     __PRI64_PREFIX "x"
-
-
-/* Macros for scanning `intmax_t' and `uintmax_t'.  */
-# define SCNdMAX        __PRI64_PREFIX "d"
-# define SCNiMAX        __PRI64_PREFIX "i"
-# define SCNoMAX        __PRI64_PREFIX "o"
-# define SCNuMAX        __PRI64_PREFIX "u"
-# define SCNxMAX        __PRI64_PREFIX "x"
-
-/* Macros for scanning `intptr_t' and `uintptr_t'.  */
-# define SCNdPTR        __PRIPTR_PREFIX "d"
-# define SCNiPTR        __PRIPTR_PREFIX "i"
-# define SCNoPTR        __PRIPTR_PREFIX "o"
-# define SCNuPTR        __PRIPTR_PREFIX "u"
-# define SCNxPTR        __PRIPTR_PREFIX "x"
-
-/* Amiga - */
-/*
-typedef signed char int8_t;
-typedef signed short int16_t;
-typedef signed int int32_t;
-
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef unsigned int uint32_t;
-*/
-typedef u_int8_t uint8_t;
-typedef u_int16_t uint16_t;
-typedef u_int32_t uint32_t;
-typedef u_int64_t uint64_t;
-
-typedef signed long int intptr_t;
-typedef unsigned long int uintptr_t;
-
-#ifndef __STRICT_ANSI__
-/* Amiga - */
-/*
-__extension__ typedef signed long long int64_t;
-__extension__ typedef unsigned long long uint64_t;
-*/
-__extension__ typedef signed long long int intmax_t;
-__extension__ typedef unsigned long long int uintmax_t;
-#endif
-
+intmax_t strtoimax __P((const char *, char **, int));
+uintmax_t strtoumax __P((const char *, char **, int));
 __END_DECLS
 
-/* Amiga - temporarily */
-#include <stdint.h>
 
-#endif
+#endif /* _INTTYPES_H_ */

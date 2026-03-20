@@ -58,6 +58,18 @@
 
 #include <sys/cdefs.h>
 
+#ifndef __math_decl
+/* Changed by Diego Casorran:
+   January 2009, added __math_decl usage to let the user decide whenever
+   to use static or extern inline, static should be somewhat faster at
+   the cost of code size... use -DLOCALMATHINLINE or -DSTMATH to enable it */
+# if !defined(LOCALMATHINLINE) && !defined(STMATH)
+#  define __math_decl extern __inline
+# else
+#  define __math_decl static __inline
+# endif
+#endif /* __math_decl */
+
 #if (defined(__GNUC__) || defined(__cplusplus)) && defined(__HAVE_68881__)
 #include <math-68881.h>
 #else
@@ -97,7 +109,7 @@ double	acosh __P((double));
 double	asinh __P((double));
 double	atanh __P((double));
 double	cabs();		/* we can't describe cabs()'s argument properly */
-double	cbrt __P((double));
+//double	cbrt __P((double));
 double	copysign __P((double, double));
 double	drem __P((double, double));
 double	erf __P((double));
@@ -114,20 +126,157 @@ double	jn __P((int, double));
 double	lgamma __P((double));
 double	log1p __P((double));
 double	logb __P((double));
-double	rint __P((double));
+//double	rint __P((double));
 double	scalb __P((double, int));
 double	y0 __P((double));
 double	y1 __P((double));
 double	yn __P((int, double));
 #endif
 
-/* Amiga - 48.3: */
-float roundf __P((float));
-float truncf __P((float));
-
 __END_DECLS
 
 #endif /* __HAVE_68881__ */
+
+
+#ifndef MATH_STDIMPL
+
+//define ENABLE_HAVE_XXX
+#ifdef ENABLE_HAVE_XXX
+# define HAVE_FUNC_ISINF 1
+# define HAVE_FUNC_ISNAN 1
+# define HAVE_CEILF
+# define HAVE_FLOORF
+# define HAVE_LROUND
+# define HAVE_ROUNDF
+# define HAVE_ROUND
+# define HAVE_frexpf
+# define HAVE_LDEXPF 
+# define HAVE_SINF
+# define HAVE_COSF
+# define HAVE_FMODF
+# define HAVE_ATAN2F
+# define HAVE_SQRTF
+#endif
+
+#ifndef __HAVE_68881__
+__math_decl double rint(double x)
+{
+ return floor(x + 0.5);
+}
+#endif /* __HAVE_68881__ */
+
+__math_decl float rintf(float x)
+{
+#if !defined(LOCALMATHINLINE) && !defined(STMATH)
+ return floor(x + 0.5);
+#else
+ return((float)rint((double)x));
+#endif
+}
+
+__math_decl float roundf(float x)
+{
+ if( x > 0.0 )return floor(x + 0.5);
+ return ceil(x - 0.5);
+}
+
+__math_decl int lroundf(float x)
+{
+ if( x > 0.0 )return floor(x + 0.5);
+ return ceil(x - 0.5);
+}
+
+__math_decl int lround(double x)
+{
+ if( x > 0.0 )return floor(x + 0.5);
+ return ceil(x - 0.5);
+}
+
+__math_decl int round(double x)
+{
+ if( x > 0.0 )return floor(x + 0.5);
+ return ceil(x - 0.5);
+}
+
+__math_decl float ceilf(float x)
+{
+ return ceil(x);
+}
+
+__math_decl float floorf(float x)
+{
+ return floor(x);
+}
+
+__math_decl float frexpf(float x,int * exp)
+{
+ return frexp(x,exp);
+}
+
+__math_decl float ldexpf(float x,int exp)
+{
+ return ldexp(x,exp);
+}
+
+#define signbit(x) ((x) < 0)
+
+__math_decl float powf(float x,float y)
+{
+ return pow(x,y);
+}
+
+__math_decl float sinf(float x)
+{
+ return sin(x);
+}
+
+__math_decl float cosf(float x)
+{
+ return cos(x);
+}
+
+__math_decl float fmodf(float x,float y)
+{
+ return fmod(x,y);
+}
+
+__math_decl float atan2f(float x,float y)
+{
+ return atan2(x,y);
+}
+
+__math_decl float sqrtf(float x)
+{
+ return sqrt(x);
+}
+
+__math_decl  double trunc(double x)
+{
+ return floor(x);
+}
+
+__math_decl float truncf(float x)
+{
+ return floor(x);
+}
+
+__math_decl double cbrt(double x)
+{
+ return pow((x),1./3.);
+}
+
+__math_decl float cbrtf(float x)
+{
+ return pow((x),1./3.);
+}
+
+#define isfinite(val) (!isnan(val) && !isinf(val))
+//#define isfinite(val) (!isinf(val))
+#define NAN (0.0/0.0)
+#define INFINITY (1.0/0.0)
+
+#endif /* MATH_STDIMPL */
+
 
 __BEGIN_DECLS
 int	isinf __P((double));

@@ -43,6 +43,9 @@
 #include <sys/types.h>
 #endif
 
+/* For wchar_t and size_t */
+#include <stddef.h> 
+/*
 #ifdef	_BSD_SIZE_T_
 typedef	_BSD_SIZE_T_	size_t;
 #undef	_BSD_SIZE_T_
@@ -52,7 +55,7 @@ typedef	_BSD_SIZE_T_	size_t;
 typedef	_BSD_WCHAR_T_	wchar_t;
 #undef	_BSD_WCHAR_T_
 #endif
-
+*/
 typedef struct {
 	int quot;		/* quotient */
 	int rem;		/* remainder */
@@ -80,16 +83,19 @@ typedef struct {
 
 #define	RAND_MAX	0x7fffffff
 
-#define	MB_CUR_MAX	1	/* XXX */
+#define	MB_CUR_MAX	4	/* XXX */
 
 #include <sys/cdefs.h>
+#define atoll(str) ((long long) strtoll(str, (char **)NULL, 10));
 
+extern long long strtoll(const char *str, char **ptr, int base); 
 __BEGIN_DECLS
 void	 abort __P((void));
 int	 abs __P((int));
 int	 atexit __P((void (*)(void)));
 double	 atof __P((const char *));
 int	 atoi __P((const char *));
+
 long	 atol __P((const char *));
 void	*bsearch __P((const void *, const void *, size_t,
 	    size_t, int (*)(const void *, const void *)));
@@ -191,13 +197,6 @@ long	 nrand48 __P((unsigned short[3]));
 unsigned short *seed48 __P((unsigned short[3]));
 void	 srand48 __P((long));
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
-
-/* Amiga - 48.3: strtoll/strtoull */
-#define strtoll_WideAsLong(val)	((long)(val))
-#define strtoll_LongAsWide(val)	((long)(val))
-#define strtoll_UCHAR(c) ((unsigned char) (c))
-long long strtoll __P((const char *, char **, int));
-unsigned long long strtoull __P((const char *, char **, int));
 
 __END_DECLS
 
