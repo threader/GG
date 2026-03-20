@@ -1,0 +1,130 @@
+Notes for GCC 3.x
+-----------------
+
+ - installation:
+
+   To be able to use GCC 2.x and GCC 3.x at the same time, its recommended
+   to install the frontend programs in bin/ with an added "3" eg. as gcc3.
+   Executing an older GCC version from the V3 frontend is possible with
+   -V<version> if the frontend for <version> is installed as gcc-<version>.
+
+   *Don't* extract or copy everything directly into GG:! Extract into a
+   temp directory and remove unwanted stuff from there, eg.
+
+     from bin: c++, cpp, gccbug, m68k-amigaos-#?
+     from lib: libiberty.a
+
+   Then add a suffix to the remaining programs in bin.
+   Its also recommended to move
+
+     <extract-dir>/lib/lib#?.a to lib/gcc/m68k-amigaos/<this version>
+
+   to keep the old installation working.
+
+ - Bugs:
+
+   The AmigaOS/68k port of GCC3 has some known (and probably some unknown)
+   bugs:
+
+   There is a bug when using -fbaserel and -fstrength-reduce (which is
+   automatcally enabled with -O2 and higher). As a workaround the AmigaOS/68k
+   port currently disables strength-reduction if -fbaserel is used.
+
+   Another bug exists with explicit register arguments and function pointers:
+
+       void (*testfunc) (void (*)(int) __asm("a3"));
+
+   The compiler says:
+
+       error: parse error before ')' token
+
+   However, if the above is rewritten like this:
+
+       void (*testfunc) (void (*dummy)(int) __asm("a3"));
+
+   then everything works.
+   This bug was found by Fabio Alemagna in the GCC 3.3 port and is still
+   present.
+
+   GCC3 exposes a libnix shortcomming in its stdio implementation: generated
+   code might reference unavailable functions: getc, getchar, putc, putchar.
+   These functions might also be referenced by libstdc++.a. At the end of
+   this document you can find usable versions of these functions.
+
+ - OS inlines:
+
+   To use GCC 3.x its necessary to install a new version of inline/macros.h
+   if the used OS inline headers are based on LP macros. Previous versions
+   of the file macros.h used the GCC extensions "extended asm" and "statement
+   expression" incorrectly. GCC 3.x does detect and reject these broken
+   constructs in the older macros.h versions. However, the corrected version
+   still had problems and GCC3 could create broken code. Once again a new
+   macros.h header file can be found in contrib/.
+   Depending on the used inline type different actions have to be taken.
+   Beware, fd2pragma upto 2.171 generates incorrect inlines for certain
+   special types!
+   Its _strongly_ recommended to read the extensions chapter of the GCC
+   documentation.
+
+ - inlining:
+
+   Starting with GCC 3.1 "static inline" is handled _differently_ compared
+   with previous GCC releases. Former GCC versions inlined functions marked
+   with "static inline" unconditionally. GCC 3.1 and newer may choose to
+   _ignore_ the inline hint! To get the previous behaviour an attribute must
+   be added:
+
+      __attribute__((always_inline))
+
+   The attribute should only be added for 3.1 or newer. Older versions
+   ignore the attribute but output a warning, so beware.
+
+ - speed:
+
+   GCC3 is significantly slower than previous versions and needs more
+   memory, YMMV though.
+
+ - building:
+
+   By default, libgcc.a is built with debug information. To disable that
+   remove -g from gcc/Makefile:LIBGCC2_DEBUG_CFLAGS _after_ configuration.
+
+   By default, GCC uses -O2 when compiling. This can be overridden eg. at
+   configure time like this (bourne shell style):
+
+     CFLAGS= CXXFLAGS= <complete configure command line>
+
+   At build time the flags can be set like this:
+
+     gmake CFLAGS=-O CXXFLAGS=-O
+
+   If possible -O2 should be used since GCC 3.3+ generates much better code
+   with it.
+
+   Using GNUmake is _highly_ recommended.
+
+   The AmigaOS port has some hardcoded paths in xm-amigaos.h for the native
+   installation which use /gg as prefix. As long as this matches --prefix=
+   during configuration, everything is fine.
+
+
+Thats all, good luck!
+
+libnix additions:
+
+-- getc.c --
+#include <stdio.h>
+int (getc)(FILE *stream)
+{ return fgetc(stream); }
+-- getchar.c --
+#include <stdio.h>
+int (getchar)(void)
+{ return fgetc(stdin); }
+-- putc.c --
+#include <stdio.h>
+int (putc)(int c,FILE *stream)
+{ return fputc(c,stream); }
+-- putchar.c --
+#include <stdio.h>
+int (putchar)(int c)
+{ return fputc(c,stdout); }

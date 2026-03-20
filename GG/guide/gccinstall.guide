@@ -1,0 +1,3710 @@
+@database gccinstall.guide
+@Master install.texi
+@Width 72
+
+This is AmigaGuide(R) gccinstall.guide, produced by makeinfo version
+4.6 from install.texi.
+
+Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+
+   Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).  A copy of the license
+is included in the section entitled "GNU Free Documentation License".
+
+   (a) The FSF's Front-Cover Text is:
+
+   A GNU Manual
+
+   (b) The FSF's Back-Cover Text is:
+
+   You have freedom to copy and modify this GNU Manual, like GNU
+software.  Copies published by the Free Software Foundation raise
+funds for GNU development.
+Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+
+   Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, the Front-Cover texts being (a) (see below), and
+with the Back-Cover Texts being (b) (see below).  A copy of the license
+is included in the section entitled "GNU Free Documentation License".
+
+   (a) The FSF's Front-Cover Text is:
+
+   A GNU Manual
+
+   (b) The FSF's Back-Cover Text is:
+
+   You have freedom to copy and modify this GNU Manual, like GNU
+software.  Copies published by the Free Software Foundation raise
+funds for GNU development.
+
+@node Main "gccinstall.guide"
+
+
+ @{" Installing GCC " link "Installing GCC"}  This document describes the generic installation
+                    procedure for GCC as well as detailing some target
+                    specific installation instructions.
+
+ @{" Specific       " link "Specific"}  Host/target specific installation notes for GCC.
+ @{" Binaries       " link "Binaries"}  Where to get pre-compiled binaries.
+
+ @{" Old            " link "Old"}  Old installation documentation.
+
+ @{" GNU Free Documentation License " link "GNU Free Documentation License"}  How you can copy and share this manual.
+ @{" Concept Index  " link "Concept Index"}  This index has two entries.
+
+@endnode
+
+@node "Installing GCC" "gccinstall.guide/Installing GCC"
+@next "Binaries"
+@toc "Main"
+
+Installing GCC
+**************
+
+   The latest version of this document is always available at
+http://gcc.gnu.org/install/.
+
+   This document describes the generic installation procedure for GCC
+as well as detailing some target specific installation instructions.
+
+   GCC includes several components that previously were separate
+distributions with their own installation instructions.  This document
+supersedes all package specific installation instructions.
+
+   @{i}Before@{ui} starting the build/install procedure please check the
+@{"host/target specific installation notes" link "Specific"}.  We recommend you browse the
+entire generic installation instructions before you proceed.
+
+   Lists of successful builds for released versions of GCC are
+available at `http://gcc.gnu.org/buildstat.html'.  These lists are
+updated as new information becomes available.
+
+   The installation procedure itself is broken into five steps.
+
+
+ @{" Prerequisites " link "Prerequisites"}  
+ @{" Downloading the source " link "Downloading the source"}  
+ @{" Configuration " link "Configuration"}  
+ @{" Building    " link "Building"}  
+ @{" Testing     " link "Testing"}  (optional)
+ @{" Final install " link "Final install"}
+
+   Please note that GCC does not support @{b}make uninstall@{ub} and probably
+won't do so in the near future as this would open a can of worms.
+Instead, we suggest that you install GCC into a directory of its own
+and simply remove that directory when you do not need that specific
+version of GCC any longer, and, if shared libraries are installed there
+as well, no more binaries exist that use them.
+
+@endnode
+
+@node "Prerequisites" "gccinstall.guide/Prerequisites"
+@next "Downloading the source"
+@toc "Installing GCC"
+
+Prerequisites
+*************
+
+   GCC requires that various tools and packages be available for use in
+the build procedure.  Modifying GCC sources requires additional tools
+described below.
+
+Tools/packages necessary for building GCC
+=========================================
+
+ISO C90 compiler
+     Necessary to bootstrap the GCC package, although versions of GCC
+     prior to 3.4 also allow bootstrapping with a traditional (K&R) C
+     compiler.
+
+     To make all languages in a cross-compiler or other configuration
+     where 3-stage bootstrap is not performed, you need to start with
+     an existing GCC binary (version 2.95 or later) because source code
+     for language frontends other than C might use GCC extensions.
+
+GNAT
+     In order to build the Ada compiler (GNAT) you must already have
+     GNAT installed because portions of the Ada frontend are written in
+     Ada (with GNAT extensions.)  Refer to the Ada installation
+     instructions for more specific information.
+
+A "working" POSIX compatible shell, or GNU bash
+     Necessary when running @{b}configure@{ub} because some @{b}/bin/sh@{ub} shells have
+     bugs and may crash when configuring the target libraries.  In
+     other cases, @{b}/bin/sh@{ub} or even some @{b}ksh@{ub} have disastrous corner-case
+     performance problems.  This can cause target @{b}configure@{ub} runs to
+     literally take days to complete in some cases.
+
+     So on some platforms @{b}/bin/ksh@{ub} is sufficient, on others it isn't.
+     See the host/target specific instructions for your platform, or
+     use @{b}bash@{ub} to be sure.  Then set @{b}CONFIG_SHELL@{ub} in your environment to
+     your "good" shell prior to running @{b}configure@{ub}/@{b}make@{ub}.
+
+     @{b}zsh@{ub} is not a fully compliant POSIX shell and will not work when
+     configuring GCC.
+
+GNU binutils
+     Necessary in some circumstances, optional in others.  See the
+     host/target specific instructions for your platform for the exact
+     requirements.
+
+gzip version 1.2.4 (or later) or
+bzip2 version 1.0.2 (or later)
+     Necessary to uncompress GCC @{b}tar@{ub} files when source code is obtained
+     via FTP mirror sites.
+
+GNU make version 3.79.1 (or later)
+     You must have GNU make installed to build GCC.
+
+GNU tar version 1.12 (or later)
+     Necessary (only on some platforms) to untar the source code.  Many
+     systems' @{b}tar@{ub} programs will also work, only try GNU @{b}tar@{ub} if you have
+     problems.
+
+
+Tools/packages necessary for modifying GCC
+==========================================
+
+autoconf versions 2.13 and 2.57
+GNU m4 version 1.4 (or later)
+     Necessary when modifying @{b}configure.in@{ub}, @{b}aclocal.m4@{ub}, etc.  to
+     regenerate @{b}configure@{ub} and @{b}config.in@{ub} files.  Most directories
+     require autoconf 2.13 (exactly), but @{b}libiberty@{ub}, @{b}fastjar@{ub},
+     @{b}libstdc++-v3@{ub}, @{b}libjava/libltdl@{ub}, and @{b}gcc@{ub} require autoconf 2.57
+     (exactly).
+
+automake versions 1.4-gcj and 1.7.9
+     Necessary when modifying a @{b}Makefile.am@{ub} file to regenerate its
+     associated @{b}Makefile.in@{ub}.
+
+     Much of GCC does not use automake, so directly edit the @{b}Makefile.in@{ub}
+     file.  Specifically this applies to the @{b}gcc@{ub}, @{b}intl@{ub}, @{b}libf2c@{ub},
+     @{b}libiberty@{ub}, @{b}libobjc@{ub} directories as well as any of their
+     subdirectories.
+
+     The @{b}libstdc++-v3@{ub}, @{b}libjava/libltdl@{ub}, and @{b}fastjar@{ub} directories require
+     automake 1.7.9.  However, the Java directories, which include
+     @{b}boehm-gc@{ub}, @{b}libffi@{ub}, @{b}libjava@{ub}, and @{b}zlib@{ub}, require a modified version of
+     automake 1.4 downloadable from
+     `ftp://gcc.gnu.org/pub/java/automake-gcj-1.4.tar.gz'.
+
+gettext version 0.12 (or later)
+     Needed to regenerate @{b}gcc.pot@{ub}.
+
+gperf version 2.7.2 (or later)
+     Necessary when modifying @{b}gperf@{ub} input files, e.g.
+     @{b}gcc/cp/cfns.gperf@{ub} to regenerate its associated header file, e.g.
+     @{b}gcc/cp/cfns.h@{ub}.
+
+expect version ???
+tcl version ???
+dejagnu version ???
+     Necessary to run the GCC testsuite.
+
+autogen version 5.5.4 (or later) and
+guile version 1.4.1 (or later)
+     Necessary to regenerate @{b}fixinc/fixincl.x@{ub} from @{b}fixinc/inclhack.def@{ub}
+     and @{b}fixinc/*.tpl@{ub}.
+
+     Necessary to run the @{b}fixinc@{ub} @{b}make check@{ub}.
+
+     Necessary to regenerate the top level @{b}Makefile.in@{ub} file from
+     @{b}Makefile.tpl@{ub} and @{b}Makefile.def@{ub}.
+
+GNU Bison version 1.28 (or later)
+     Berkeley @{b}yacc@{ub} (@{b}byacc@{ub}) is also reported to work other than for java.
+
+     Necessary when modifying @{b}*.y@{ub} files.
+
+     Necessary to build GCC during development because the generated
+     output files are not included in the CVS repository.  They are
+     included in releases.
+
+Flex version 2.5.4 (or later)
+     Necessary when modifying @{b}*.l@{ub} files.
+
+     Necessary to build GCC during development because the generated
+     output files are not included in the CVS repository.  They are
+     included in releases.
+
+Texinfo version 4.2 (or later)
+     Necessary for running @{b}makeinfo@{ub} when modifying @{b}*.texi@{ub} files to test
+     your changes.
+
+     Necessary to build GCC documentation during development because the
+     generated output files are not included in the CVS repository.
+     They are included in releases.
+
+TeX (any working version)
+     Necessary for running @{b}texi2dvi@{ub}, used when running @{b}make dvi@{ub} to
+     create DVI files.
+
+cvs version 1.10 (or later)
+ssh (any version)
+     Necessary to access the CVS repository.  Public releases and weekly
+     snapshots of the development sources are also available via FTP.
+
+perl version 5.6.1 (or later)
+     Necessary when regenerating @{b}Makefile@{ub} dependencies in libiberty.
+     Necessary when regenerating @{b}libiberty/functions.texi@{ub}.  Necessary
+     when generating manpages from Texinfo manuals.  Used by various
+     scripts to generate some files included in CVS (mainly
+     Unicode-related and rarely changing) from source tables.
+
+GNU diffutils version 2.7 (or later)
+     Necessary when creating changes to GCC source code to submit for
+     review.
+
+patch version 2.5.4 (or later)
+     Necessary when applying patches, created with @{b}diff@{ub}, to one's own
+     sources.
+
+
+@endnode
+
+@node "Downloading the source" "gccinstall.guide/Downloading the source"
+@next "Configuration"
+@prev "Prerequisites"
+@toc "Installing GCC"
+
+Downloading GCC
+***************
+
+   GCC is distributed via CVS and FTP tarballs compressed with @{b}gzip@{ub} or
+@{b}bzip2@{ub}.  It is possible to download a full distribution or specific
+components.
+
+   Please refer to our releases web page for information on how to
+obtain GCC.
+
+   The full distribution includes the C, C++, Objective-C, Fortran,
+Java, and Ada (in case of GCC 3.1 and later) compilers.  The full
+distribution also includes runtime libraries for C++, Objective-C,
+Fortran, and Java.  In GCC 3.0 and later versions, GNU compiler
+testsuites are also included in the full distribution.
+
+   If you choose to download specific components, you must download the
+core GCC distribution plus any language specific distributions you wish
+to use.  The core distribution includes the C language front end as
+well as the shared components.  Each language has a tarball which
+includes the language front end as well as the language runtime (when
+appropriate).
+
+   Unpack the core distribution as well as any language specific
+distributions in the same directory.
+
+   If you also intend to build binutils (either to upgrade an existing
+installation or for use in place of the corresponding tools of your
+OS), unpack the binutils distribution either in the same directory or a
+separate one.  In the latter case, add symbolic links to any components
+of the binutils you intend to build alongside the compiler (@{b}bfd@{ub},
+@{b}binutils@{ub}, @{b}gas@{ub}, @{b}gprof@{ub}, @{b}ld@{ub}, @{b}opcodes@{ub}, ...) to the directory containing the
+GCC sources.
+
+@endnode
+
+@node "Configuration" "gccinstall.guide/Configuration"
+@next "Building"
+@prev "Downloading the source"
+@toc "Installing GCC"
+
+Installing GCC: Configuration
+*****************************
+
+   Like most GNU software, GCC must be configured before it can be
+built.  This document describes the recommended configuration procedure
+for both native and cross targets.
+
+   We use SRCDIR to refer to the toplevel source directory for GCC; we
+use OBJDIR to refer to the toplevel build/object directory.
+
+   If you obtained the sources via CVS, SRCDIR must refer to the top
+@{b}gcc@{ub} directory, the one where the @{b}MAINTAINERS@{ub} can be found, and not its
+@{b}gcc@{ub} subdirectory, otherwise the build will fail.
+
+   If either SRCDIR or OBJDIR is located on an automounted NFS file
+system, the shell's built-in @{b}pwd@{ub} command will return temporary
+pathnames.  Using these can lead to various sorts of build problems.
+To avoid this issue, set the @{b}PWDCMD@{ub} environment variable to an
+automounter-aware @{b}pwd@{ub} command, e.g., @{b}pawd@{ub} or @{b}amq -w@{ub}, during the
+configuration and build phases.
+
+   First, we @{b}highly@{ub} recommend that GCC be built into a separate
+directory than the sources which does @{b}not@{ub} reside within the source
+tree.  This is how we generally build GCC; building where SRCDIR ==
+OBJDIR should still work, but doesn't get extensive testing; building
+where OBJDIR is a subdirectory of SRCDIR is unsupported.
+
+   If you have previously built GCC in the same directory for a
+different target machine, do @{b}make distclean@{ub} to delete all files that
+might be invalid.  One of the files this deletes is @{b}Makefile@{ub}; if @{b}make
+distclean@{ub} complains that @{b}Makefile@{ub} does not exist or issues a message
+like "don't know how to make distclean" it probably means that the
+directory is already suitably clean.  However, with the recommended
+method of building in a separate OBJDIR, you should simply use a
+different OBJDIR for each target.
+
+   Second, when configuring a native system, either @{b}cc@{ub} or @{b}gcc@{ub} must be
+in your path or you must set @{b}CC@{ub} in your environment before running
+configure.  Otherwise the configuration scripts may fail.
+
+   Note that the bootstrap compiler and the resulting GCC must be link
+compatible, else the bootstrap will fail with linker errors about
+incompatible object file formats.  Several multilibed targets are
+affected by this requirement, see
+@{"host/target specific installation notes" link "Specific"}.
+
+   To configure GCC:
+
+        % mkdir OBJDIR
+        % cd OBJDIR
+        % SRCDIR/configure [OPTIONS] [TARGET]
+
+Target specification
+====================
+
+   * GCC has code to correctly determine the correct value for TARGET
+     for nearly all native systems.  Therefore, we highly recommend you
+     not provide a configure target when configuring a native compiler.
+
+   * TARGET must be specified as @{b}--target=TARGET@{ub} when configuring a
+     cross compiler; examples of valid targets would be i960-rtems,
+     m68k-coff, sh-elf, etc.
+
+   * Specifying just TARGET instead of @{b}--target=TARGET@{ub} implies that the
+     host defaults to TARGET.
+
+Options specification
+=====================
+
+Use OPTIONS to override several configure time options for GCC.  A list
+of supported OPTIONS follows; @{b}configure --help@{ub} may list other options,
+but those not listed below may not work and should not normally be used.
+
+   Note that each @{b}--enable@{ub} option has a corresponding @{b}--disable@{ub} option
+and that each @{b}--with@{ub} option has a corresponding @{b}--without@{ub} option.
+
+@{b}--prefix=DIRNAME@{ub}
+     Specify the toplevel installation directory.  This is the
+     recommended way to install the tools into a directory other than
+     the default.  The toplevel installation directory defaults to
+     @{b}/usr/local@{ub}.
+
+     We @{b}highly@{ub} recommend against DIRNAME being the same or a
+     subdirectory of OBJDIR or vice versa.  If specifying a directory
+     beneath a user's home directory tree, some shells will not expand
+     DIRNAME correctly if it contains the @{b}~@{ub} metacharacter; use @{b}$HOME@{ub}
+     instead.
+
+     The following standard @{b}autoconf@{ub} options are supported.  Normally
+     you should not need to use these options.
+    @{b}--exec-prefix=DIRNAME@{ub}
+          Specify the toplevel installation directory for
+          architecture-dependent files.  The default is @{b}PREFIX@{ub}.
+
+    @{b}--bindir=DIRNAME@{ub}
+          Specify the installation directory for the executables called
+          by users (such as @{b}gcc@{ub} and @{b}g++@{ub}).  The default is
+          @{b}EXEC-PREFIX/bin@{ub}.
+
+    @{b}--libdir=DIRNAME@{ub}
+          Specify the installation directory for object code libraries
+          and internal data files of GCC.  The default is
+          @{b}EXEC-PREFIX/lib@{ub}.
+
+    @{b}--libexecdir=DIRNAME@{ub}
+          Specify the installation directory for internal executables
+          of GCC.    The default is @{b}EXEC-PREFIX/libexec@{ub}.
+
+    @{b}--with-slibdir=DIRNAME@{ub}
+          Specify the installation directory for the shared libgcc
+          library.  The default is @{b}LIBDIR@{ub}.
+
+    @{b}--infodir=DIRNAME@{ub}
+          Specify the installation directory for documentation in info
+          format.  The default is @{b}PREFIX/info@{ub}.
+
+    @{b}--datadir=DIRNAME@{ub}
+          Specify the installation directory for some
+          architecture-independent data files referenced by GCC.  The
+          default is @{b}PREFIX/share@{ub}.
+
+    @{b}--mandir=DIRNAME@{ub}
+          Specify the installation directory for manual pages.  The
+          default is @{b}PREFIX/man@{ub}.  (Note that the manual pages are only
+          extracts from the full GCC manuals, which are provided in
+          Texinfo format.  The manpages are derived by an automatic
+          conversion process from parts of the full manual.)
+
+    @{b}--with-gxx-include-dir=DIRNAME@{ub}
+          Specify the installation directory for G++ header files.  The
+          default is @{b}PREFIX/include/c++/VERSION@{ub}.
+
+
+@{b}--program-prefix=PREFIX@{ub}
+     GCC supports some transformations of the names of its programs when
+     installing them. This option prepends PREFIX to the names of
+     programs to install in BINDIR (see above). For example, specifying
+     @{b}--program-prefix=foo-@{ub} would result in @{b}gcc@{ub} being installed as
+     @{b}/usr/local/bin/foo-gcc@{ub}.
+
+@{b}--program-suffix=SUFFIX@{ub}
+     Appends SUFFIX to the names of programs to install in BINDIR (see
+     above). For example, specifying @{b}--program-suffix=-3.1@{ub} would result
+     in @{b}gcc@{ub} being installed as @{b}/usr/local/bin/gcc-3.1@{ub}.
+
+@{b}--program-transform-name=PATTERN@{ub}
+     Applies the @{b}sed@{ub} script PATTERN to be applied to the names of
+     programs to install in BINDIR (see above). PATTERN has to consist
+     of one or more basic @{b}sed@{ub} editing commands, separated by
+     semicolons. For example, if you want the @{b}gcc@{ub} program name to be
+     transformed to the installed program @{b}/usr/local/bin/myowngcc@{ub} and
+     the @{b}g++@{ub} program name to be transformed to
+     @{b}/usr/local/bin/gspecial++@{ub} without changing other program names,
+     you could use the pattern
+     @{b}--program-transform-name='s/^gcc$/myowngcc/; s/^g++$/gspecial++/'@{ub}
+     to achieve this effect.
+
+     All three options can be combined and used together, resulting in
+     more complex conversion patterns. As a basic rule, PREFIX (and
+     SUFFIX) are prepended (appended) before further transformations
+     can happen with a special transformation script PATTERN.
+
+     As currently implemented, this option only takes effect for native
+     builds; cross compiler binaries' names are not transformed even
+     when a transformation is explicitly asked for by one of these
+     options.
+
+     For native builds, some of the installed programs are also
+     installed with the target alias in front of their name, as in
+     @{b}i686-pc-linux-gnu-gcc@{ub}. All of the above transformations happen
+     before the target alias is prepended to the name - so, specifying
+     @{b}--program-prefix=foo-@{ub} and @{b}program-suffix=-3.1@{ub}, the resulting
+     binary would be installed as
+     @{b}/usr/local/bin/i686-pc-linux-gnu-foo-gcc-3.1@{ub}.
+
+     As a last shortcoming, none of the installed Ada programs are
+     transformed yet, which will be fixed in some time.
+
+@{b}--with-local-prefix=DIRNAME@{ub}
+     Specify the installation directory for local include files.  The
+     default is @{b}/usr/local@{ub}.  Specify this option if you want the
+     compiler to search directory @{b}DIRNAME/include@{ub} for locally installed
+     header files @{i}instead@{ui} of @{b}/usr/local/include@{ub}.
+
+     You should specify @{b}--with-local-prefix@{ub} @{b}only@{ub} if your site has a
+     different convention (not @{b}/usr/local@{ub}) for where to put
+     site-specific files.
+
+     The default value for @{b}--with-local-prefix@{ub} is @{b}/usr/local@{ub} regardless
+     of the value of @{b}--prefix@{ub}.  Specifying @{b}--prefix@{ub} has no effect on
+     which directory GCC searches for local header files.  This may
+     seem counterintuitive, but actually it is logical.
+
+     The purpose of @{b}--prefix@{ub} is to specify where to @{i}install GCC@{ui}.  The
+     local header files in @{b}/usr/local/include@{ub}--if you put any in that
+     directory--are not part of GCC.  They are part of other
+     programs--perhaps many others.  (GCC installs its own header files
+     in another directory which is based on the @{b}--prefix@{ub} value.)
+
+     Both the local-prefix include directory and the GCC-prefix include
+     directory are part of GCC's "system include" directories.
+     Although these two directories are not fixed, they need to be
+     searched in the proper order for the correct processing of the
+     include_next directive.  The local-prefix include directory is
+     searched before the GCC-prefix include directory.  Another
+     characteristic of system include directories is that pedantic
+     warnings are turned off for headers in these directories.
+
+     Some autoconf macros add @{b}-I DIRECTORY@{ub} options to the compiler
+     command line, to ensure that directories containing installed
+     packages' headers are searched.  When DIRECTORY is one of GCC's
+     system include directories, GCC will ignore the option so that
+     system directories continue to be processed in the correct order.
+     This may result in a search order different from what was
+     specified but the directory will still be searched.
+
+     GCC automatically searches for ordinary libraries using
+     @{b}GCC_EXEC_PREFIX@{ub}.  Thus, when the same installation prefix is used
+     for both GCC and packages, GCC will automatically search for both
+     headers and libraries.  This provides a configuration that is easy
+     to use.  GCC behaves in a manner similar to that when it is
+     installed as a system compiler in @{b}/usr@{ub}.
+
+     Sites that need to install multiple versions of GCC may not want to
+     use the above simple configuration.  It is possible to use the
+     @{b}--program-prefix@{ub}, @{b}--program-suffix@{ub} and @{b}--program-transform-name@{ub}
+     options to install multiple versions into a single directory, but
+     it may be simpler to use different prefixes and the
+     @{b}--with-local-prefix@{ub} option to specify the location of the
+     site-specific files for each version.  It will then be necessary
+     for users to specify explicitly the location of local site
+     libraries (e.g., with @{b}LIBRARY_PATH@{ub}).
+
+     The same value can be used for both @{b}--with-local-prefix@{ub} and
+     @{b}--prefix@{ub} provided it is not @{b}/usr@{ub}.  This can be used to avoid the
+     default search of @{b}/usr/local/include@{ub}.
+
+     @{b}Do not@{ub} specify @{b}/usr@{ub} as the @{b}--with-local-prefix@{ub}!  The directory you
+     use for @{b}--with-local-prefix@{ub} @{b}must not@{ub} contain any of the system's
+     standard header files.  If it did contain them, certain programs
+     would be miscompiled (including GNU Emacs, on certain targets),
+     because this would override and nullify the header file
+     corrections made by the @{b}fixincludes@{ub} script.
+
+     Indications are that people who use this option use it based on
+     mistaken ideas of what it is for.  People use it as if it
+     specified where to install part of GCC.  Perhaps they make this
+     assumption because installing GCC creates the directory.
+
+@{b}--enable-shared[=PACKAGE[,...]]@{ub}
+     Build shared versions of libraries, if shared libraries are
+     supported on the target platform.  Unlike GCC 2.95.x and earlier,
+     shared libraries are enabled by default on all platforms that
+     support shared libraries, except for @{b}libobjc@{ub} which is built as a
+     static library only by default.
+
+     If a list of packages is given as an argument, build shared
+     libraries only for the listed packages.  For other packages, only
+     static libraries will be built.  Package names currently
+     recognized in the GCC tree are @{b}libgcc@{ub} (also known as @{b}gcc@{ub}),
+     @{b}libstdc++@{ub} (not @{b}libstdc++-v3@{ub}), @{b}libffi@{ub}, @{b}zlib@{ub}, @{b}boehm-gc@{ub} and @{b}libjava@{ub}.
+     Note that @{b}libobjc@{ub} does not recognize itself by any name, so, if
+     you list package names in @{b}--enable-shared@{ub}, you will only get
+     static Objective-C libraries.  @{b}libf2c@{ub} and @{b}libiberty@{ub} do not support
+     shared libraries at all.
+
+     Use @{b}--disable-shared@{ub} to build only static libraries.  Note that
+     @{b}--disable-shared@{ub} does not accept a list of package names as
+     argument, only @{b}--enable-shared@{ub} does.
+
+@{b}--with-gnu-as@{ub}
+     Specify that the compiler should assume that the assembler it
+     finds is the GNU assembler.  However, this does not modify the
+     rules to find an assembler and will result in confusion if the
+     assembler found is not actually the GNU assembler.  (Confusion may
+     also result if the compiler finds the GNU assembler but has not
+     been configured with @{b}--with-gnu-as@{ub}.)  If you have more than one
+     assembler installed on your system, you may want to use this
+     option in connection with @{b}--with-as=PATHNAME@{ub}.
+
+     The following systems are the only ones where it makes a difference
+     whether you use the GNU assembler.  On any other system,
+     @{b}--with-gnu-as@{ub} has no effect.
+
+        * @{b}hppa1.0-ANY-ANY@{ub}
+
+        * @{b}hppa1.1-ANY-ANY@{ub}
+
+        * @{b}i386-ANY-sysv@{ub}
+
+        * @{b}m68k-bull-sysv@{ub}
+
+        * @{b}m68k-hp-hpux@{ub}
+
+        * @{b}m68000-hp-hpux@{ub}
+
+        * @{b}m68000-att-sysv@{ub}
+
+        * @{b}ANY-lynx-lynxos@{ub}
+
+        * @{b}mips-ANY@{ub}
+
+        * @{b}sparc-sun-solaris2.ANY@{ub}
+
+        * @{b}sparc64-ANY-solaris2.ANY@{ub}
+
+     On the systems listed above (except for the HP-PA, the SPARC, for
+     ISC on the 386, and for @{b}mips-sgi-irix5.*@{ub}), if you use the GNU
+     assembler, you should also use the GNU linker (and specify
+     @{b}--with-gnu-ld@{ub}).
+
+@{b}--with-as=PATHNAME@{ub}
+     Specify that the compiler should use the assembler pointed to by
+     PATHNAME, rather than the one found by the standard rules to find
+     an assembler, which are:
+        * Check the @{b}LIBEXEC/gcc/TARGET/VERSION@{ub} directory, where LIBEXEC
+          defaults to @{b}EXEC-PREFIX/libexec@{ub} and EXEC-PREFIX defaults to
+          PREFIX which defaults to @{b}/usr/local@{ub} unless overridden by the
+          @{b}--prefix=PATHNAME@{ub} switch described above. TARGET is the
+          target system triple, such as @{b}sparc-sun-solaris2.7@{ub}, and
+          VERSION denotes the GCC version, such as 3.0.
+
+        * Check operating system specific directories (e.g.
+          @{b}/usr/ccs/bin@{ub} on Sun Solaris 2).
+     Note that these rules do not check for the value of @{b}PATH@{ub}.  You may
+     want to use @{b}--with-as@{ub} if no assembler is installed in the
+     directories listed above, or if you have multiple assemblers
+     installed and want to choose one that is not found by the above
+     rules.
+
+@{b}--with-gnu-ld@{ub}
+     Same as @{b}--with-gnu-as@{ub} but for the linker.
+
+@{b}--with-ld=PATHNAME@{ub}
+     Same as @{b}--with-as@{ub} but for the linker.
+
+@{b}--with-stabs@{ub}
+     Specify that stabs debugging information should be used instead of
+     whatever format the host normally uses.  Normally GCC uses the
+     same debug format as the host system.
+
+     On MIPS based systems and on Alphas, you must specify whether you
+     want GCC to create the normal ECOFF debugging format, or to use
+     BSD-style stabs passed through the ECOFF symbol table.  The normal
+     ECOFF debug format cannot fully handle languages other than C.
+     BSD stabs format can handle other languages, but it only works
+     with the GNU debugger GDB.
+
+     Normally, GCC uses the ECOFF debugging format by default; if you
+     prefer BSD stabs, specify @{b}--with-stabs@{ub} when you configure GCC.
+
+     No matter which default you choose when you configure GCC, the user
+     can use the @{b}-gcoff@{ub} and @{b}-gstabs+@{ub} options to specify explicitly the
+     debug format for a particular compilation.
+
+     @{b}--with-stabs@{ub} is meaningful on the ISC system on the 386, also, if
+     @{b}--with-gas@{ub} is used.  It selects use of stabs debugging information
+     embedded in COFF output.  This kind of debugging information
+     supports C++ well; ordinary COFF debugging information does not.
+
+     @{b}--with-stabs@{ub} is also meaningful on 386 systems running SVR4.  It
+     selects use of stabs debugging information embedded in ELF output.
+     The C++ compiler currently (2.6.0) does not support the DWARF
+     debugging information normally used on 386 SVR4 platforms; stabs
+     provide a workable alternative.  This requires gas and gdb, as the
+     normal SVR4 tools can not generate or interpret stabs.
+
+@{b}--disable-multilib@{ub}
+     Specify that multiple target libraries to support different target
+     variants, calling conventions, etc should not be built.  The
+     default is to build a predefined set of them.
+
+     Some targets provide finer-grained control over which multilibs
+     are built (e.g., @{b}--disable-softfloat@{ub}):
+    @{b}arc-*-elf*@{ub}
+          biendian.
+
+    @{b}arm-*-*@{ub}
+          fpu, 26bit, underscore, interwork, biendian, nofmult.
+
+    @{b}m68*-*-*@{ub}
+          softfloat, m68881, m68000, m68020.
+
+    @{b}mips*-*-*@{ub}
+          single-float, biendian, softfloat.
+
+    @{b}powerpc*-*-*, rs6000*-*-*@{ub}
+          aix64, pthread, softfloat, powercpu, powerpccpu, powerpcos,
+          biendian, sysv, aix.
+
+
+@{b}--enable-threads@{ub}
+     Specify that the target supports threads.  This affects the
+     Objective-C compiler and runtime library, and exception handling
+     for other languages like C++ and Java.  On some systems, this is
+     the default.
+
+     In general, the best (and, in many cases, the only known) threading
+     model available will be configured for use.  Beware that on some
+     systems, GCC has not been taught what threading models are
+     generally available for the system.  In this case,
+     @{b}--enable-threads@{ub} is an alias for @{b}--enable-threads=single@{ub}.
+
+@{b}--disable-threads@{ub}
+     Specify that threading support should be disabled for the system.
+     This is an alias for @{b}--enable-threads=single@{ub}.
+
+@{b}--enable-threads=LIB@{ub}
+     Specify that LIB is the thread support library.  This affects the
+     Objective-C compiler and runtime library, and exception handling
+     for other languages like C++ and Java.  The possibilities for LIB
+     are:
+
+    @{b}aix@{ub}
+          AIX thread support.
+
+    @{b}dce@{ub}
+          DCE thread support.
+
+    @{b}gnat@{ub}
+          Ada tasking support.  For non-Ada programs, this setting is
+          equivalent to @{b}single@{ub}. When used in conjunction with the Ada
+          run time, it causes GCC to use the same thread primitives as
+          Ada uses.  This option is necessary when using both Ada and
+          the back end exception handling, which is the default for
+          most Ada targets.
+
+    @{b}mach@{ub}
+          Generic MACH thread support, known to work on NeXTSTEP.
+          (Please note that the file needed to support this
+          configuration, @{b}gthr-mach.h@{ub}, is missing and thus this setting
+          will cause a known bootstrap failure.)
+
+    @{b}no@{ub}
+          This is an alias for @{b}single@{ub}.
+
+    @{b}posix@{ub}
+          Generic POSIX thread support.
+
+    @{b}rtems@{ub}
+          RTEMS thread support.
+
+    @{b}single@{ub}
+          Disable thread support, should work for all platforms.
+
+    @{b}solaris@{ub}
+          Sun Solaris 2 thread support.
+
+    @{b}vxworks@{ub}
+          VxWorks thread support.
+
+    @{b}win32@{ub}
+          Microsoft Win32 API thread support.
+
+@{b}--with-cpu=CPU@{ub}
+     Specify which cpu variant the compiler should generate code for by
+     default.  CPU will be used as the default value of the @{b}-mcpu=@{ub}
+     switch.  This option is only supported on some targets, including
+     ARM, i386, PowerPC, and SPARC.
+
+@{b}--with-schedule=CPU@{ub}
+@{b}--with-arch=CPU@{ub}
+@{b}--with-tune=CPU@{ub}
+@{b}--with-abi=ABI@{ub}
+@{b}--with-float=TYPE@{ub}
+     These configure options provide default values for the @{b}-mschedule=@{ub},
+     @{b}-march=@{ub}, @{b}-mtune=@{ub}, and @{b}-mabi=@{ub} options and for @{b}-mhard-float@{ub} or
+     @{b}-msoft-float@{ub}.  As with @{b}--with-cpu@{ub}, which switches will be accepted
+     and acceptable values of the arguments depend on the target.
+
+@{b}--enable-altivec@{ub}
+     Specify that the target supports AltiVec vector enhancements.  This
+     option will adjust the ABI for AltiVec enhancements, as well as
+     generate AltiVec code when appropriate.  This option is only
+     available for PowerPC systems.
+
+@{b}--enable-__cxa_atexit@{ub}
+     Define if you want to use __cxa_atexit, rather than atexit, to
+     register C++ destructors for local statics and global objects.
+     This is essential for fully standards-compliant handling of
+     destructors, but requires __cxa_atexit in libc. This option is
+     currently only available on systems with GNU libc. When enabled,
+     this will cause @{b}-fuse-cxa-exit@{ub} to be passed by default.
+
+@{b}--enable-target-optspace@{ub}
+     Specify that target libraries should be optimized for code space
+     instead of code speed.  This is the default for the m32r platform.
+
+@{b}--disable-cpp@{ub}
+     Specify that a user visible @{b}cpp@{ub} program should not be installed.
+
+@{b}--with-cpp-install-dir=DIRNAME@{ub}
+     Specify that the user visible @{b}cpp@{ub} program should be installed in
+     @{b}PREFIX/DIRNAME/cpp@{ub}, in addition to BINDIR.
+
+@{b}--enable-initfini-array@{ub}
+     Force the use of sections @{b}.init_array@{ub} and @{b}.fini_array@{ub} (instead of
+     @{b}.init@{ub} and @{b}.fini@{ub}) for constructors and destructors.  Option
+     @{b}--disable-initfini-array@{ub} has the opposite effect.  If neither
+     option is specified, the configure script will try to guess
+     whether the @{b}.init_array@{ub} and @{b}.fini_array@{ub} sections are supported
+     and, if they are, use them.
+
+@{b}--enable-maintainer-mode@{ub}
+     The build rules that regenerate the GCC master message catalog
+     @{b}gcc.pot@{ub} are normally disabled.  This is because it can only be
+     rebuilt if the complete source tree is present.  If you have
+     changed the sources and want to rebuild the catalog, configuring
+     with @{b}--enable-maintainer-mode@{ub} will enable this.  Note that you
+     need a recent version of the @{b}gettext@{ub} tools to do so.
+
+@{b}--enable-generated-files-in-srcdir@{ub}
+     Neither the .c and .h files that are generated from bison and flex
+     nor the info manuals and man pages that are built from the .texi
+     files are present in the CVS development tree.  When building GCC
+     from that development tree, or from a snapshot which are created
+     from CVS, then those generated files are placed in your build
+     directory, which allows for the source to be in a readonly
+     directory.
+
+     If you configure with @{b}--enable-generated-files-in-srcdir@{ub} then those
+     generated files will go into the source directory.  This is mainly
+     intended for generating release or prerelease tarballs of the GCC
+     sources, since it is not a requirement that the users of source
+     releases to have flex, bison, or makeinfo.
+
+@{b}--enable-version-specific-runtime-libs@{ub}
+     Specify that runtime libraries should be installed in the compiler
+     specific subdirectory (@{b}LIBDIR/gcc@{ub}) rather than the usual places.
+     In addition, @{b}libstdc++@{ub}'s include files will be installed into
+     @{b}LIBDIR@{ub} unless you overruled it by using
+     @{b}--with-gxx-include-dir=DIRNAME@{ub}.  Using this option is particularly
+     useful if you intend to use several versions of GCC in parallel.
+     This is currently supported by @{b}libf2c@{ub} and @{b}libstdc++@{ub}, and is the
+     default for @{b}libobjc@{ub} which cannot be changed in this case.
+
+@{b}--enable-languages=LANG1,LANG2,...@{ub}
+     Specify that only a particular subset of compilers and their
+     runtime libraries should be built.  For a list of valid values for
+     LANGN you can issue the following command in the @{b}gcc@{ub} directory of
+     your GCC source tree:
+          grep language= */config-lang.in
+     Currently, you can use any of the following: @{b}ada@{ub}, @{b}c@{ub}, @{b}c++@{ub}, @{b}f77@{ub},
+     @{b}java@{ub}, @{b}objc@{ub}.  Building the Ada compiler has special requirements,
+     see below.
+     If you do not pass this flag, all languages available in the @{b}gcc@{ub}
+     sub-tree will be configured.  Re-defining @{b}LANGUAGES@{ub} when calling
+     @{b}make bootstrap@{ub} @{b}does not@{ub} work anymore, as those language
+     sub-directories might not have been configured!
+
+@{b}--with-dwarf2@{ub}
+     Specify that the compiler should use DWARF 2 debugging information
+     as the default.
+
+@{b}--enable-win32-registry@{ub}
+@{b}--enable-win32-registry=KEY@{ub}
+@{b}--disable-win32-registry@{ub}
+     The @{b}--enable-win32-registry@{ub} option enables Microsoft
+     Windows-hosted GCC to look up installations paths in the registry
+     using the following key:
+
+          @{b}HKEY_LOCAL_MACHINE\\SOFTWARE\\Free Software Foundation\\KEY@{ub}
+
+     KEY defaults to GCC version number, and can be overridden by the
+     @{b}--enable-win32-registry=KEY@{ub} option. Vendors and distributors who
+     use custom installers are encouraged to provide a different key,
+     perhaps one comprised of vendor name and GCC version number, to
+     avoid conflict with existing installations.  This feature is
+     enabled by default, and can be disabled by @{b}--disable-win32-registry@{ub}
+     option.  This option has no effect on the other hosts.
+
+@{b}--nfp@{ub}
+     Specify that the machine does not have a floating point unit.  This
+     option only applies to @{b}m68k-sun-sunosN@{ub}.  On any other system,
+     @{b}--nfp@{ub} has no effect.
+
+@{b}--enable-werror@{ub}
+@{b}--disable-werror@{ub}
+@{b}--enable-werror=yes@{ub}
+@{b}--enable-werror=no@{ub}
+     When you specify this option, it controls whether certain files in
+     the compiler are built with @{b}-Werror@{ub} in bootstrap stage2 and later.
+     If you don't specify it, @{b}-Werror@{ub} is turned on for the main
+     development trunk.  However it defaults to off for release
+     branches and final releases.  The specific files which get @{b}-Werror@{ub}
+     are controlled by the Makefiles.
+
+@{b}--enable-checking@{ub}
+@{b}--enable-checking=LIST@{ub}
+     When you specify this option, the compiler is built to perform
+     checking of tree node types when referencing fields of that node,
+     and some other internal consistency checks.  This does not change
+     the generated code, but adds error checking within the compiler.
+     This will slow down the compiler and may only work properly if you
+     are building the compiler with GCC.  This is on by default when
+     building from CVS or snapshots, but off for releases.  More
+     control over the checks may be had by specifying LIST; the
+     categories of checks available are @{b}misc@{ub}, @{b}tree@{ub}, @{b}gc@{ub}, @{b}rtl@{ub}, @{b}rtlflag@{ub},
+     @{b}fold@{ub}, @{b}gcac@{ub} and @{b}valgrind@{ub}.  The check @{b}valgrind@{ub} requires the external
+     @{b}valgrind@{ub} simulator, available from `http://valgrind.kde.org/'.
+     The default when LIST is not specified is @{b}misc,tree,gc,rtlflag@{ub};
+     the checks @{b}rtl@{ub}, @{b}gcac@{ub} and @{b}valgrind@{ub} are very expensive.
+
+@{b}--enable-coverage@{ub}
+@{b}--enable-coverage=LEVEL@{ub}
+     With this option, the compiler is built to collect self coverage
+     information, every time it is run. This is for internal development
+     purposes, and only works when the compiler is being built with
+     gcc. The LEVEL argument controls whether the compiler is built
+     optimized or not, values are @{b}opt@{ub} and @{b}noopt@{ub}. For coverage analysis
+     you want to disable optimization, for performance analysis you
+     want to enable optimization. When coverage is enabled, the default
+     level is without optimization.
+
+@{b}--enable-gather-detailed-mem-stats@{ub}
+     When this option is specified more detailed information on memory
+     allocation is gathered.  This information is printed when using
+     @{b}-fmem-report@{ub}.
+
+@{b}--enable-nls@{ub}
+@{b}--disable-nls@{ub}
+     The @{b}--enable-nls@{ub} option enables Native Language Support (NLS),
+     which lets GCC output diagnostics in languages other than American
+     English.  Native Language Support is enabled by default if not
+     doing a canadian cross build.  The @{b}--disable-nls@{ub} option disables
+     NLS.
+
+@{b}--with-included-gettext@{ub}
+     If NLS is enabled, the @{b}--with-included-gettext@{ub} option causes the
+     build procedure to prefer its copy of GNU @{b}gettext@{ub}.
+
+@{b}--with-catgets@{ub}
+     If NLS is enabled, and if the host lacks @{b}gettext@{ub} but has the
+     inferior @{b}catgets@{ub} interface, the GCC build procedure normally
+     ignores @{b}catgets@{ub} and instead uses GCC's copy of the GNU @{b}gettext@{ub}
+     library.  The @{b}--with-catgets@{ub} option causes the build procedure to
+     use the host's @{b}catgets@{ub} in this situation.
+
+@{b}--with-libiconv-prefix=DIR@{ub}
+     Search for libiconv header files in @{b}DIR/include@{ub} and libiconv
+     library files in @{b}DIR/lib@{ub}.
+
+@{b}--enable-obsolete@{ub}
+     Enable configuration for an obsoleted system.  If you attempt to
+     configure GCC for a system (build, host, or target) which has been
+     obsoleted, and you do not specify this flag, configure will halt
+     with an error message.
+
+     All support for systems which have been obsoleted in one release
+     of GCC is removed entirely in the next major release, unless
+     someone steps forward to maintain the port.
+
+Cross-Compiler-Specific Options
+-------------------------------
+
+The following options only apply to building cross compilers.
+@{b}--with-sysroot@{ub}
+@{b}--with-sysroot=DIR@{ub}
+     Tells GCC to consider DIR as the root of a tree that contains a
+     (subset of) the root filesystem of the target operating system.
+     Target system headers, libraries and run-time object files will be
+     searched in there.  The specified directory is not copied into the
+     install tree, unlike the options @{b}--with-headers@{ub} and @{b}--with-libs@{ub}
+     that this option obsoletes.  The default value, in case
+     @{b}--with-sysroot@{ub} is not given an argument, is
+     @{b}${gcc_tooldir}/sys-root@{ub}.  If the specified directory is a
+     subdirectory of @{b}${exec_prefix}@{ub}, then it will be found relative to
+     the GCC binaries if the installation tree is moved.
+
+@{b}--with-headers@{ub}
+@{b}--with-headers=DIR@{ub}
+     Deprecated in favor of @{b}--with-sysroot@{ub}.  Specifies that target
+     headers are available when building a cross compiler.  The DIR
+     argument specifies a directory which has the target include files.
+     These include files will be copied into the @{b}gcc@{ub} install
+     directory.  @{i}This option with the DIR argument is required@{ui} when
+     building a cross compiler, if @{b}PREFIX/TARGET/sys-include@{ub} doesn't
+     pre-exist.  If @{b}PREFIX/TARGET/sys-include@{ub} does pre-exist, the DIR
+     argument may be omitted.  @{b}fixincludes@{ub} will be run on these files
+     to make them compatible with GCC.
+
+@{b}--without-headers@{ub}
+     Tells GCC not use any target headers from a libc when building a
+     cross compiler.  When crossing to GNU/Linux, you need the headers
+     so GCC can build the exception handling for libgcc.  See CrossGCC
+     for more information on this option.
+
+@{b}--with-libs@{ub}
+@{b}--with-libs=``DIR1 DIR2 ... DIRN''@{ub}
+     Deprecated in favor of @{b}--with-sysroot@{ub}.  Specifies a list of
+     directories which contain the target runtime libraries.  These
+     libraries will be copied into the @{b}gcc@{ub} install directory.  If the
+     directory list is omitted, this option has no effect.
+
+@{b}--with-newlib@{ub}
+     Specifies that @{b}newlib@{ub} is being used as the target C library.  This
+     causes @{b}__eprintf@{ub} to be omitted from @{b}libgcc.a@{ub} on the assumption
+     that it will be provided by @{b}newlib@{ub}.
+
+Java-Specific Options
+---------------------
+
+The following option applies to the build of the Java front end.
+
+@{b}--disable-libgcj@{ub}
+     Specify that the run-time libraries used by GCJ should not be
+     built.  This is useful in case you intend to use GCJ with some
+     other run-time, or you're going to install it separately, or it
+     just happens not to build on your particular machine.  In general,
+     if the Java front end is enabled, the GCJ libraries will be
+     enabled too, unless they're known to not work on the target
+     platform.  If GCJ is enabled but @{b}libgcj@{ub} isn't built, you may need
+     to port it; in this case, before modifying the top-level
+     @{b}configure.in@{ub} so that @{b}libgcj@{ub} is enabled by default on this platform,
+     you may use @{b}--enable-libgcj@{ub} to override the default.
+
+
+   The following options apply to building @{b}libgcj@{ub}.
+
+General Options
+...............
+
+@{b}--disable-getenv-properties@{ub}
+     Don't set system properties from @{b}GCJ_PROPERTIES@{ub}.
+
+@{b}--enable-hash-synchronization@{ub}
+     Use a global hash table for monitor locks. Ordinarily, @{b}libgcj@{ub}'s
+     @{b}configure@{ub} script automatically makes the correct choice for this
+     option for your platform. Only use this if you know you need the
+     library to be configured differently.
+
+@{b}--enable-interpreter@{ub}
+     Enable the Java interpreter. The interpreter is automatically
+     enabled by default on all platforms that support it. This option
+     is really only useful if you want to disable the interpreter
+     (using @{b}--disable-interpreter@{ub}).
+
+@{b}--disable-java-net@{ub}
+     Disable java.net. This disables the native part of java.net only,
+     using non-functional stubs for native method implementations.
+
+@{b}--disable-jvmpi@{ub}
+     Disable JVMPI support.
+
+@{b}--with-ecos@{ub}
+     Enable runtime eCos target support.
+
+@{b}--without-libffi@{ub}
+     Don't use @{b}libffi@{ub}. This will disable the interpreter and JNI
+     support as well, as these require @{b}libffi@{ub} to work.
+
+@{b}--enable-libgcj-debug@{ub}
+     Enable runtime debugging code.
+
+@{b}--enable-libgcj-multifile@{ub}
+     If specified, causes all @{b}.java@{ub} source files to be compiled into
+     @{b}.class@{ub} files in one invocation of @{b}gcj@{ub}. This can speed up build
+     time, but is more resource-intensive. If this option is
+     unspecified or disabled, @{b}gcj@{ub} is invoked once for each @{b}.java@{ub} file
+     to compile into a @{b}.class@{ub} file.
+
+@{b}--with-libiconv-prefix=DIR@{ub}
+     Search for libiconv in @{b}DIR/include@{ub} and @{b}DIR/lib@{ub}.
+
+@{b}--enable-sjlj-exceptions@{ub}
+     Force use of @{b}builtin_setjmp@{ub} for exceptions. @{b}configure@{ub} ordinarily
+     picks the correct value based on the platform. Only use this
+     option if you are sure you need a different setting.
+
+@{b}--with-system-zlib@{ub}
+     Use installed @{b}zlib@{ub} rather than that included with GCC.
+
+@{b}--with-win32-nlsapi=ansi, unicows or unicode@{ub}
+     Indicates how MinGW @{b}libgcj@{ub} translates between UNICODE characters
+     and the Win32 API.
+    @{b}ansi@{ub}
+          Use the single-byte @{b}char@{ub} and the Win32 A functions natively,
+          translating to and from UNICODE when using these functions. If
+          unspecified, this is the default.
+
+    @{b}unicows@{ub}
+          Use the @{b}WCHAR@{ub} and Win32 W functions natively. Adds @{b}-lunicows@{ub}
+          to @{b}libgcj.spec@{ub} to link with @{b}libunicows@{ub}.  @{b}unicows.dll@{ub} needs to
+          be deployed on Microsoft Windows 9X machines running built
+          executables. @{b}libunicows.a@{ub}, an open-source import library
+          around Microsoft's @{b}unicows.dll@{ub}, is obtained from
+          `http://libunicows.sourceforge.net/', which also gives details
+          on getting @{b}unicows.dll@{ub} from Microsoft.
+
+    @{b}unicode@{ub}
+          Use the @{b}WCHAR@{ub} and Win32 W functions natively. Does @{i}not@{ui} add
+          @{b}-lunicows@{ub} to @{b}libgcj.spec@{ub}. The built executables will only run
+          on Microsoft Windows NT and above.
+
+AWT-Specific Options
+....................
+
+@{b}--with-x@{ub}
+     Use the X Window System.
+
+@{b}--enable-java-awt=PEER(S)@{ub}
+     Specifies the AWT peer library or libraries to build alongside
+     @{b}libgcj@{ub}. If this option is unspecified or disabled, AWT will be
+     non-functional. Current valid values are @{b}gtk@{ub} and @{b}xlib@{ub}. Multiple
+     libraries should be separated by a comma (i.e.
+     @{b}--enable-java-awt=gtk,xlib@{ub}).
+
+@{b}--enable-gtk-cairo@{ub}
+     Build the cairo Graphics2D implementation on GTK.
+
+@{b}--enable-java-gc=TYPE@{ub}
+     Choose garbage collector. Defaults to @{b}boehm@{ub} if unspecified.
+
+@{b}--disable-gtktest@{ub}
+     Do not try to compile and run a test GTK+ program.
+
+@{b}--disable-glibtest@{ub}
+     Do not try to compile and run a test GLIB program.
+
+@{b}--with-libart-prefix=PFX@{ub}
+     Prefix where libart is installed (optional).
+
+@{b}--with-libart-exec-prefix=PFX@{ub}
+     Exec prefix where libart is installed (optional).
+
+@{b}--disable-libarttest@{ub}
+     Do not try to compile and run a test libart program.
+
+
+@endnode
+
+@node "Building" "gccinstall.guide/Building"
+@next "Testing"
+@prev "Configuration"
+@toc "Installing GCC"
+
+Building
+********
+
+   Now that GCC is configured, you are ready to build the compiler and
+runtime libraries.
+
+   We @{b}highly@{ub} recommend that GCC be built using GNU make; other versions
+may work, then again they might not.  GNU make is required for
+compiling GNAT (the Ada compiler) and the Java runtime library.
+
+   (For example, many broken versions of make will fail if you use the
+recommended setup where OBJDIR is different from SRCDIR.  Other broken
+versions may recompile parts of the compiler when installing the
+compiler.)
+
+   Some commands executed when making the compiler may fail (return a
+nonzero status) and be ignored by @{b}make@{ub}.  These failures, which are
+often due to files that were not found, are expected, and can safely be
+ignored.
+
+   It is normal to have compiler warnings when compiling certain files.
+Unless you are a GCC developer, you can generally ignore these warnings
+unless they cause compilation to fail.  Developers should attempt to fix
+any warnings encountered, however they can temporarily continue past
+warnings-as-errors by specifying the configure flag @{b}--disable-werror@{ub}.
+
+   On certain old systems, defining certain environment variables such
+as @{b}CC@{ub} can interfere with the functioning of @{b}make@{ub}.
+
+   If you encounter seemingly strange errors when trying to build the
+compiler in a directory other than the source directory, it could be
+because you have previously configured the compiler in the source
+directory.  Make sure you have done all the necessary preparations.
+
+   If you build GCC on a BSD system using a directory stored in an old
+System V file system, problems may occur in running @{b}fixincludes@{ub} if the
+System V file system doesn't support symbolic links.  These problems
+result in a failure to fix the declaration of @{b}size_t@{ub} in @{b}sys/types.h@{ub}.
+If you find that @{b}size_t@{ub} is a signed type and that type mismatches
+occur, this could be the cause.
+
+   The solution is not to use such a directory for building GCC.
+
+   When building from CVS or snapshots, or if you modify parser sources,
+you need the Bison parser generator installed.  Any version 1.25 or
+later should work; older versions may also work.  If you do not modify
+parser sources, releases contain the Bison-generated files and you do
+not need Bison installed to build them.
+
+   When building from CVS or snapshots, or if you modify Texinfo
+documentation, you need version 4.2 or later of Texinfo installed if you
+want Info documentation to be regenerated.  Releases contain Info
+documentation pre-built for the unmodified documentation in the release.
+
+Building a native compiler
+==========================
+
+For a native build issue the command @{b}make bootstrap@{ub}.  This will build
+the entire GCC system, which includes the following steps:
+
+   * Build host tools necessary to build the compiler such as texinfo,
+     bison, gperf.
+
+   * Build target tools for use by the compiler such as binutils (bfd,
+     binutils, gas, gprof, ld, and opcodes) if they have been
+     individually linked or moved into the top level GCC source tree
+     before configuring.
+
+   * Perform a 3-stage bootstrap of the compiler.
+
+   * Perform a comparison test of the stage2 and stage3 compilers.
+
+   * Build runtime libraries using the stage3 compiler from the
+     previous step.
+
+
+   If you are short on disk space you might consider @{b}make
+bootstrap-lean@{ub} instead.  This is identical to @{b}make bootstrap@{ub} except
+that object files from the stage1 and stage2 of the 3-stage bootstrap
+of the compiler are deleted as soon as they are no longer needed.
+
+   If you want to save additional space during the bootstrap and in the
+final installation as well, you can build the compiler binaries without
+debugging information as in the following example.  This will save
+roughly 40% of disk space both for the bootstrap and the final
+installation.  (Libraries will still contain debugging information.)
+
+          make CFLAGS='-O' LIBCFLAGS='-g -O2' \\
+            LIBCXXFLAGS='-g -O2 -fno-implicit-templates' bootstrap
+
+   If you wish to use non-default GCC flags when compiling the stage2
+and stage3 compilers, set @{b}BOOT_CFLAGS@{ub} on the command line when doing
+@{b}make bootstrap@{ub}.  Non-default optimization flags are less well tested
+here than the default of @{b}-g -O2@{ub}, but should still work.  In a few
+cases, you may find that you need to specify special flags such as
+@{b}-msoft-float@{ub} here to complete the bootstrap; or, if the native compiler
+miscompiles the stage1 compiler, you may need to work around this, by
+choosing @{b}BOOT_CFLAGS@{ub} to avoid the parts of the stage1 compiler that
+were miscompiled, or by using @{b}make bootstrap4@{ub} to increase the number of
+stages of bootstrap.
+
+   If you used the flag @{b}--enable-languages=...@{ub} to restrict the
+compilers to be built, only those you've actually enabled will be
+built.  This will of course only build those runtime libraries, for
+which the particular compiler has been built.  Please note, that
+re-defining @{b}LANGUAGES@{ub} when calling @{b}make bootstrap@{ub} @{b}does not@{ub} work anymore!
+
+   If the comparison of stage2 and stage3 fails, this normally indicates
+that the stage2 compiler has compiled GCC incorrectly, and is therefore
+a potentially serious bug which you should investigate and report.  (On
+a few systems, meaningful comparison of object files is impossible; they
+always appear "different".  If you encounter this problem, you will
+need to disable comparison in the @{b}Makefile@{ub}.)
+
+Building a cross compiler
+=========================
+
+We recommend reading the crossgcc FAQ for information about building
+cross compilers.
+
+   When building a cross compiler, it is not generally possible to do a
+3-stage bootstrap of the compiler.  This makes for an interesting
+problem as parts of GCC can only be built with GCC.
+
+   To build a cross compiler, we first recommend building and
+installing a native compiler.  You can then use the native GCC compiler
+to build the cross compiler.  The installed native compiler needs to be
+GCC version 2.95 or later.
+
+   Assuming you have already installed a native copy of GCC and
+configured your cross compiler, issue the command @{b}make@{ub}, which performs
+the following steps:
+
+   * Build host tools necessary to build the compiler such as texinfo,
+     bison, gperf.
+
+   * Build target tools for use by the compiler such as binutils (bfd,
+     binutils, gas, gprof, ld, and opcodes) if they have been
+     individually linked or moved into the top level GCC source tree
+     before configuring.
+
+   * Build the compiler (single stage only).
+
+   * Build runtime libraries using the compiler from the previous step.
+
+   Note that if an error occurs in any step the make process will exit.
+
+   If you are not building GNU binutils in the same source tree as GCC,
+you will need a cross-assembler and cross-linker installed before
+configuring GCC.  Put them in the directory @{b}PREFIX/TARGET/bin@{ub}.  Here is
+a table of the tools you should put in this directory:
+
+@{b}as@{ub}
+     This should be the cross-assembler.
+
+@{b}ld@{ub}
+     This should be the cross-linker.
+
+@{b}ar@{ub}
+     This should be the cross-archiver: a program which can manipulate
+     archive files (linker libraries) in the target machine's format.
+
+@{b}ranlib@{ub}
+     This should be a program to construct a symbol table in an archive
+     file.
+
+   The installation of GCC will find these programs in that directory,
+and copy or link them to the proper place to for the cross-compiler to
+find them when run later.
+
+   The easiest way to provide these files is to build the Binutils
+package.  Configure it with the same @{b}--host@{ub} and @{b}--target@{ub} options that
+you use for configuring GCC, then build and install them.  They install
+their executables automatically into the proper directory.  Alas, they
+do not support all the targets that GCC supports.
+
+   If you are not building a C library in the same source tree as GCC,
+you should also provide the target libraries and headers before
+configuring GCC, specifying the directories with @{b}--with-sysroot@{ub} or
+@{b}--with-headers@{ub} and @{b}--with-libs@{ub}.  Many targets also require "start
+files" such as @{b}crt0.o@{ub} and @{b}crtn.o@{ub} which are linked into each executable.
+There may be several alternatives for @{b}crt0.o@{ub}, for use with profiling
+or other compilation options.  Check your target's definition of
+@{b}STARTFILE_SPEC@{ub} to find out what start files it uses.
+
+Building in parallel
+====================
+
+You can use @{b}make bootstrap MAKE="make -j 2" -j 2@{ub}, or just @{b}make -j 2
+bootstrap@{ub} for GNU Make 3.79 and above, instead of @{b}make bootstrap@{ub} to
+build GCC in parallel.  You can also specify a bigger number, and in
+most cases using a value greater than the number of processors in your
+machine will result in fewer and shorter I/O latency hits, thus
+improving overall throughput; this is especially true for slow drives
+and network filesystems.
+
+Building the Ada compiler
+=========================
+
+In order to build GNAT, the Ada compiler, you need a working GNAT
+compiler (GNAT version 3.14 or later, or GCC version 3.1 or later),
+including GNAT tools such as @{b}gnatmake@{ub} and @{b}gnatlink@{ub}, since the Ada front
+end is written in Ada (with some GNAT-specific extensions), and GNU
+make.
+
+   @{b}configure@{ub} does not test whether the GNAT installation works and has
+a sufficiently recent version; if too old a GNAT version is installed,
+the build will fail unless @{b}--enable-languages@{ub} is used to disable
+building the Ada front end.
+
+   At the moment, the GNAT library and several tools for GNAT are not
+built by @{b}make bootstrap@{ub}.  For a native build, you have to invoke @{b}make
+gnatlib_and_tools@{ub} in the @{b}OBJDIR/gcc@{ub} subdirectory before proceeding with
+the next steps.  For a cross build, you need to invoke @{b}make gnatlib
+cross-gnattools ada.all.cross@{ub}.  For a canadian cross you only need to
+invoke @{b}make cross-gnattools@{ub}; the GNAT library would be the same as the
+one built for the cross compiler.
+
+   For example, you can build a native Ada compiler by issuing the
+following commands (assuming @{b}make@{ub} is GNU make):
+
+         cd OBJDIR
+         SRCDIR/configure --enable-languages=c,ada
+         cd OBJDIR
+         make bootstrap
+         cd gcc
+         make gnatlib_and_tools
+         cd ..
+
+   Currently, when compiling the Ada front end, you cannot use the
+parallel build feature described in the previous section.
+
+Building with profile feedback
+==============================
+
+It is possible to use profile feedback to optimize the compiler itself.
+This should result in a faster compiler binary.  Experiments done on
+x86 using gcc 3.3 showed approximately 7 percent speedup on compiling C
+programs.  To bootstrap compiler with profile feedback, use @{b}make
+profiledbootstrap@{ub}.
+
+   When @{b}make profiledbootstrap@{ub} is run, it will first build a @{b}stage1@{ub}
+compiler.  This compiler is used to build a @{b}stageprofile@{ub} compiler
+instrumented to collect execution counts of instruction and branch
+probabilities.  Then runtime libraries are compiled with profile
+collected.  Finally a @{b}stagefeedback@{ub} compiler is built using the
+information collected.
+
+   Unlike @{b}make bootstrap@{ub} several additional restrictions apply.  The
+compiler used to build @{b}stage1@{ub} needs to support a 64-bit integral type.
+It is recommended to only use GCC for this.  Also parallel make is
+currently not supported since collisions in profile collecting may
+occur.
+
+@endnode
+
+@node "Testing" "gccinstall.guide/Testing"
+@next "Final install"
+@prev "Building"
+@toc "Installing GCC"
+
+Installing GCC: Testing
+***********************
+
+   Before you install GCC, we encourage you to run the testsuites and to
+compare your results with results from a similar configuration that have
+been submitted to the gcc-testresults mailing list.  Some of these
+archived results are linked from the build status lists at
+`http://gcc.gnu.org/buildstat.html', although not everyone who reports
+a successful build runs the testsuites and submits the results.  This
+step is optional and may require you to download additional software,
+but it can give you confidence in your new GCC installation or point out
+problems before you install and start using your new GCC.
+
+   First, you must have downloaded the testsuites.  These are part of
+the full distribution, but if you downloaded the "core" compiler plus
+any front ends, you must download the testsuites separately.
+
+   Second, you must have the testing tools installed.  This includes
+DejaGnu 1.4.1 or 1.4.3 and later, Tcl, and Expect; the DejaGnu site has
+links to these.
+
+   If the directories where @{b}runtest@{ub} and @{b}expect@{ub} were installed are not
+in the @{b}PATH@{ub}, you may need to set the following environment variables
+appropriately, as in the following example (which assumes that DejaGnu
+has been installed under @{b}/usr/local@{ub}):
+
+          TCL_LIBRARY = /usr/local/share/tcl8.0
+          DEJAGNULIBS = /usr/local/share/dejagnu
+
+   (On systems such as Cygwin, these paths are required to be actual
+paths, not mounts or links; presumably this is due to some lack of
+portability in the DejaGnu code.)
+
+   Finally, you can run the testsuite (which may take a long time):
+          cd OBJDIR; make -k check
+
+   This will test various components of GCC, such as compiler front
+ends and runtime libraries.  While running the testsuite, DejaGnu might
+emit some harmless messages resembling @{b}WARNING: Couldn't find the
+global config file.@{ub} or @{b}WARNING: Couldn't find tool init file@{ub} that can
+be ignored.
+
+How can I run the test suite on selected tests?
+===============================================
+
+In order to run sets of tests selectively, there are targets @{b}make
+check-gcc@{ub} and @{b}make check-g++@{ub} in the @{b}gcc@{ub} subdirectory of the object
+directory.  You can also just run @{b}make check@{ub} in a subdirectory of the
+object directory.
+
+   A more selective way to just run all @{b}gcc@{ub} execute tests in the
+testsuite is to use
+
+         make check-gcc RUNTESTFLAGS="execute.exp OTHER-OPTIONS"
+
+   Likewise, in order to run only the @{b}g++@{ub} "old-deja" tests in the
+testsuite with filenames matching @{b}9805*@{ub}, you would use
+
+         make check-g++ RUNTESTFLAGS="old-deja.exp=9805* OTHER-OPTIONS"
+
+   The @{b}*.exp@{ub} files are located in the testsuite directories of the GCC
+source, the most important ones being @{b}compile.exp@{ub}, @{b}execute.exp@{ub}, @{b}dg.exp@{ub}
+and @{b}old-deja.exp@{ub}.  To get a list of the possible @{b}*.exp@{ub} files, pipe the
+output of @{b}make check@{ub} into a file and look at the @{b}Running ...  .exp@{ub}
+lines.
+
+Passing options and running multiple testsuites
+===============================================
+
+You can pass multiple options to the testsuite using the @{b}--target_board@{ub}
+option of DejaGNU, either passed as part of @{b}RUNTESTFLAGS@{ub}, or directly
+to @{b}runtest@{ub} if you prefer to work outside the makefiles.  For example,
+
+         make check-g++ RUNTESTFLAGS="--target_board=unix/-O3/-fno-strength-reduce"
+
+   will run the standard @{b}g++@{ub} testsuites ("unix" is the target name for
+a standard native testsuite situation), passing @{b}-O3
+-fno-strength-reduce@{ub} to the compiler on every test, i.e., slashes
+separate options.
+
+   You can run the testsuites multiple times using combinations of
+options with a syntax similar to the brace expansion of popular shells:
+
+         ..."--target_board=arm-sim{-mhard-float,-msoft-float}{-O1,-O2,-O3,}"
+
+   (Note the empty option caused by the trailing comma in the final
+group.)  The following will run each testsuite eight times using the
+@{b}arm-sim@{ub} target, as if you had specified all possible combinations
+yourself:
+
+         --target_board=arm-sim/-mhard-float/-O1
+         --target_board=arm-sim/-mhard-float/-O2
+         --target_board=arm-sim/-mhard-float/-O3
+         --target_board=arm-sim/-mhard-float
+         --target_board=arm-sim/-msoft-float/-O1
+         --target_board=arm-sim/-msoft-float/-O2
+         --target_board=arm-sim/-msoft-float/-O3
+         --target_board=arm-sim/-msoft-float
+
+   They can be combined as many times as you wish, in arbitrary ways.
+This list:
+
+         ..."--target_board=unix/-Wextra{-O3,-fno-strength-reduce}{-fomit-frame-pointer,}"
+
+   will generate four combinations, all involving @{b}-Wextra@{ub}.
+
+   The disadvantage to this method is that the testsuites are run in
+serial, which is a waste on multiprocessor systems.  For users with GNU
+Make and a shell which performs brace expansion, you can run the
+testsuites in parallel by having the shell perform the combinations and
+@{b}make@{ub} do the parallel runs.  Instead of using @{b}--target_board@{ub}, use a
+special makefile target:
+
+         make -jN check-TESTSUITE//TEST-TARGET/OPTION1/OPTION2/...
+
+   For example,
+
+         make -j3 check-gcc//sh-hms-sim/{-m1,-m2,-m3,-m3e,-m4}/{,-nofpu}
+
+   will run three concurrent "make-gcc" testsuites, eventually testing
+all ten combinations as described above.  Note that this is currently
+only supported in the @{b}gcc@{ub} subdirectory.  (To see how this works, try
+typing @{b}echo@{ub} before the example given here.)
+
+Additional testing for Java Class Libraries
+===========================================
+
+The Java runtime tests can be executed via @{b}make check@{ub} in the
+@{b}TARGET/libjava/testsuite@{ub} directory in the build tree.
+
+   The Mauve Project provides a suite of tests for the Java Class
+Libraries.  This suite can be run as part of libgcj testing by placing
+the Mauve tree within the libjava testsuite at
+@{b}libjava/testsuite/libjava.mauve/mauve@{ub}, or by specifying the location of
+that tree when invoking @{b}make@{ub}, as in @{b}make MAUVEDIR=~/mauve check@{ub}.
+
+   Jacks is a free test suite that tests Java compiler front ends.
+This suite can be run as part of libgcj testing by placing the Jacks
+tree within the libjava testsuite at
+@{b}libjava/testsuite/libjava.jacks/jacks@{ub}.
+
+How to interpret test results
+=============================
+
+The result of running the testsuite are various @{b}*.sum@{ub} and @{b}*.log@{ub} files
+in the testsuite subdirectories.  The @{b}*.log@{ub} files contain a detailed
+log of the compiler invocations and the corresponding results, the
+@{b}*.sum@{ub} files summarize the results.  These summaries contain status
+codes for all tests:
+
+   * PASS: the test passed as expected
+
+   * XPASS: the test unexpectedly passed
+
+   * FAIL: the test unexpectedly failed
+
+   * XFAIL: the test failed as expected
+
+   * UNSUPPORTED: the test is not supported on this platform
+
+   * ERROR: the testsuite detected an error
+
+   * WARNING: the testsuite detected a possible problem
+
+   It is normal for some tests to report unexpected failures.  At the
+current time our testing harness does not allow fine grained control
+over whether or not a test is expected to fail.  We expect to fix this
+problem in future releases.
+
+Submitting test results
+=======================
+
+If you want to report the results to the GCC project, use the
+@{b}contrib/test_summary@{ub} shell script.  Start it in the OBJDIR with
+
+         SRCDIR/contrib/test_summary -p your_commentary.txt \\
+             -m gcc-testresults\@gcc.gnu.org |sh
+
+   This script uses the @{b}Mail@{ub} program to send the results, so make sure
+it is in your @{b}PATH@{ub}.  The file @{b}your_commentary.txt@{ub} is prepended to the
+testsuite summary and should contain any special remarks you have on
+your results or your build environment.  Please do not edit the
+testsuite result block or the subject line, as these messages may be
+automatically processed.
+
+@endnode
+
+@node "Final install" "gccinstall.guide/Final install"
+@prev "Testing"
+@toc "Installing GCC"
+
+Installing GCC: Final installation
+**********************************
+
+   Now that GCC has been built (and optionally tested), you can install
+it with
+     cd OBJDIR; make install
+
+   We strongly recommend to install into a target directory where there
+is no previous version of GCC present.
+
+   That step completes the installation of GCC; user level binaries can
+be found in @{b}PREFIX/bin@{ub} where PREFIX is the value you specified with the
+@{b}--prefix@{ub} to configure (or @{b}/usr/local@{ub} by default).  (If you specified
+@{b}--bindir@{ub}, that directory will be used instead; otherwise, if you
+specified @{b}--exec-prefix@{ub}, @{b}EXEC-PREFIX/bin@{ub} will be used.)  Headers for
+the C++ and Java libraries are installed in @{b}PREFIX/include@{ub}; libraries
+in @{b}LIBDIR@{ub} (normally @{b}PREFIX/lib@{ub}); internal parts of the compiler in
+@{b}LIBDIR/gcc@{ub} and @{b}LIBEXECDIR/gcc@{ub}; documentation in info format in @{b}INFODIR@{ub}
+(normally @{b}PREFIX/info@{ub}).
+
+   When installing cross-compilers, GCC's executables are not only
+installed into @{b}BINDIR@{ub}, that is, @{b}EXEC-PREFIX/bin@{ub}, but additionally into
+@{b}EXEC-PREFIX/TARGET-ALIAS/bin@{ub}, if that directory exists.  Typically,
+such @{i}tooldirs@{ui} hold target-specific binutils, including assembler and
+linker.
+
+   Installation into a temporary staging area or into a @{b}chroot@{ub} jail can
+be achieved with the command
+
+     make DESTDIR=PATH-TO-ROOTDIR install
+
+where PATH-TO-ROOTDIR is the absolute path of a directory relative to
+which all installation paths will be interpreted.  Note that the
+directory specified by @{b}DESTDIR@{ub} need not exist yet; it will be created
+if necessary.
+
+   There is a subtle point with tooldirs and @{b}DESTDIR@{ub}: If you relocate a
+cross-compiler installation with e.g. @{b}DESTDIR=ROOTDIR@{ub}, then the
+directory @{b}ROOTDIR/EXEC-PREFIX/TARGET-ALIAS/bin@{ub} will be filled with
+duplicated GCC executables only if it already exists, it will not be
+created otherwise.  This is regarded as a feature, not as a bug,
+because it gives slightly more control to the packagers using the
+@{b}DESTDIR@{ub} feature.
+
+   If you built a released version of GCC using @{b}make bootstrap@{ub} then
+please quickly review the build status page for your release, available
+from `http://gcc.gnu.org/buildstat.html'.  If your system is not listed
+for the version of GCC that you built, send a note to <gcc\@gcc.gnu.org>
+indicating that you successfully built and installed GCC.  Include the
+following information:
+
+   * Output from running @{b}SRCDIR/config.guess@{ub}.  Do not send us that file
+     itself, just the one-line output from running it.
+
+   * The output of @{b}gcc -v@{ub} for your newly installed @{b}gcc@{ub}.  This tells us
+     which version of GCC you built and the options you passed to
+     configure.
+
+   * Whether you enabled all languages or a subset of them.  If you
+     used a full distribution then this information is part of the
+     configure options in the output of @{b}gcc -v@{ub}, but if you downloaded
+     the "core" compiler plus additional front ends then it isn't
+     apparent which ones you built unless you tell us about it.
+
+   * If the build was for GNU/Linux, also include:
+        * The distribution name and version (e.g., Red Hat 7.1 or
+          Debian 2.2.3); this information should be available from
+          @{b}/etc/issue@{ub}.
+
+        * The version of the Linux kernel, available from @{b}uname
+          --version@{ub} or @{b}uname -a@{ub}.
+
+        * The version of glibc you used; for RPM-based systems like Red
+          Hat, Mandrake, and SuSE type @{b}rpm -q glibc@{ub} to get the glibc
+          version, and on systems like Debian and Progeny use @{b}dpkg -l
+          libc6@{ub}.
+     For other systems, you can include similar information if you
+     think it is relevant.
+
+   * Any other information that you think would be useful to people
+     building GCC on the same configuration.  The new entry in the
+     build status list will include a link to the archived copy of your
+     message.
+
+   We'd also like to know if the @{"host/target specific installation notes" link "Specific"}
+didn't include your host/target information or if that information is
+incomplete or out of date.  Send a note to <gcc\@gcc.gnu.org> telling us
+how the information should be changed.
+
+   If you find a bug, please report it following our bug reporting
+guidelines.
+
+   If you want to print the GCC manuals, do @{b}cd OBJDIR; make dvi@{ub}.  You
+will need to have @{b}texi2dvi@{ub} (version at least 4.2) and TeX installed.
+This creates a number of @{b}.dvi@{ub} files in subdirectories of @{b}OBJDIR@{ub}; these
+may be converted for printing with programs such as @{b}dvips@{ub}.  You can also
+buy printed manuals from the Free Software Foundation, though such
+manuals may not be for the most recent version of GCC.
+
+@endnode
+
+@node "Binaries" "gccinstall.guide/Binaries"
+@next "Specific"
+@prev "Installing GCC"
+@toc "Main"
+
+Installing GCC: Binaries
+************************
+
+   We are often asked about pre-compiled versions of GCC.  While we
+cannot provide these for all platforms, below you'll find links to
+binaries for various platforms where creating them by yourself is not
+easy due to various reasons.
+
+   Please note that we did not create these binaries, nor do we support
+them.  If you have any problems installing them, please contact their
+makers.
+
+   * AIX:
+        * Bull's Freeware and Shareware Archive for AIX;
+
+        * UCLA Software Library for AIX.
+
+   * DOS--DJGPP.
+
+   * Renesas H8/300[HS]--GNU Development Tools for the Renesas
+     H8/300[HS] Series.
+
+   * HP-UX:
+        * HP-UX Porting Center;
+
+        * Binaries for HP-UX 11.00 at Aachen University of Technology.
+
+   * Motorola 68HC11/68HC12--GNU Development Tools for the Motorola
+     68HC11/68HC12.
+
+   * SCO OpenServer/Unixware.
+
+   * Sinix/Reliant Unix--Siemens.
+
+   * Solaris 2 (SPARC, Intel)--Sunfreeware.
+
+   * SGI--SGI Freeware.
+
+   * Microsoft Windows:
+        * The Cygwin project;
+
+        * The MinGW project.
+
+   * The Written Word offers binaries for AIX 4.3.2.  IRIX 6.5, Digital
+     UNIX 4.0D and 5.1, GNU/Linux (i386), HP-UX 10.20, 11.00, and
+     11.11, and Solaris/SPARC 2.5.1, 2.6, 2.7, 8, and 9,
+
+   In addition to those specific offerings, you can get a binary
+distribution CD-ROM from the Free Software Foundation.  It contains
+binaries for a number of platforms, and includes not only GCC, but
+other stuff as well.  The current CD does not contain the latest
+version of GCC, but it should allow bootstrapping the compiler.  An
+updated version of that disk is in the works.
+
+@endnode
+
+@node "Specific" "gccinstall.guide/Specific"
+@next "Old"
+@prev "Binaries"
+@toc "Main"
+
+Host/target specific installation notes for GCC
+***********************************************
+
+   Please read this document carefully @{i}before@{ui} installing the GNU
+Compiler Collection on your machine.
+
+alpha*-*-*
+==========
+
+This section contains general configuration information for all
+alpha-based platforms using ELF (in particular, ignore this section for
+DEC OSF/1, Digital UNIX and Tru64 UNIX).  In addition to reading this
+section, please read all other sections that match your target.
+
+   We require binutils 2.11.2 or newer.  Previous binutils releases had
+a number of problems with DWARF 2 debugging information, not the least
+of which is incorrect linking of shared libraries.
+
+alpha*-dec-osf*
+===============
+
+Systems using processors that implement the DEC Alpha architecture and
+are running the DEC/Compaq Unix (DEC OSF/1, Digital UNIX, or Compaq
+Tru64 UNIX) operating system, for example the DEC Alpha AXP systems.
+
+   As of GCC 3.2, versions before @{b}alpha*-dec-osf4@{ub} are no longer
+supported.  (These are the versions which identify themselves as DEC
+OSF/1.)
+
+   In Digital Unix V4.0, virtual memory exhausted bootstrap failures
+may be fixed by configuring with @{b}--with-gc=simple@{ub}, reconfiguring Kernel
+Virtual Memory and Swap parameters per the @{b}/usr/sbin/sys_check@{ub} Tuning
+Suggestions, or applying the patch in
+`http://gcc.gnu.org/ml/gcc/2002-08/msg00822.html'.
+
+   In Tru64 UNIX V5.1, Compaq introduced a new assembler that does not
+currently (2001-06-13) work with @{b}mips-tfile@{ub}.  As a workaround, we need
+to use the old assembler, invoked via the barely documented @{b}-oldas@{ub}
+option.  To bootstrap GCC, you either need to use the Compaq C Compiler:
+
+        % CC=cc SRCDIR/configure [OPTIONS] [TARGET]
+
+   or you can use a copy of GCC 2.95.3 or higher built on Tru64 UNIX
+V4.0:
+
+        % CC=gcc -Wa,-oldas SRCDIR/configure [OPTIONS] [TARGET]
+
+   As of GNU binutils 2.11.2, neither GNU @{b}as@{ub} nor GNU @{b}ld@{ub} are supported
+on Tru64 UNIX, so you must not configure GCC with @{b}--with-gnu-as@{ub} or
+@{b}--with-gnu-ld@{ub}.
+
+   GCC writes a @{b}.verstamp@{ub} directive to the assembler output file unless
+it is built as a cross-compiler.  It gets the version to use from the
+system header file @{b}/usr/include/stamp.h@{ub}.  If you install a new version
+of DEC Unix, you should rebuild GCC to pick up the new version stamp.
+
+   Note that since the Alpha is a 64-bit architecture, cross-compilers
+from 32-bit machines will not generate code as efficient as that
+generated when the compiler is running on a 64-bit machine because many
+optimizations that depend on being able to represent a word on the
+target in an integral value on the host cannot be performed.  Building
+cross-compilers on the Alpha for 32-bit machines has only been tested in
+a few cases and may not work properly.
+
+   @{b}make compare@{ub} may fail on old versions of DEC Unix unless you add
+@{b}-save-temps@{ub} to @{b}CFLAGS@{ub}.  On these systems, the name of the assembler
+input file is stored in the object file, and that makes comparison fail
+if it differs between the @{b}stage1@{ub} and @{b}stage2@{ub} compilations.  The option
+@{b}-save-temps@{ub} forces a fixed name to be used for the assembler input
+file, instead of a randomly chosen name in @{b}/tmp@{ub}.  Do not add @{b}-save-temps@{ub}
+unless the comparisons fail without that option.  If you add
+@{b}-save-temps@{ub}, you will have to manually delete the @{b}.i@{ub} and @{b}.s@{ub} files after
+each series of compilations.
+
+   GCC now supports both the native (ECOFF) debugging format used by DBX
+and GDB and an encapsulated STABS format for use only with GDB.  See the
+discussion of the @{b}--with-stabs@{ub} option of @{b}configure@{ub} above for more
+information on these formats and how to select them.
+
+   There is a bug in DEC's assembler that produces incorrect line
+numbers for ECOFF format when the @{b}.align@{ub} directive is used.  To work
+around this problem, GCC will not emit such alignment directives while
+writing ECOFF format debugging information even if optimization is
+being performed.  Unfortunately, this has the very undesirable
+side-effect that code addresses when @{b}-O@{ub} is specified are different
+depending on whether or not @{b}-g@{ub} is also specified.
+
+   To avoid this behavior, specify @{b}-gstabs+@{ub} and use GDB instead of DBX.
+DEC is now aware of this problem with the assembler and hopes to
+provide a fix shortly.
+
+alphaev5-cray-unicosmk*
+=======================
+
+Cray T3E systems running Unicos/Mk.
+
+   This port is incomplete and has many known bugs.  We hope to improve
+the support for this target soon.  Currently, only the C front end is
+supported, and it is not possible to build parallel applications.  Cray
+modules are not supported; in particular, Craylibs are assumed to be in
+@{b}/opt/ctl/craylibs/craylibs@{ub}.
+
+   You absolutely @{b}must@{ub} use GNU make on this platform.  Also, you need
+to tell GCC where to find the assembler and the linker.  The simplest
+way to do so is by providing @{b}--with-as@{ub} and @{b}--with-ld@{ub} to @{b}configure@{ub}, e.g.
+
+         configure --with-as=/opt/ctl/bin/cam --with-ld=/opt/ctl/bin/cld \\
+           --enable-languages=c
+
+   The comparison test during @{b}make bootstrap@{ub} fails on Unicos/Mk because
+the assembler inserts timestamps into object files.  You should be able
+to work around this by doing @{b}make all@{ub} after getting this failure.
+
+arc-*-elf
+=========
+
+Argonaut ARC processor.  This configuration is intended for embedded
+systems.
+
+arm-*-elf
+=========
+
+xscale-*-*
+==========
+
+ARM-family processors.  Subtargets that use the ELF object format
+require GNU binutils 2.13 or newer.  Such subtargets include:
+@{b}arm-*-freebsd@{ub}, @{b}arm-*-netbsdelf@{ub}, @{b}arm-*-*linux@{ub}, @{b}arm-*-rtems@{ub} and
+@{b}arm-*-kaos@{ub}.
+
+arm-*-coff
+==========
+
+ARM-family processors.  Note that there are two different varieties of
+PE format subtarget supported: @{b}arm-wince-pe@{ub} and @{b}arm-pe@{ub} as well as a
+standard COFF target @{b}arm-*-coff@{ub}.
+
+arm-*-aout
+==========
+
+ARM-family processors.  These targets support the AOUT file format:
+@{b}arm-*-aout@{ub}, @{b}arm-*-netbsd@{ub}.
+
+avr
+===
+
+ATMEL AVR-family micro controllers.  These are used in embedded
+applications.  There are no standard Unix configurations.  See
+@{"gcc.guide/AVR Options" link "gcc.guide/AVR Options"}, for the list of supported MCU types.
+
+   Use @{b}configure --target=avr --enable-languages="c"@{ub} to configure GCC.
+
+   Further installation notes and other useful information about AVR
+tools can also be obtained from:
+
+   * http://www.openavr.org
+
+   * http://home.overta.ru/users/denisc/
+
+   * http://www.amelek.gda.pl/avr/
+
+   We @{i}strongly@{ui} recommend using binutils 2.13 or newer.
+
+   The following error:
+       Error: register required
+
+   indicates that you should upgrade to a newer version of the binutils.
+
+c4x
+===
+
+Texas Instruments TMS320C3x and TMS320C4x Floating Point Digital Signal
+Processors.  These are used in embedded applications.  There are no
+standard Unix configurations.  See @{"gcc.guide/TMS320C3x/C4x Options" link "gcc.guide/TMS320C3x-C4x Options"},
+for the list of supported MCU types.
+
+   GCC can be configured as a cross compiler for both the C3x and C4x
+architectures on the same system.  Use @{b}configure --target=c4x
+--enable-languages="c,c++"@{ub} to configure.
+
+   Further installation notes and other useful information about C4x
+tools can also be obtained from:
+
+   * http://www.elec.canterbury.ac.nz/c4x/
+
+CRIS
+====
+
+CRIS is the CPU architecture in Axis Communications ETRAX
+system-on-a-chip series.  These are used in embedded applications.
+
+   See @{"gcc.guide/CRIS Options" link "gcc.guide/CRIS Options"}, for a list of CRIS-specific options.
+
+   There are a few different CRIS targets:
+@{b}cris-axis-aout@{ub}
+     Old target.  Includes a multilib for the @{b}elinux@{ub} a.out-based
+     target.  No multilibs for newer architecture variants.
+
+@{b}cris-axis-elf@{ub}
+     Mainly for monolithic embedded systems.  Includes a multilib for
+     the @{b}v10@{ub} core used in @{b}ETRAX 100 LX@{ub}.
+
+@{b}cris-axis-linux-gnu@{ub}
+     A GNU/Linux port for the CRIS architecture, currently targeting
+     @{b}ETRAX 100 LX@{ub} by default.
+
+   For @{b}cris-axis-aout@{ub} and @{b}cris-axis-elf@{ub} you need binutils 2.11 or
+newer.  For @{b}cris-axis-linux-gnu@{ub} you need binutils 2.12 or newer.
+
+   Pre-packaged tools can be obtained from
+`ftp://ftp.axis.com/pub/axis/tools/cris/compiler-kit/'.  More
+information about this platform is available at
+`http://developer.axis.com/'.
+
+DOS
+===
+
+Please have a look at our binaries page.
+
+   You cannot install GCC by itself on MSDOS; it will not compile under
+any MSDOS compiler except itself.  You need to get the complete
+compilation package DJGPP, which includes binaries as well as sources,
+and includes all the necessary compilation tools and libraries.
+
+dsp16xx
+=======
+
+A port to the AT&T DSP1610 family of processors.
+
+*-*-freebsd*
+============
+
+The version of binutils installed in @{b}/usr/bin@{ub} probably works with this
+release of GCC.  However, on FreeBSD 4, bootstrapping against the
+latest FSF binutils is known to improve overall testsuite results; and,
+on FreeBSD/alpha, using binutils 2.14 or later is required to build
+libjava.
+
+   Support for FreeBSD 1 was discontinued in GCC 3.2.
+
+   Support for FreeBSD 2 will be discontinued after GCC 3.4.  The
+following was true for GCC 3.1 but the current status is unknown.  For
+FreeBSD 2 or any mutant a.out versions of FreeBSD 3: All configuration
+support and files as shipped with GCC 2.95 are still in place.  FreeBSD
+2.2.7 has been known to bootstrap completely; however, it is unknown
+which version of binutils was used (it is assumed that it was the
+system copy in @{b}/usr/bin@{ub}) and C++ EH failures were noted.
+
+   For FreeBSD using the ELF file format: DWARF 2 debugging is now the
+default for all CPU architectures.  It had been the default on
+FreeBSD/alpha since its inception.  You may use @{b}-gstabs@{ub} instead of @{b}-g@{ub},
+if you really want the old debugging format.  There are no known issues
+with mixing object files and libraries with different debugging
+formats.  Otherwise, this release of GCC should now match more of the
+configuration used in the stock FreeBSD configuration of GCC.  In
+particular, @{b}--enable-threads@{ub} is now configured by default.  However, as
+a general user, do not attempt to replace the system compiler with this
+release.  Known to bootstrap and check with good results on FreeBSD
+4.9-STABLE and 5-CURRENT.  In the past, known to bootstrap and check
+with good results on FreeBSD 3.0, 3.4, 4.0, 4.2, 4.3, 4.4, 4.5,
+4.8-STABLE.
+
+   In principle, @{b}--enable-threads@{ub} is now compatible with
+@{b}--enable-libgcj@{ub} on FreeBSD.  However, it has only been built and tested
+on @{b}i386-*-freebsd[45]@{ub} and @{b}alpha-*-freebsd[45]@{ub}.  The static library may
+be incorrectly built (symbols are missing at link time).  There is a
+rare timing-based startup hang (probably involves an assumption about
+the thread library).  Multi-threaded boehm-gc (required for libjava)
+exposes severe threaded signal-handling bugs on FreeBSD before
+4.5-RELEASE.  Other CPU architectures supported by FreeBSD will require
+additional configuration tuning in, at the very least, both boehm-gc
+and libffi.
+
+   Shared @{b}libgcc_s.so@{ub} is now built and installed by default.
+
+h8300-hms
+=========
+
+Renesas H8/300 series of processors.
+
+   Please have a look at our binaries page.
+
+   The calling convention and structure layout has changed in release
+2.6.  All code must be recompiled.  The calling convention now passes
+the first three arguments in function calls in registers.  Structures
+are no longer a multiple of 2 bytes.
+
+hppa*-hp-hpux*
+==============
+
+Support for HP-UX version 9 and older was discontinued in GCC 3.4.
+
+   We @{i}highly@{ui} recommend using gas/binutils 2.8 or newer on all hppa
+platforms; you may encounter a variety of problems when using the HP
+assembler.
+
+   Specifically, @{b}-g@{ub} does not work on HP-UX (since that system uses a
+peculiar debugging format which GCC does not know about), unless you
+use GAS and GDB and configure GCC with the @{b}--with-gnu-as@{ub} and
+@{b}--with-as=...@{ub} options.
+
+   If you wish to use the pa-risc 2.0 architecture support with a 32-bit
+runtime, you must use either the HP assembler, or gas/binutils 2.11 or
+newer.
+
+   There are two default scheduling models for instructions.  These are
+PROCESSOR_7100LC and PROCESSOR_8000.  They are selected from the pa-risc
+architecture specified for the target machine when configuring.
+PROCESSOR_8000 is the default.  PROCESSOR_7100LC is selected when the
+target is a @{b}hppa1*@{ub} machine.
+
+   The PROCESSOR_8000 model is not well suited to older processors.
+Thus, it is important to completely specify the machine architecture
+when configuring if you want a model other than PROCESSOR_8000.  The
+macro TARGET_SCHED_DEFAULT can be defined in BOOT_CFLAGS if a different
+default scheduling model is desired.
+
+   More specific information to @{b}hppa*-hp-hpux*@{ub} targets follows.
+
+hppa*-hp-hpux10
+===============
+
+For hpux10.20, we @{i}highly@{ui} recommend you pick up the latest sed patch
+@{b}PHCO_19798@{ub} from HP.  HP has two sites which provide patches free of
+charge:
+
+   * `http://us.itrc.hp.com/service/home/home.do' US, Canada,
+     Asia-Pacific, and Latin-America.
+
+   * `http://europe.itrc.hp.com/service/home/home.do' Europe.
+
+   The HP assembler on these systems has some problems.  Most notably
+the assembler inserts timestamps into each object file it creates,
+causing the 3-stage comparison test to fail during a @{b}make bootstrap@{ub}.
+You should be able to continue by saying @{b}make all@{ub} after getting the
+failure from @{b}make bootstrap@{ub}.
+
+hppa*-hp-hpux11
+===============
+
+GCC 3.0 and up support HP-UX 11.  GCC 2.95.x is not supported and cannot
+be used to compile GCC 3.0 and up.
+
+   Refer to binaries for information about obtaining precompiled GCC
+binaries for HP-UX.  Precompiled binaries must be obtained to build the
+Ada language as it can't be bootstrapped using C.  Ada is only
+available for the 32-bit PA-RISC runtime.  The libffi and libjava
+haven't been ported to HP-UX and don't build.
+
+   It is possible to build GCC 3.3 starting with the bundled HP
+compiler, but the process requires several steps.  GCC 3.3 can then be
+used to build later versions.  The fastjar program contains ISO C code
+and can't be built with the HP bundled compiler.  This problem can be
+avoided by not building the Java language.  For example, use the
+@{b}--enable-languages="c,c++,f77,objc"@{ub} option in your configure command.
+
+   Starting with GCC 3.4 an ISO C compiler is required to bootstrap.
+The bundled compiler supports only traditional C; you will need either
+HP's unbundled compiler, or a binary distribution of GCC.
+
+   There are several possible approaches to building the distribution.
+Binutils can be built first using the HP tools.  Then, the GCC
+distribution can be built.  The second approach is to build GCC first
+using the HP tools, then build binutils, then rebuild GCC.  There have
+been problems with various binary distributions, so it is best not to
+start from a binary distribution.
+
+   On 64-bit capable systems, there are two distinct targets.  Different
+installation prefixes must be used if both are to be installed on the
+same system.  The @{b}hppa[1-2]*-hp-hpux11*@{ub} target generates code for the
+32-bit PA-RISC runtime architecture and uses the HP linker.  The
+@{b}hppa64-hp-hpux11*@{ub} target generates 64-bit code for the PA-RISC 2.0
+architecture.  The HP and GNU linkers are both supported for this
+target.
+
+   The script config.guess now selects the target type based on the
+compiler detected during configuration.  You must define @{b}PATH@{ub} or @{b}CC@{ub} so
+that configure finds an appropriate compiler for the initial bootstrap.
+When @{b}CC@{ub} is used, the definition should contain the options that are
+needed whenever @{b}CC@{ub} is used.
+
+   Specifically, options that determine the runtime architecture must be
+in @{b}CC@{ub} to correctly select the target for the build.  It is also
+convenient to place many other compiler options in @{b}CC@{ub}.  For example,
+@{b}CC="cc -Ac +DA2.0W -Wp,-H16376 -D_CLASSIC_TYPES -D_HPUX_SOURCE"@{ub} can be
+used to bootstrap the GCC 3.3 branch with the HP compiler in 64-bit
+K&R/bundled mode.  The @{b}+DA2.0W@{ub} option will result in the automatic
+selection of the @{b}hppa64-hp-hpux11*@{ub} target.  The macro definition table
+of cpp needs to be increased for a successful build with the HP
+compiler.  _CLASSIC_TYPES and _HPUX_SOURCE need to be defined when
+building with the bundled compiler, or when using the @{b}-Ac@{ub} option.
+These defines aren't necessary with @{b}-Ae@{ub}.
+
+   It is best to explicitly configure the @{b}hppa64-hp-hpux11*@{ub} target with
+the @{b}--with-ld=...@{ub} option.  This overrides the standard search for ld.
+The two linkers supported on this target require different commands.
+The default linker is determined during configuration.  As a result,
+it's not possible to switch linkers in the middle of a GCC build.  This
+has been been reported to sometimes occur in unified builds of binutils
+and GCC.
+
+   With GCC 3.0 through 3.2, you must use binutils 2.11 or above.  As of
+GCC 3.3, binutils 2.14 or later is required.
+
+   Although the HP assembler can be used for an initial build, it
+shouldn't be used with any languages other than C and perhaps Fortran
+due to its many limitations.  For example, it does not support weak
+symbols or alias definitions.  As a result, explicit template
+instantiations are required when using C++.  This makes it difficult if
+not impossible to build many C++ applications.  You can't generate
+debugging information when using the HP assembler.  Finally, @{b}make
+bootstrap@{ub} fails in the final comparison of object modules due to the
+time stamps that it inserts into the modules.  The bootstrap can be
+continued from this point with @{b}make all@{ub}.
+
+   A recent linker patch must be installed for the correct operation of
+GCC 3.3 and later.  @{b}PHSS_26559@{ub} and @{b}PHSS_24304@{ub} are the oldest linker
+patches that are known to work.  They are for HP-UX 11.00 and 11.11,
+respectively.  @{b}PHSS_24303@{ub}, the companion to @{b}PHSS_24304@{ub}, might be usable
+but it hasn't been tested.  These patches have been superseded.
+Consult the HP patch database to obtain the currently recommended
+linker patch for your system.
+
+   The patches are necessary for the support of weak symbols on the
+32-bit port, and for the running of initializers and finalizers.  Weak
+symbols are implemented using SOM secondary definition symbols.  Prior
+to HP-UX 11, there are bugs in the linker support for secondary symbols.
+The patches correct a problem of linker core dumps creating shared
+libraries containing secondary symbols, as well as various other
+linking issues involving secondary symbols.
+
+   GCC 3.3 uses the ELF DT_INIT_ARRAY and DT_FINI_ARRAY capabilities to
+run initializers and finalizers on the 64-bit port.  The 32-bit port
+uses the linker @{b}+init@{ub} and @{b}+fini@{ub} options for the same purpose.  The
+patches correct various problems with the +init/+fini options,
+including program core dumps.  Binutils 2.14 corrects a problem on the
+64-bit port resulting from HP's non-standard use of the .init and .fini
+sections for array initializers and finalizers.
+
+   There are a number of issues to consider in selecting which linker to
+use with the 64-bit port.  The GNU 64-bit linker can only create dynamic
+binaries.  The @{b}-static@{ub} option causes linking with archive libraries but
+doesn't produce a truly static binary.  Dynamic binaries still require
+final binding by the dynamic loader to resolve a set of
+dynamic-loader-defined symbols.  The default behavior of the HP linker
+is the same as the GNU linker.  However, it can generate true 64-bit
+static binaries using the @{b}+compat@{ub} option.
+
+   The HP 64-bit linker doesn't support linkonce semantics.  As a
+result, C++ programs have many more sections than they should.
+
+   The GNU 64-bit linker has some issues with shared library support
+and exceptions.  As a result, we only support libgcc in archive format.
+For similar reasons, dwarf2 unwind and exception support are disabled.
+The GNU linker also has problems creating binaries with @{b}-static@{ub}.  It
+doesn't provide stubs for internal calls to global functions in shared
+libraries, so these calls can't be overloaded.
+
+   Thread support is not implemented in GCC 3.0 through 3.2, so the
+@{b}--enable-threads@{ub} configure option does not work.  In 3.3 and later,
+POSIX threads are supported.  The optional DCE thread library is not
+supported.
+
+   This port still is undergoing significant development.
+
+i370-*-*
+========
+
+This port is very preliminary and has many known bugs.  We hope to have
+a higher-quality port for this machine soon.
+
+*-*-linux-gnu
+=============
+
+Versions of libstdc++-v3 starting with 3.2.1 require bugfixes present
+in glibc 2.2.5 and later.  More information is available in the
+libstdc++-v3 documentation.
+
+i?86-*-linux*aout
+=================
+
+Use this configuration to generate @{b}a.out@{ub} binaries on Linux-based GNU
+systems.  This configuration is being superseded.
+
+i?86-*-linux*
+=============
+
+As of GCC 3.3, binutils 2.13.1 or later is required for this platform.
+See bug 10877 for more information.
+
+   If you receive Signal 11 errors when building on GNU/Linux, then it
+is possible you have a hardware problem.  Further information on this
+can be found on www.bitwizard.nl.
+
+   Some recent versions of GNU/Linux, such as Fedora Core 1, support
+exec-shield-randomize.  Turning this on interferes with precompiled
+headers.  If you need to use precompiled headers, exec-shield-randomize
+can be turned off for the entire system by editing @{b}/etc/sysctl.conf@{ub} and
+adding a line:
+     kernel.exec-shield-randomize = 0
+   You may then need to run @{b}sysctl -p@{ub}.
+
+   This will be fixed in future releases of GCC.
+
+i?86-*-sco3.2v5*
+================
+
+Use this for the SCO OpenServer Release 5 family of operating systems.
+
+   Unlike earlier versions of GCC, the ability to generate COFF with
+this target is no longer provided.
+
+   Earlier versions of GCC emitted DWARF 1 when generating ELF to allow
+the system debugger to be used.  That support was too burdensome to
+maintain.  GCC now emits only DWARF 2 for this target.  This means you
+may use either the UDK debugger or GDB to debug programs built by this
+version of GCC.
+
+   GCC is now only supported on releases 5.0.4 and later, and requires
+that you install Support Level Supplement OSS646B or later, and Support
+Level Supplement OSS631C or later.  If you are using release 5.0.7 of
+OpenServer, you must have at least the first maintenance pack installed
+(this includes the relevant portions of OSS646).  OSS646, also known as
+the "Execution Environment Update", provides updated link editors and
+assemblers, as well as updated standard C and math libraries.  The C
+startup modules are also updated to support the System V gABI draft, and
+GCC relies on that behavior.  OSS631 provides a collection of commonly
+used open source libraries, some of which GCC depends on (such as GNU
+gettext and zlib).  SCO OpenServer Release 5.0.7 has all of this built
+in by default, but OSS631C and later also apply to that release.  Please
+visit ftp://ftp.sco.com/pub/openserver5 for the latest versions of
+these (and other potentially useful) supplements.
+
+   Although there is support for using the native assembler, it is
+recommended that you configure GCC to use the GNU assembler.  You do
+this by using the flags @{b}--with-gnu-as@{ub}.  You should use a modern version
+of GNU binutils.  Version 2.13.2.1 was used for all testing.  In
+general, only the @{b}--with-gnu-as@{ub} option is tested.  A modern bintuils
+(as well as a plethora of other development related GNU utilities) can
+be found in Support Level Supplement OSS658A, the "GNU Development
+Tools" package.  See the SCO web and ftp sites for details.  That
+package also contains the currently "officially supported" version of
+GCC, version 2.95.3.  It is useful for bootstrapping this version.
+
+i?86-*-udk
+==========
+
+This target emulates the SCO Universal Development Kit and requires that
+package be installed.  (If it is installed, you will have a
+@{b}/udk/usr/ccs/bin/cc@{ub} file present.)  It's very much like the
+@{b}i?86-*-unixware7*@{ub} target but is meant to be used when hosting on a
+system where UDK isn't the default compiler such as OpenServer 5 or
+Unixware 2.  This target will generate binaries that will run on
+OpenServer, Unixware 2, or Unixware 7, with the same warnings and
+caveats as the SCO UDK.
+
+   This target is a little tricky to build because we have to
+distinguish it from the native tools (so it gets headers, startups, and
+libraries from the right place) while making the tools not think we're
+actually building a cross compiler.   The easiest way to do this is
+with a configure command like this:
+
+         CC=/udk/usr/ccs/bin/cc /YOUR/PATH/TO/gcc/configure \\
+           --host=i686-pc-udk --target=i686-pc-udk --program-prefix=udk-
+
+   @{i}You should substitute @{b}i686@{ub} in the above command with the appropriate
+processor for your host.@{ui}
+
+   After the usual @{b}make bootstrap@{ub} and @{b}make install@{ub}, you can then access
+the UDK-targeted GCC tools by adding @{b}udk-@{ub} before the commonly known
+name.  For example, to invoke the C compiler, you would use @{b}udk-gcc@{ub}.
+They will coexist peacefully with any native-target GCC tools you may
+have installed.
+
+ia64-*-linux
+============
+
+IA-64 processor (also known as IPF, or Itanium Processor Family)
+running GNU/Linux.
+
+   If you are using the optional libunwind library, then you must use
+libunwind 0.96 or later.
+
+   None of the following versions of GCC has an ABI that is compatible
+with any of the other versions in this list, with the exception that
+Red Hat 2.96 and Trillian 000171 are compatible with each other: 3.1,
+3.0.2, 3.0.1, 3.0, Red Hat 2.96, and Trillian 000717.  This primarily
+affects C++ programs and programs that create shared libraries.  GCC
+3.1 or later is recommended for compiling linux, the kernel.  As of
+version 3.1 GCC is believed to be fully ABI compliant, and hence no
+more major ABI changes are expected.
+
+ia64-*-hpux*
+============
+
+Building GCC on this target requires the GNU Assembler. The bundled HP
+assembler will not work. To prevent GCC from using the wrong assembler,
+the option @{b}--with-gnu-as@{ub} may be necessary.
+
+   The GCC libunwind library has not been ported to HPUX. This means
+that for GCC versions 3.2.3 and earlier, @{b}--enable-libunwind-exceptions@{ub}
+is required to build GCC. For GCC 3.3 and later, this is the default.
+
+*-ibm-aix*
+==========
+
+Support for AIX version 3 and older was discontinued in GCC 3.4.
+
+   AIX Make frequently has problems with GCC makefiles.  GNU Make
+3.79.1 or newer is recommended to build on this platform.
+
+   To speed up the configuration phases of bootstrapping and installing
+GCC, one may use GNU Bash instead of AIX @{b}/bin/sh@{ub}, e.g.,
+
+        % CONFIG_SHELL=/opt/freeware/bin/bash
+        % export CONFIG_SHELL
+
+   and then proceed as described in the build instructions, where we
+strongly recommend using GNU make and specifying an absolute path to
+invoke SRCDIR/configure.
+
+   Errors involving @{b}alloca@{ub} when building GCC generally are due to an
+incorrect definition of @{b}CC@{ub} in the Makefile or mixing files compiled
+with the native C compiler and GCC.  During the stage1 phase of the
+build, the native AIX compiler @{b}must@{ub} be invoked as @{b}cc@{ub} (not @{b}xlc@{ub}).  Once
+@{b}configure@{ub} has been informed of @{b}xlc@{ub}, one needs to use @{b}make distclean@{ub} to
+remove the configure cache files and ensure that @{b}CC@{ub} environment variable
+does not provide a definition that will confuse @{b}configure@{ub}.  If this
+error occurs during stage2 or later, then the problem most likely is
+the version of Make (see above).
+
+   The native @{b}as@{ub} and @{b}ld@{ub} are recommended for bootstrapping on AIX 4 and
+required for bootstrapping on AIX 5L.  The GNU Assembler reports that
+it supports WEAK symbols on AIX 4, which causes GCC to try to utilize
+weak symbol functionality although it is not supported.  The GNU
+Assembler and Linker do not support AIX 5L sufficiently to bootstrap
+GCC.  The native AIX tools do interoperate with GCC.
+
+   Building @{b}libstdc++.a@{ub} requires a fix for an AIX Assembler bug APAR
+IY26685 (AIX 4.3) or APAR IY25528 (AIX 5.1).  It also requires a fix
+for another AIX Assembler bug and a co-dependent AIX Archiver fix
+referenced as APAR IY53606 (AIX 5.2) or a APAR TBD (AIX 5.1)
+
+   @{b}libstdc++@{ub} in GCC 3.4 increments the major version number of the
+shared object and GCC installation places the @{b}libstdc++.a@{ub} shared
+library in a common location which will overwrite the and GCC 3.3
+version of the shared library.  Applications either need to be
+re-linked against the new shared library or the GCC 3.1 and GCC 3.3
+versions of the @{b}libstdc++@{ub} shared object needs to be available to the
+AIX runtime loader.  The GCC 3.1 @{b}libstdc++.so.4@{ub}, if present, and GCC
+3.3 @{b}libstdc++.so.5@{ub} shared objects can be installed for runtime dynamic
+loading using the following steps to set the @{b}F_LOADONLY@{ub} flag in the
+shared object for @{i}each@{ui} multilib @{b}libstdc++.a@{ub} installed:
+
+   Extract the shared objects from the currently installed @{b}libstdc++.a@{ub}
+archive:
+        % ar -x libstdc++.a libstdc++.so.4 libstdc++.so.5
+
+   Enable the @{b}F_LOADONLY@{ub} flag so that the shared object will be
+available for runtime dynamic loading, but not linking:
+        % strip -e libstdc++.so.4 libstdc++.so.5
+
+   Archive the runtime-only shared object in the GCC 3.4 @{b}libstdc++.a@{ub}
+archive:
+        % ar -q libstdc++.a libstdc++.so.4 libstdc++.so.5
+
+   Linking executables and shared libraries may produce warnings of
+duplicate symbols.  The assembly files generated by GCC for AIX always
+have included multiple symbol definitions for certain global variable
+and function declarations in the original program.  The warnings should
+not prevent the linker from producing a correct library or runnable
+executable.
+
+   AIX 4.3 utilizes a "large format" archive to support both 32-bit and
+64-bit object modules.  The routines provided in AIX 4.3.0 and AIX 4.3.1
+to parse archive libraries did not handle the new format correctly.
+These routines are used by GCC and result in error messages during
+linking such as "not a COFF file".  The version of the routines shipped
+with AIX 4.3.1 should work for a 32-bit environment.  The @{b}-g@{ub} option of
+the archive command may be used to create archives of 32-bit objects
+using the original "small format".  A correct version of the routines
+is shipped with AIX 4.3.2 and above.
+
+   Some versions of the AIX binder (linker) can fail with a relocation
+overflow severe error when the @{b}-bbigtoc@{ub} option is used to link
+GCC-produced object files into an executable that overflows the TOC.  A
+fix for APAR IX75823 (OVERFLOW DURING LINK WHEN USING GCC AND -BBIGTOC)
+is available from IBM Customer Support and from its
+techsupport.services.ibm.com website as PTF U455193.
+
+   The AIX 4.3.2.1 linker (bos.rte.bind_cmds Level 4.3.2.1) will dump
+core with a segmentation fault when invoked by any version of GCC.  A
+fix for APAR IX87327 is available from IBM Customer Support and from its
+techsupport.services.ibm.com website as PTF U461879.  This fix is
+incorporated in AIX 4.3.3 and above.
+
+   The initial assembler shipped with AIX 4.3.0 generates incorrect
+object files.  A fix for APAR IX74254 (64BIT DISASSEMBLED OUTPUT FROM
+COMPILER FAILS TO ASSEMBLE/BIND) is available from IBM Customer Support
+and from its techsupport.services.ibm.com website as PTF U453956.  This
+fix is incorporated in AIX 4.3.1 and above.
+
+   AIX provides National Language Support (NLS).  Compilers and
+assemblers use NLS to support locale-specific representations of
+various data formats including floating-point numbers (e.g., @{b}.@{ub}  vs @{b},@{ub} for
+separating decimal fractions).  There have been problems reported where
+GCC does not produce the same floating-point formats that the assembler
+expects.  If one encounters this problem, set the @{b}LANG@{ub} environment
+variable to @{b}C@{ub} or @{b}En_US@{ub}.
+
+   By default, GCC for AIX 4.1 and above produces code that can be used
+on both Power or PowerPC processors.
+
+   A default can be specified with the @{b}-mcpu=CPU_TYPE@{ub} switch and using
+the configure option @{b}--with-cpu-CPU_TYPE@{ub}.
+
+ip2k-*-elf
+==========
+
+Ubicom IP2022 micro controller.  This configuration is intended for
+embedded systems.  There are no standard Unix configurations.
+
+   Use @{b}configure --target=ip2k-elf --enable-languages=c@{ub} to configure
+GCC.
+
+iq2000-*-elf
+============
+
+Vitesse IQ2000 processors.  These are used in embedded applications.
+There are no standard Unix configurations.
+
+m32r-*-elf
+==========
+
+Renesas M32R processor.  This configuration is intended for embedded
+systems.
+
+m6811-elf
+=========
+
+Motorola 68HC11 family micro controllers.  These are used in embedded
+applications.  There are no standard Unix configurations.
+
+m6812-elf
+=========
+
+Motorola 68HC12 family micro controllers.  These are used in embedded
+applications.  There are no standard Unix configurations.
+
+m68k-hp-hpux
+============
+
+HP 9000 series 300 or 400 running HP-UX.  HP-UX version 8.0 has a bug in
+the assembler that prevents compilation of GCC.  This bug manifests
+itself during the first stage of compilation, while building @{b}libgcc2.a@{ub}:
+
+     _floatdisf
+     cc1: warning: `-g' option not supported on this version of GCC
+     cc1: warning: `-g1' option not supported on this version of GCC
+     ./xgcc: Internal compiler error: program as got fatal signal 11
+
+   A patched version of the assembler is available as the file
+`ftp://altdorf.ai.mit.edu/archive/cph/hpux-8.0-assembler'.  If you have
+HP software support, the patch can also be obtained directly from HP,
+as described in the following note:
+
+     This is the patched assembler, to patch SR#1653-010439, where the
+     assembler aborts on floating point constants.
+
+     The bug is not really in the assembler, but in the shared library
+     version of the function "cvtnum(3c)".  The bug on "cvtnum(3c)" is
+     SR#4701-078451.  Anyway, the attached assembler uses the archive
+     library version of "cvtnum(3c)" and thus does not exhibit the bug.
+
+   This patch is also known as PHCO_4484.
+
+   In addition gdb does not understand that native HP-UX format, so you
+must use gas if you wish to use gdb.
+
+   On HP-UX version 8.05, but not on 8.07 or more recent versions, the
+@{b}fixproto@{ub} shell script triggers a bug in the system shell.  If you
+encounter this problem, upgrade your operating system or use BASH (the
+GNU shell) to run @{b}fixproto@{ub}.  This bug will cause the fixproto program
+to report an error of the form:
+
+     ./fixproto: sh internal 1K buffer overflow
+
+   To fix this, you can also change the first line of the fixproto
+script to look like:
+
+     #!/bin/ksh
+
+mips-*-*
+========
+
+If on a MIPS system you get an error message saying "does not have gp
+sections for all it's [sic] sectons [sic]", don't worry about it.  This
+happens whenever you use GAS with the MIPS linker, but there is not
+really anything wrong, and it is okay to use the output file.  You can
+stop such warnings by installing the GNU linker.
+
+   It would be nice to extend GAS to produce the gp tables, but they are
+optional, and there should not be a warning about their absence.
+
+   The libstdc++ atomic locking routines for MIPS targets requires MIPS
+II and later.  A patch went in just after the GCC 3.3 release to make
+@{b}mips*-*-*@{ub} use the generic implementation instead.  You can also
+configure for @{b}mipsel-elf@{ub} as a workaround.  The @{b}mips*-*-linux*@{ub} target
+continues to use the MIPS II routines.  More work on this is expected
+in future releases.
+
+   Cross-compilers for the Mips as target using the Mips assembler
+currently do not work, because the auxiliary programs @{b}mips-tdump.c@{ub} and
+@{b}mips-tfile.c@{ub} can't be compiled on anything but a Mips.  It does work to
+cross compile for a Mips if you use the GNU assembler and linker.
+
+mips-sgi-irix5
+==============
+
+In order to compile GCC on an SGI running IRIX 5, the @{b}compiler_dev.hdr@{ub}
+subsystem must be installed from the IDO CD-ROM supplied by SGI.  It is
+also available for download from
+`http://www.sgi.com/developers/devtools/apis/ido.html'.
+
+   If you use the MIPS C compiler to bootstrap, it may be necessary to
+increase its table size for switch statements with the @{b}-Wf,-XNg1500@{ub}
+option.  If you use the @{b}-O2@{ub} optimization option, you also need to use
+@{b}-Olimit 3000@{ub}.
+
+   To enable debugging under IRIX 5, you must use GNU binutils 2.15 or
+later, and use the @{b}--with-gnu-as@{ub} and @{b}--with-gnu-ld@{ub} @{b}configure@{ub} options
+when configuring GCC.  You need to use GNU @{b}ar@{ub} and @{b}nm@{ub}, also distributed
+with GNU binutils.
+
+mips-sgi-irix6
+==============
+
+If you are using SGI's MIPSpro @{b}cc@{ub} as your bootstrap compiler, you must
+ensure that the N32 ABI is in use.  To test this, compile a simple C
+file with @{b}cc@{ub} and then run @{b}file@{ub} on the resulting object file.  The
+output should look like:
+
+     test.o: ELF N32 MSB ...
+
+   If you see:
+
+     test.o: ELF 32-bit MSB ...
+
+   or
+
+     test.o: ELF 64-bit MSB ...
+
+   then your version of @{b}cc@{ub} uses the O32 or N64 ABI by default.  You
+should set the environment variable @{b}CC@{ub} to @{b}cc -n32@{ub} before configuring
+GCC.  SGI's MIPSpro 7.2 assembler may misassemble parts of the
+compiler, causing bootstrap failures.  MIPSpro 7.3 is known to work.
+MIPSpro C 7.4 may cause bootstrap failures, too, due to a bug when
+inlining @{b}memcmp@{ub}.  Either add @{b}-U__INLINE_INTRINSICS@{ub} to the @{b}CC@{ub}
+environment variable as a workaround or upgrade to MIPSpro C 7.4.1m.
+
+   If you want the resulting @{b}gcc@{ub} to run on old 32-bit systems with the
+MIPS R4400 CPU, you need to ensure that only code for the @{b}mips3@{ub}
+instruction set architecture (ISA) is generated.  While GCC 3.x does
+this correctly, both GCC 2.95 and SGI's MIPSpro @{b}cc@{ub} may change the ISA
+depending on the machine where GCC is built.  Using one of them as the
+bootstrap compiler may result in @{b}mips4@{ub} code, which won't run at all on
+@{b}mips3@{ub}-only systems.  For the test program above, you should see:
+
+     test.o: ELF N32 MSB mips-3 ...
+
+   If you get:
+
+     test.o: ELF N32 MSB mips-4 ...
+
+   instead, you should set the environment variable @{b}CC@{ub} to @{b}cc -n32
+-mips3@{ub} or @{b}gcc -mips3@{ub} respectively before configuring GCC.
+
+   GCC on IRIX 6 is usually built to support the N32, O32 and N64 ABIs.
+If you build GCC on a system that doesn't have the N64 libraries
+installed or cannot run 64-bit binaries, you need to configure with
+@{b}--disable-multilib@{ub} so GCC doesn't try to use them.  This will disable
+building the O32 libraries, too.  Look for @{b}/usr/lib64/libc.so.1@{ub} to see
+if you have the 64-bit libraries installed.
+
+   To enable debugging for the O32 ABI, you must use GNU @{b}as@{ub} from GNU
+binutils 2.15 or later.  You may also use GNU @{b}ld@{ub}, but this is not
+required and currently causes some problems with Ada.
+
+   The @{b}--enable-threads@{ub} option doesn't currently work, a patch is in
+preparation for a future release.  The @{b}--enable-libgcj@{ub} option is
+disabled by default: IRIX 6 uses a very low default limit (20480) for
+the command line length.  Although @{b}libtool@{ub} contains a workaround for
+this problem, at least the N64 @{b}libgcj@{ub} is known not to build despite
+this, running into an internal error of the native @{b}ld@{ub}.  A sure fix is
+to increase this limit (@{b}ncargs@{ub}) to its maximum of 262144 bytes.  If you
+have root access, you can use the @{b}systune@{ub} command to do this.
+
+   See `http://freeware.sgi.com/' for more information about using GCC
+on IRIX platforms.
+
+powerpc-*-*
+===========
+
+You can specify a default version for the @{b}-mcpu=CPU_TYPE@{ub} switch by
+using the configure option @{b}--with-cpu-CPU_TYPE@{ub}.
+
+powerpc-*-darwin*
+=================
+
+PowerPC running Darwin (Mac OS X kernel).
+
+   Pre-installed versions of Mac OS X may not include any developer
+tools, meaning that you will not be able to build GCC from source.  Tool
+binaries are available at
+`http://developer.apple.com/tools/compilers.html' (free registration
+required).
+
+   The default stack limit of 512K is too small, which may cause
+compiles to fail with 'Bus error'.  Set the stack larger, for instance
+by doing @{b}limit stack 800@{ub}.  It's a good idea to use the GNU preprocessor
+instead of Apple's @{b}cpp-precomp@{ub} during the first stage of bootstrapping;
+this is automatic when doing @{b}make bootstrap@{ub}, but to do it from the
+toplevel objdir you will need to say @{b}make CC='cc -no-cpp-precomp'
+bootstrap@{ub}.
+
+   The version of GCC shipped by Apple typically includes a number of
+extensions not available in a standard GCC release.  These extensions
+are generally specific to Mac programming.
+
+powerpc-*-elf, powerpc-*-sysv4
+==============================
+
+PowerPC system in big endian mode, running System V.4.
+
+powerpc-*-linux-gnu*
+====================
+
+You will need binutils 2.13.90.0.10 or newer for a working GCC.
+
+powerpc-*-netbsd*
+=================
+
+PowerPC system in big endian mode running NetBSD.  To build the
+documentation you will need Texinfo version 4.2 (NetBSD 1.5.1 included
+Texinfo version 3.12).
+
+powerpc-*-eabisim
+=================
+
+Embedded PowerPC system in big endian mode for use in running under the
+PSIM simulator.
+
+powerpc-*-eabi
+==============
+
+Embedded PowerPC system in big endian mode.
+
+powerpcle-*-elf, powerpcle-*-sysv4
+==================================
+
+PowerPC system in little endian mode, running System V.4.
+
+powerpcle-*-eabisim
+===================
+
+Embedded PowerPC system in little endian mode for use in running under
+the PSIM simulator.
+
+powerpcle-*-eabi
+================
+
+Embedded PowerPC system in little endian mode.
+
+s390-*-linux*
+=============
+
+S/390 system running GNU/Linux for S/390.
+
+s390x-*-linux*
+==============
+
+zSeries system (64-bit) running GNU/Linux for zSeries.
+
+s390x-ibm-tpf*
+==============
+
+zSeries system (64-bit) running TPF.  This platform is supported as
+cross-compilation target only.
+
+*-*-solaris2*
+=============
+
+Sun does not ship a C compiler with Solaris 2.  To bootstrap and install
+GCC you first have to install a pre-built compiler, see our binaries
+page for details.
+
+   The Solaris 2 @{b}/bin/sh@{ub} will often fail to configure @{b}libstdc++-v3@{ub},
+@{b}boehm-gc@{ub} or @{b}libjava@{ub}.  We therefore recommend to use the following
+sequence of commands to bootstrap and install GCC:
+
+        % CONFIG_SHELL=/bin/ksh
+        % export CONFIG_SHELL
+
+   and then proceed as described in the build instructions, where we
+strongly recommend using GNU make and specifying an absolute path to
+invoke SRCDIR/configure.
+
+   Solaris 2 comes with a number of optional OS packages.  Some of these
+are needed to use GCC fully, namely @{b}SUNWarc@{ub}, @{b}SUNWbtool@{ub}, @{b}SUNWesu@{ub},
+@{b}SUNWhea@{ub}, @{b}SUNWlibm@{ub}, @{b}SUNWsprot@{ub}, and @{b}SUNWtoo@{ub}.  If you did not install all
+optional packages when installing Solaris 2, you will need to verify
+that the packages that GCC needs are installed.
+
+   To check whether an optional package is installed, use the @{b}pkginfo@{ub}
+command.  To add an optional package, use the @{b}pkgadd@{ub} command.  For
+further details, see the Solaris 2 documentation.
+
+   Trying to use the linker and other tools in @{b}/usr/ucb@{ub} to install GCC
+has been observed to cause trouble.  For example, the linker may hang
+indefinitely.  The fix is to remove @{b}/usr/ucb@{ub} from your @{b}PATH@{ub}.
+
+   The build process works more smoothly with the legacy Sun tools so,
+if you have @{b}/usr/xpg4/bin@{ub} in your @{b}PATH@{ub}, we recommend that you place
+@{b}/usr/bin@{ub} before @{b}/usr/xpg4/bin@{ub} for the duration of the build.
+
+   All releases of GNU binutils prior to 2.11.2 have known bugs on this
+platform.  We recommend the use of GNU binutils 2.11.2 or the vendor
+tools (Sun @{b}as@{ub}, Sun @{b}ld@{ub}).
+
+   Sun bug 4296832 turns up when compiling X11 headers with GCC 2.95 or
+newer: @{b}g++@{ub} will complain that types are missing.  These headers assume
+that omitting the type means @{b}int@{ub}; this assumption worked for C89 but is
+wrong for C++, and is now wrong for C99 also.
+
+   @{b}g++@{ub} accepts such (invalid) constructs with the option @{b}-fpermissive@{ub};
+it will assume that any missing type is @{b}int@{ub} (as defined by C89).
+
+   There are patches for Solaris 2.6 (105633-56 or newer for SPARC,
+106248-42 or newer for Intel), Solaris 7 (108376-21 or newer for SPARC,
+108377-20 for Intel), and Solaris 8 (108652-24 or newer for SPARC,
+108653-22 for Intel) that fix this bug.
+
+sparc-sun-solaris2*
+===================
+
+When GCC is configured to use binutils 2.11.2 or later the binaries
+produced are smaller than the ones produced using Sun's native tools;
+this difference is quite significant for binaries containing debugging
+information.
+
+   Sun @{b}as@{ub} 4.x is broken in that it cannot cope with long symbol names.
+A typical error message might look similar to the following:
+
+     /usr/ccs/bin/as: "/var/tmp/ccMsw135.s", line 11041: error:
+       can't compute value of an expression involving an external symbol.
+
+   This is Sun bug 4237974.  This is fixed with patch 108908-02 for
+Solaris 2.6 and has been fixed in later (5.x) versions of the assembler,
+starting with Solaris 7.
+
+   Starting with Solaris 7, the operating system is capable of executing
+64-bit SPARC V9 binaries.  GCC 3.1 and later properly supports this;
+the @{b}-m64@{ub} option enables 64-bit code generation.  However, if all you
+want is code tuned for the UltraSPARC CPU, you should try the
+@{b}-mtune=ultrasparc@{ub} option instead, which produces code that, unlike full
+64-bit code, can still run on non-UltraSPARC machines.
+
+   When configuring on a Solaris 7 or later system that is running a
+kernel that supports only 32-bit binaries, one must configure with
+@{b}--disable-multilib@{ub}, since we will not be able to build the 64-bit
+target libraries.
+
+   GCC 3.4 triggers a code generation bug in versions 5.4 (Sun ONE
+Studio 7) and 5.5 (Sun ONE Studio 8) of the Sun compiler, which causes
+a bootstrap failure in form of a miscompilation of the stage1 compiler
+by the Sun compiler.  This is Sun bug 4974440.  This is fixed with
+patch 112760-07.
+
+sparc-sun-solaris2.7
+====================
+
+Sun patch 107058-01 (1999-01-13) for Solaris 7/SPARC triggers a bug in
+the dynamic linker.  This problem (Sun bug 4210064) affects GCC 2.8 and
+later, including all EGCS releases.  Sun formerly recommended 107058-01
+for all Solaris 7 users, but around 1999-09-01 it started to recommend
+it only for people who use Sun's compilers.
+
+   Here are some workarounds to this problem:
+   * Do not install Sun patch 107058-01 until after Sun releases a
+     complete patch for bug 4210064.  This is the simplest course to
+     take, unless you must also use Sun's C compiler.  Unfortunately
+     107058-01 is preinstalled on some new Solaris 7-based hosts, so
+     you may have to back it out.
+
+   * Copy the original, unpatched Solaris 7 @{b}/usr/ccs/bin/as@{ub} into
+     @{b}/usr/local/libexec/gcc/sparc-sun-solaris2.7/3.4/as@{ub}, adjusting the
+     latter name to fit your local conventions and software version
+     numbers.
+
+   * Install Sun patch 106950-03 (1999-05-25) or later.  Nobody with
+     both 107058-01 and 106950-03 installed has reported the bug with
+     GCC and Sun's dynamic linker.  This last course of action is
+     riskiest, for two reasons.  First, you must install 106950 on all
+     hosts that run code generated by GCC; it doesn't suffice to
+     install it only on the hosts that run GCC itself.  Second, Sun
+     says that 106950-03 is only a partial fix for bug 4210064, but Sun
+     doesn't know whether the partial fix is adequate for GCC.
+     Revision -08 or later should fix the bug.  The current (as of
+     2001-09-24) revision is -14, and is included in the Solaris 7
+     Recommended Patch Cluster.
+
+   GCC 3.3 triggers a bug in version 5.0 Alpha 03/27/98 of the Sun
+assembler, which causes a bootstrap failure when linking the 64-bit
+shared version of libgcc. A typical error message is:
+
+     ld: fatal: relocation error: R_SPARC_32: file libgcc/sparcv9/_muldi3.o:
+       symbol <unknown>:  offset 0xffffffff7ec133e7 is non-aligned.
+
+   This bug has been fixed in the final 5.0 version of the assembler.
+
+sparc-*-linux*
+==============
+
+GCC versions 3.0 and higher require binutils 2.11.2 and glibc 2.2.4 or
+newer on this platform.  All earlier binutils and glibc releases
+mishandled unaligned relocations on @{b}sparc-*-*@{ub} targets.
+
+sparc64-*-solaris2*
+===================
+
+The following compiler flags must be specified in the configure step in
+order to bootstrap this target with the Sun compiler:
+
+        % CC="cc -xildoff -xarch=v9" SRCDIR/configure [OPTIONS] [TARGET]
+
+   @{b}-xildoff@{ub} turns off the incremental linker, and @{b}-xarch=v9@{ub} specifies
+the SPARC-V9 architecture to the Sun linker and assembler.
+
+sparcv9-*-solaris2*
+===================
+
+This is a synonym for sparc64-*-solaris2*.
+
+*-*-sysv*
+=========
+
+On System V release 3, you may get this error message while linking:
+
+     ld fatal: failed to write symbol name SOMETHING
+      in strings table for file WHATEVER
+
+   This probably indicates that the disk is full or your ulimit won't
+allow the file to be as large as it needs to be.
+
+   This problem can also result because the kernel parameter @{b}MAXUMEM@{ub} is
+too small.  If so, you must regenerate the kernel and make the value
+much larger.  The default value is reported to be 1024; a value of 32768
+is said to work.  Smaller values may also work.
+
+   On System V, if you get an error like this,
+
+     /usr/local/lib/bison.simple: In function `yyparse':
+     /usr/local/lib/bison.simple:625: virtual memory exhausted
+
+that too indicates a problem with disk space, ulimit, or @{b}MAXUMEM@{ub}.
+
+   On a System V release 4 system, make sure @{b}/usr/bin@{ub} precedes @{b}/usr/ucb@{ub}
+in @{b}PATH@{ub}.  The @{b}cc@{ub} command in @{b}/usr/ucb@{ub} uses libraries which have bugs.
+
+vax-dec-ultrix
+==============
+
+Don't try compiling with VAX C (@{b}vcc@{ub}).  It produces incorrect code in
+some cases (for example, when @{b}alloca@{ub} is used).
+
+*-*-vxworks*
+============
+
+Support for VxWorks is in flux.  At present GCC supports @{i}only@{ui} the very
+recent VxWorks 5.5 (aka Tornado 2.2) release, and only on PowerPC.  We
+welcome patches for other architectures supported by VxWorks 5.5.
+Support for VxWorks AE would also be welcome; we believe this is merely
+a matter of writing an appropriate "configlette" (see below).  We are
+not interested in supporting older, a.out or COFF-based, versions of
+VxWorks in GCC 3.
+
+   VxWorks comes with an older version of GCC installed in
+@{b}$WIND_BASE/host@{ub}; we recommend you do not overwrite it.  Choose an
+installation PREFIX entirely outside $WIND_BASE.  Before running
+@{b}configure@{ub}, create the directories @{b}PREFIX@{ub} and @{b}PREFIX/bin@{ub}.  Link or copy
+the appropriate assembler, linker, etc. into @{b}PREFIX/bin@{ub}, and set your
+PATH to include that directory while running both @{b}configure@{ub} and @{b}make@{ub}.
+
+   You must give @{b}configure@{ub} the @{b}--with-headers=$WIND_BASE/target/h@{ub}
+switch so that it can find the VxWorks system headers.  Since VxWorks
+is a cross compilation target only, you must also specify
+@{b}--target=TARGET@{ub}.  @{b}configure@{ub} will attempt to create the directory
+@{b}PREFIX/TARGET/sys-include@{ub} and copy files into it; make sure the user
+running @{b}configure@{ub} has sufficient privilege to do so.
+
+   GCC's exception handling runtime requires a special "configlette"
+module, @{b}contrib/gthr_supp_vxw_5x.c@{ub}.  Follow the instructions in that
+file to add the module to your kernel build.  (Future versions of
+VxWorks will incorporate this module.)
+
+x86_64-*-*, amd64-*-*
+=====================
+
+GCC supports the x86-64 architecture implemented by the AMD64 processor
+(amd64-*-* is an alias for x86_64-*-*) on GNU/Linux, FreeBSD and NetBSD.
+On GNU/Linux the default is a bi-arch compiler which is able to generate
+both 64-bit x86-64 and 32-bit x86 code (via the @{b}-m32@{ub} switch).
+
+xtensa-*-elf
+============
+
+This target is intended for embedded Xtensa systems using the @{b}newlib@{ub} C
+library.  It uses ELF but does not support shared objects.
+Designed-defined instructions specified via the Tensilica Instruction
+Extension (TIE) language are only supported through inline assembly.
+
+   The Xtensa configuration information must be specified prior to
+building GCC.  The @{b}include/xtensa-config.h@{ub} header file contains the
+configuration information.  If you created your own Xtensa
+configuration with the Xtensa Processor Generator, the downloaded files
+include a customized copy of this header file, which you can use to
+replace the default header file.
+
+xtensa-*-linux*
+===============
+
+This target is for Xtensa systems running GNU/Linux.  It supports ELF
+shared objects and the GNU C library (glibc).  It also generates
+position-independent code (PIC) regardless of whether the @{b}-fpic@{ub} or
+@{b}-fPIC@{ub} options are used.  In other respects, this target is the same as
+the @{b}xtensa-*-elf@{ub} target.
+
+Microsoft Windows (32-bit)
+==========================
+
+A port of GCC 2.95.2 and 3.x is included with the Cygwin environment.
+
+   Current (as of early 2001) snapshots of GCC will build under Cygwin
+without modification.
+
+   GCC does not currently build with Microsoft's C++ compiler and there
+are no plans to make it do so.
+
+OS/2
+====
+
+GCC does not currently support OS/2.  However, Andrew Zabolotny has been
+working on a generic OS/2 port with pgcc.  The current code can be found
+at http://www.goof.com/pcg/os2/.
+
+   An older copy of GCC 2.8.1 is included with the EMX tools available
+at ftp://ftp.leo.org/pub/comp/os/os2/leo/devtools/emx+gcc/.
+
+Older systems
+=============
+
+GCC contains support files for many older (1980s and early 1990s) Unix
+variants.  For the most part, support for these systems has not been
+deliberately removed, but it has not been maintained for several years
+and may suffer from bitrot.
+
+   Starting with GCC 3.1, each release has a list of "obsoleted"
+systems.  Support for these systems is still present in that release,
+but @{b}configure@{ub} will fail unless the @{b}--enable-obsolete@{ub} option is given.
+Unless a maintainer steps forward, support for these systems will be
+removed from the next release of GCC.
+
+   Support for old systems as hosts for GCC can cause problems if the
+workarounds for compiler, library and operating system bugs affect the
+cleanliness or maintainability of the rest of GCC.  In some cases, to
+bring GCC up on such a system, if still possible with current GCC, may
+require first installing an old version of GCC which did work on that
+system, and using it to compile a more recent GCC, to avoid bugs in the
+vendor compiler.  Old releases of GCC 1 and GCC 2 are available in the
+@{b}old-releases@{ub} directory on the GCC mirror sites.  Header bugs may
+generally be avoided using @{b}fixincludes@{ub}, but bugs or deficiencies in
+libraries and the operating system may still cause problems.
+
+   Support for older systems as targets for cross-compilation is less
+problematic than support for them as hosts for GCC; if an enthusiast
+wishes to make such a target work again (including resurrecting any of
+the targets that never worked with GCC 2, starting from the last CVS
+version before they were removed), patches following the usual
+requirements would be likely to be accepted, since they should not
+affect the support for more modern targets.
+
+   For some systems, old versions of GNU binutils may also be useful,
+and are available from @{b}pub/binutils/old-releases@{ub} on sources.redhat.com
+mirror sites.
+
+   Some of the information on specific systems above relates to such
+older systems, but much of the information about GCC on such systems
+(which may no longer be applicable to current GCC) is to be found in
+the GCC texinfo manual.
+
+all ELF targets (SVR4, Solaris 2, etc.)
+=======================================
+
+C++ support is significantly better on ELF targets if you use the GNU
+linker; duplicate copies of inlines, vtables and template
+instantiations will be discarded automatically.
+
+@endnode
+
+@node "Old" "gccinstall.guide/Old"
+@next "GNU Free Documentation License"
+@prev "Specific"
+@toc "Main"
+
+Old installation documentation
+******************************
+
+   Note most of this information is out of date and superseded by the
+previous chapters of this manual.  It is provided for historical
+reference only, because of a lack of volunteers to merge it into the
+main manual.
+
+
+ @{" Configurations   " link "Configurations"}  Configurations Supported by GCC.
+
+   Here is the procedure for installing GCC on a GNU or Unix system.
+
+  1. If you have chosen a configuration for GCC which requires other GNU
+     tools (such as GAS or the GNU linker) instead of the standard
+     system tools, install the required tools in the build directory
+     under the names @{b}as@{ub}, @{b}ld@{ub} or whatever is appropriate.
+
+     Alternatively, you can do subsequent compilation using a value of
+     the @{b}PATH@{ub} environment variable such that the necessary GNU tools
+     come before the standard system tools.
+
+  2. Specify the host, build and target machine configurations.  You do
+     this when you run the @{b}configure@{ub} script.
+
+     The @{i}build@{ui} machine is the system which you are using, the @{i}host@{ui}
+     machine is the system where you want to run the resulting compiler
+     (normally the build machine), and the @{i}target@{ui} machine is the system
+     for which you want the compiler to generate code.
+
+     If you are building a compiler to produce code for the machine it
+     runs on (a native compiler), you normally do not need to specify
+     any operands to @{b}configure@{ub}; it will try to guess the type of
+     machine you are on and use that as the build, host and target
+     machines.  So you don't need to specify a configuration when
+     building a native compiler unless @{b}configure@{ub} cannot figure out what
+     your configuration is or guesses wrong.
+
+     In those cases, specify the build machine's @{i}configuration name@{ui}
+     with the @{b}--host@{ub} option; the host and target will default to be the
+     same as the host machine.
+
+     Here is an example:
+
+          ./configure --host=sparc-sun-sunos4.1
+
+     A configuration name may be canonical or it may be more or less
+     abbreviated.
+
+     A canonical configuration name has three parts, separated by
+     dashes.  It looks like this: @{b}CPU-COMPANY-SYSTEM@{ub}.  (The three parts
+     may themselves contain dashes; @{b}configure@{ub} can figure out which
+     dashes serve which purpose.)  For example, @{b}m68k-sun-sunos4.1@{ub}
+     specifies a Sun 3.
+
+     You can also replace parts of the configuration by nicknames or
+     aliases.  For example, @{b}sun3@{ub} stands for @{b}m68k-sun@{ub}, so @{b}sun3-sunos4.1@{ub}
+     is another way to specify a Sun 3.
+
+     You can specify a version number after any of the system types,
+     and some of the CPU types.  In most cases, the version is
+     irrelevant, and will be ignored.  So you might as well specify the
+     version if you know it.
+
+     See @{"Configurations" link "Configurations"}, for a list of supported configuration names
+     and notes on many of the configurations.  You should check the
+     notes in that section before proceeding any further with the
+     installation of GCC.
+
+
+@endnode
+
+@node "Configurations" "gccinstall.guide/Configurations"
+@toc "Old"
+
+Configurations Supported by GCC
+===============================
+
+   Here are the possible CPU types:
+
+     1750a, a29k, alpha, arm, avr, cN, clipper, dsp16xx, elxsi, fr30,
+     h8300, hppa1.0, hppa1.1, i370, i386, i486, i586, i686, i786, i860,
+     i960, ip2k, m32r, m68000, m68k, m6811, m6812, m88k, mcore, mips,
+     mipsel, mips64, mips64el, mn10200, mn10300, ns32k, pdp11, powerpc,
+     powerpcle, romp, rs6000, sh, sparc, sparclite, sparc64, v850, vax,
+     we32k.
+
+   Here are the recognized company names.  As you can see, customary
+abbreviations are used rather than the longer official names.
+
+     acorn, alliant, altos, apollo, apple, att, bull, cbm, convergent,
+     convex, crds, dec, dg, dolphin, elxsi, encore, harris, hitachi,
+     hp, ibm, intergraph, isi, mips, motorola, ncr, next, ns, omron,
+     plexus, sequent, sgi, sony, sun, tti, unicom, wrs.
+
+   The company name is meaningful only to disambiguate when the rest of
+the information supplied is insufficient.  You can omit it, writing
+just @{b}CPU-SYSTEM@{ub}, if it is not needed.  For example, @{b}vax-ultrix4.2@{ub} is
+equivalent to @{b}vax-dec-ultrix4.2@{ub}.
+
+   Here is a list of system types:
+
+     386bsd, aix, acis, amigaos, aos, aout, aux, bosx, bsd, clix, coff,
+     ctix, cxux, dgux, dynix, ebmon, ecoff, elf, esix, freebsd, hms,
+     genix, gnu, linux, linux-gnu, hiux, hpux, iris, irix, isc, luna,
+     lynxos, mach, minix, msdos, mvs, netbsd, newsos, nindy, ns, osf,
+     osfrose, ptx, riscix, riscos, rtu, sco, sim, solaris, sunos, sym,
+     sysv, udi, ultrix, unicos, uniplus, unos, vms, vsta, vxworks,
+     winnt, xenix.
+
+You can omit the system type; then @{b}configure@{ub} guesses the operating
+system from the CPU and company.
+
+   You can add a version number to the system type; this may or may not
+make a difference.  For example, you can write @{b}bsd4.3@{ub} or @{b}bsd4.4@{ub} to
+distinguish versions of BSD.  In practice, the version number is most
+needed for @{b}sysv3@{ub} and @{b}sysv4@{ub}, which are often treated differently.
+
+   @{b}linux-gnu@{ub} is the canonical name for the GNU/Linux target; however
+GCC will also accept @{b}linux@{ub}.  The version of the kernel in use is not
+relevant on these systems.  A suffix such as @{b}libc1@{ub} or @{b}aout@{ub}
+distinguishes major versions of the C library; all of the suffixed
+versions are obsolete.
+
+   If you specify an impossible combination such as @{b}i860-dg-vms@{ub}, then
+you may get an error message from @{b}configure@{ub}, or it may ignore part of
+the information and do the best it can with the rest.  @{b}configure@{ub} always
+prints the canonical name for the alternative that it used.  GCC does
+not support all possible alternatives.
+
+   Often a particular model of machine has a name.  Many machine names
+are recognized as aliases for CPU/company combinations.  Thus, the
+machine name @{b}sun3@{ub}, mentioned above, is an alias for @{b}m68k-sun@{ub}.
+Sometimes we accept a company name as a machine name, when the name is
+popularly used for a particular machine.  Here is a table of the known
+machine names:
+
+     3300, 3b1, 3bN, 7300, altos3068, altos, apollo68, att-7300,
+     balance, convex-cN, crds, decstation-3100, decstation, delta,
+     encore, fx2800, gmicro, hp7NN, hp8NN, hp9k2NN, hp9k3NN, hp9k7NN,
+     hp9k8NN, iris4d, iris, isi68, m3230, magnum, merlin, miniframe,
+     mmax, news-3600, news800, news, next, pbd, pc532, pmax, powerpc,
+     powerpcle, ps2, risc-news, rtpc, sun2, sun386i, sun386, sun3,
+     sun4, symmetry, tower-32, tower.
+
+Remember that a machine name specifies both the cpu type and the company
+name.  If you want to install your own homemade configuration files,
+you can use @{b}local@{ub} as the company name to access them.  If you use
+configuration @{b}CPU-local@{ub}, the configuration name without the cpu prefix
+is used to form the configuration file names.
+
+   Thus, if you specify @{b}m68k-local@{ub}, configuration uses files @{b}m68k.md@{ub},
+@{b}local.h@{ub}, @{b}m68k.c@{ub}, @{b}xm-local.h@{ub}, @{b}t-local@{ub}, and @{b}x-local@{ub}, all in the directory
+@{b}config/m68k@{ub}.
+
+@endnode
+
+@node "GNU Free Documentation License" "gccinstall.guide/GNU Free Documentation License"
+@next "Concept Index"
+@prev "Old"
+@toc "Main"
+
+GNU Free Documentation License
+******************************
+
+                      Version 1.2, November 2002
+     Copyright (C) 2000,2001,2002 Free Software Foundation, Inc.
+     59 Temple Place, Suite 330, Boston, MA  02111-1307, USA
+     
+     Everyone is permitted to copy and distribute verbatim copies
+     of this license document, but changing it is not allowed.
+
+  0. PREAMBLE
+
+     The purpose of this License is to make a manual, textbook, or other
+     functional and useful document @{i}free@{ui} in the sense of freedom: to
+     assure everyone the effective freedom to copy and redistribute it,
+     with or without modifying it, either commercially or
+     noncommercially.  Secondarily, this License preserves for the
+     author and publisher a way to get credit for their work, while not
+     being considered responsible for modifications made by others.
+
+     This License is a kind of "copyleft", which means that derivative
+     works of the document must themselves be free in the same sense.
+     It complements the GNU General Public License, which is a copyleft
+     license designed for free software.
+
+     We have designed this License in order to use it for manuals for
+     free software, because free software needs free documentation: a
+     free program should come with manuals providing the same freedoms
+     that the software does.  But this License is not limited to
+     software manuals; it can be used for any textual work, regardless
+     of subject matter or whether it is published as a printed book.
+     We recommend this License principally for works whose purpose is
+     instruction or reference.
+
+  1. APPLICABILITY AND DEFINITIONS
+
+     This License applies to any manual or other work, in any medium,
+     that contains a notice placed by the copyright holder saying it
+     can be distributed under the terms of this License.  Such a notice
+     grants a world-wide, royalty-free license, unlimited in duration,
+     to use that work under the conditions stated herein.  The
+     "Document", below, refers to any such manual or work.  Any member
+     of the public is a licensee, and is addressed as "you".  You
+     accept the license if you copy, modify or distribute the work in a
+     way requiring permission under copyright law.
+
+     A "Modified Version" of the Document means any work containing the
+     Document or a portion of it, either copied verbatim, or with
+     modifications and/or translated into another language.
+
+     A "Secondary Section" is a named appendix or a front-matter section
+     of the Document that deals exclusively with the relationship of the
+     publishers or authors of the Document to the Document's overall
+     subject (or to related matters) and contains nothing that could
+     fall directly within that overall subject.  (Thus, if the Document
+     is in part a textbook of mathematics, a Secondary Section may not
+     explain any mathematics.)  The relationship could be a matter of
+     historical connection with the subject or with related matters, or
+     of legal, commercial, philosophical, ethical or political position
+     regarding them.
+
+     The "Invariant Sections" are certain Secondary Sections whose
+     titles are designated, as being those of Invariant Sections, in
+     the notice that says that the Document is released under this
+     License.  If a section does not fit the above definition of
+     Secondary then it is not allowed to be designated as Invariant.
+     The Document may contain zero Invariant Sections.  If the Document
+     does not identify any Invariant Sections then there are none.
+
+     The "Cover Texts" are certain short passages of text that are
+     listed, as Front-Cover Texts or Back-Cover Texts, in the notice
+     that says that the Document is released under this License.  A
+     Front-Cover Text may be at most 5 words, and a Back-Cover Text may
+     be at most 25 words.
+
+     A "Transparent" copy of the Document means a machine-readable copy,
+     represented in a format whose specification is available to the
+     general public, that is suitable for revising the document
+     straightforwardly with generic text editors or (for images
+     composed of pixels) generic paint programs or (for drawings) some
+     widely available drawing editor, and that is suitable for input to
+     text formatters or for automatic translation to a variety of
+     formats suitable for input to text formatters.  A copy made in an
+     otherwise Transparent file format whose markup, or absence of
+     markup, has been arranged to thwart or discourage subsequent
+     modification by readers is not Transparent.  An image format is
+     not Transparent if used for any substantial amount of text.  A
+     copy that is not "Transparent" is called "Opaque".
+
+     Examples of suitable formats for Transparent copies include plain
+     ASCII without markup, Texinfo input format, LaTeX input format,
+     SGML or XML using a publicly available DTD, and
+     standard-conforming simple HTML, PostScript or PDF designed for
+     human modification.  Examples of transparent image formats include
+     PNG, XCF and JPG.  Opaque formats include proprietary formats that
+     can be read and edited only by proprietary word processors, SGML or
+     XML for which the DTD and/or processing tools are not generally
+     available, and the machine-generated HTML, PostScript or PDF
+     produced by some word processors for output purposes only.
+
+     The "Title Page" means, for a printed book, the title page itself,
+     plus such following pages as are needed to hold, legibly, the
+     material this License requires to appear in the title page.  For
+     works in formats which do not have any title page as such, "Title
+     Page" means the text near the most prominent appearance of the
+     work's title, preceding the beginning of the body of the text.
+
+     A section "Entitled XYZ" means a named subunit of the Document
+     whose title either is precisely XYZ or contains XYZ in parentheses
+     following text that translates XYZ in another language.  (Here XYZ
+     stands for a specific section name mentioned below, such as
+     "Acknowledgements", "Dedications", "Endorsements", or "History".)
+     To "Preserve the Title" of such a section when you modify the
+     Document means that it remains a section "Entitled XYZ" according
+     to this definition.
+
+     The Document may include Warranty Disclaimers next to the notice
+     which states that this License applies to the Document.  These
+     Warranty Disclaimers are considered to be included by reference in
+     this License, but only as regards disclaiming warranties: any other
+     implication that these Warranty Disclaimers may have is void and
+     has no effect on the meaning of this License.
+
+  2. VERBATIM COPYING
+
+     You may copy and distribute the Document in any medium, either
+     commercially or noncommercially, provided that this License, the
+     copyright notices, and the license notice saying this License
+     applies to the Document are reproduced in all copies, and that you
+     add no other conditions whatsoever to those of this License.  You
+     may not use technical measures to obstruct or control the reading
+     or further copying of the copies you make or distribute.  However,
+     you may accept compensation in exchange for copies.  If you
+     distribute a large enough number of copies you must also follow
+     the conditions in section 3.
+
+     You may also lend copies, under the same conditions stated above,
+     and you may publicly display copies.
+
+  3. COPYING IN QUANTITY
+
+     If you publish printed copies (or copies in media that commonly
+     have printed covers) of the Document, numbering more than 100, and
+     the Document's license notice requires Cover Texts, you must
+     enclose the copies in covers that carry, clearly and legibly, all
+     these Cover Texts: Front-Cover Texts on the front cover, and
+     Back-Cover Texts on the back cover.  Both covers must also clearly
+     and legibly identify you as the publisher of these copies.  The
+     front cover must present the full title with all words of the
+     title equally prominent and visible.  You may add other material
+     on the covers in addition.  Copying with changes limited to the
+     covers, as long as they preserve the title of the Document and
+     satisfy these conditions, can be treated as verbatim copying in
+     other respects.
+
+     If the required texts for either cover are too voluminous to fit
+     legibly, you should put the first ones listed (as many as fit
+     reasonably) on the actual cover, and continue the rest onto
+     adjacent pages.
+
+     If you publish or distribute Opaque copies of the Document
+     numbering more than 100, you must either include a
+     machine-readable Transparent copy along with each Opaque copy, or
+     state in or with each Opaque copy a computer-network location from
+     which the general network-using public has access to download
+     using public-standard network protocols a complete Transparent
+     copy of the Document, free of added material.  If you use the
+     latter option, you must take reasonably prudent steps, when you
+     begin distribution of Opaque copies in quantity, to ensure that
+     this Transparent copy will remain thus accessible at the stated
+     location until at least one year after the last time you
+     distribute an Opaque copy (directly or through your agents or
+     retailers) of that edition to the public.
+
+     It is requested, but not required, that you contact the authors of
+     the Document well before redistributing any large number of
+     copies, to give them a chance to provide you with an updated
+     version of the Document.
+
+  4. MODIFICATIONS
+
+     You may copy and distribute a Modified Version of the Document
+     under the conditions of sections 2 and 3 above, provided that you
+     release the Modified Version under precisely this License, with
+     the Modified Version filling the role of the Document, thus
+     licensing distribution and modification of the Modified Version to
+     whoever possesses a copy of it.  In addition, you must do these
+     things in the Modified Version:
+
+       A. Use in the Title Page (and on the covers, if any) a title
+          distinct from that of the Document, and from those of
+          previous versions (which should, if there were any, be listed
+          in the History section of the Document).  You may use the
+          same title as a previous version if the original publisher of
+          that version gives permission.
+
+       B. List on the Title Page, as authors, one or more persons or
+          entities responsible for authorship of the modifications in
+          the Modified Version, together with at least five of the
+          principal authors of the Document (all of its principal
+          authors, if it has fewer than five), unless they release you
+          from this requirement.
+
+       C. State on the Title page the name of the publisher of the
+          Modified Version, as the publisher.
+
+       D. Preserve all the copyright notices of the Document.
+
+       E. Add an appropriate copyright notice for your modifications
+          adjacent to the other copyright notices.
+
+       F. Include, immediately after the copyright notices, a license
+          notice giving the public permission to use the Modified
+          Version under the terms of this License, in the form shown in
+          the Addendum below.
+
+       G. Preserve in that license notice the full lists of Invariant
+          Sections and required Cover Texts given in the Document's
+          license notice.
+
+       H. Include an unaltered copy of this License.
+
+       I. Preserve the section Entitled "History", Preserve its Title,
+          and add to it an item stating at least the title, year, new
+          authors, and publisher of the Modified Version as given on
+          the Title Page.  If there is no section Entitled "History" in
+          the Document, create one stating the title, year, authors,
+          and publisher of the Document as given on its Title Page,
+          then add an item describing the Modified Version as stated in
+          the previous sentence.
+
+       J. Preserve the network location, if any, given in the Document
+          for public access to a Transparent copy of the Document, and
+          likewise the network locations given in the Document for
+          previous versions it was based on.  These may be placed in
+          the "History" section.  You may omit a network location for a
+          work that was published at least four years before the
+          Document itself, or if the original publisher of the version
+          it refers to gives permission.
+
+       K. For any section Entitled "Acknowledgements" or "Dedications",
+          Preserve the Title of the section, and preserve in the
+          section all the substance and tone of each of the contributor
+          acknowledgements and/or dedications given therein.
+
+       L. Preserve all the Invariant Sections of the Document,
+          unaltered in their text and in their titles.  Section numbers
+          or the equivalent are not considered part of the section
+          titles.
+
+       M. Delete any section Entitled "Endorsements".  Such a section
+          may not be included in the Modified Version.
+
+       N. Do not retitle any existing section to be Entitled
+          "Endorsements" or to conflict in title with any Invariant
+          Section.
+
+       O. Preserve any Warranty Disclaimers.
+
+     If the Modified Version includes new front-matter sections or
+     appendices that qualify as Secondary Sections and contain no
+     material copied from the Document, you may at your option
+     designate some or all of these sections as invariant.  To do this,
+     add their titles to the list of Invariant Sections in the Modified
+     Version's license notice.  These titles must be distinct from any
+     other section titles.
+
+     You may add a section Entitled "Endorsements", provided it contains
+     nothing but endorsements of your Modified Version by various
+     parties--for example, statements of peer review or that the text
+     has been approved by an organization as the authoritative
+     definition of a standard.
+
+     You may add a passage of up to five words as a Front-Cover Text,
+     and a passage of up to 25 words as a Back-Cover Text, to the end
+     of the list of Cover Texts in the Modified Version.  Only one
+     passage of Front-Cover Text and one of Back-Cover Text may be
+     added by (or through arrangements made by) any one entity.  If the
+     Document already includes a cover text for the same cover,
+     previously added by you or by arrangement made by the same entity
+     you are acting on behalf of, you may not add another; but you may
+     replace the old one, on explicit permission from the previous
+     publisher that added the old one.
+
+     The author(s) and publisher(s) of the Document do not by this
+     License give permission to use their names for publicity for or to
+     assert or imply endorsement of any Modified Version.
+
+  5. COMBINING DOCUMENTS
+
+     You may combine the Document with other documents released under
+     this License, under the terms defined in section 4 above for
+     modified versions, provided that you include in the combination
+     all of the Invariant Sections of all of the original documents,
+     unmodified, and list them all as Invariant Sections of your
+     combined work in its license notice, and that you preserve all
+     their Warranty Disclaimers.
+
+     The combined work need only contain one copy of this License, and
+     multiple identical Invariant Sections may be replaced with a single
+     copy.  If there are multiple Invariant Sections with the same name
+     but different contents, make the title of each such section unique
+     by adding at the end of it, in parentheses, the name of the
+     original author or publisher of that section if known, or else a
+     unique number.  Make the same adjustment to the section titles in
+     the list of Invariant Sections in the license notice of the
+     combined work.
+
+     In the combination, you must combine any sections Entitled
+     "History" in the various original documents, forming one section
+     Entitled "History"; likewise combine any sections Entitled
+     "Acknowledgements", and any sections Entitled "Dedications".  You
+     must delete all sections Entitled "Endorsements."
+
+  6. COLLECTIONS OF DOCUMENTS
+
+     You may make a collection consisting of the Document and other
+     documents released under this License, and replace the individual
+     copies of this License in the various documents with a single copy
+     that is included in the collection, provided that you follow the
+     rules of this License for verbatim copying of each of the
+     documents in all other respects.
+
+     You may extract a single document from such a collection, and
+     distribute it individually under this License, provided you insert
+     a copy of this License into the extracted document, and follow
+     this License in all other respects regarding verbatim copying of
+     that document.
+
+  7. AGGREGATION WITH INDEPENDENT WORKS
+
+     A compilation of the Document or its derivatives with other
+     separate and independent documents or works, in or on a volume of
+     a storage or distribution medium, is called an "aggregate" if the
+     copyright resulting from the compilation is not used to limit the
+     legal rights of the compilation's users beyond what the individual
+     works permit.  When the Document is included an aggregate, this
+     License does not apply to the other works in the aggregate which
+     are not themselves derivative works of the Document.
+
+     If the Cover Text requirement of section 3 is applicable to these
+     copies of the Document, then if the Document is less than one half
+     of the entire aggregate, the Document's Cover Texts may be placed
+     on covers that bracket the Document within the aggregate, or the
+     electronic equivalent of covers if the Document is in electronic
+     form.  Otherwise they must appear on printed covers that bracket
+     the whole aggregate.
+
+  8. TRANSLATION
+
+     Translation is considered a kind of modification, so you may
+     distribute translations of the Document under the terms of section
+     4.  Replacing Invariant Sections with translations requires special
+     permission from their copyright holders, but you may include
+     translations of some or all Invariant Sections in addition to the
+     original versions of these Invariant Sections.  You may include a
+     translation of this License, and all the license notices in the
+     Document, and any Warrany Disclaimers, provided that you also
+     include the original English version of this License and the
+     original versions of those notices and disclaimers.  In case of a
+     disagreement between the translation and the original version of
+     this License or a notice or disclaimer, the original version will
+     prevail.
+
+     If a section in the Document is Entitled "Acknowledgements",
+     "Dedications", or "History", the requirement (section 4) to
+     Preserve its Title (section 1) will typically require changing the
+     actual title.
+
+  9. TERMINATION
+
+     You may not copy, modify, sublicense, or distribute the Document
+     except as expressly provided for under this License.  Any other
+     attempt to copy, modify, sublicense or distribute the Document is
+     void, and will automatically terminate your rights under this
+     License.  However, parties who have received copies, or rights,
+     from you under this License will not have their licenses
+     terminated so long as such parties remain in full compliance.
+
+ 10. FUTURE REVISIONS OF THIS LICENSE
+
+     The Free Software Foundation may publish new, revised versions of
+     the GNU Free Documentation License from time to time.  Such new
+     versions will be similar in spirit to the present version, but may
+     differ in detail to address new problems or concerns.  See
+     `http://www.gnu.org/copyleft/'.
+
+     Each version of the License is given a distinguishing version
+     number.  If the Document specifies that a particular numbered
+     version of this License "or any later version" applies to it, you
+     have the option of following the terms and conditions either of
+     that specified version or of any later version that has been
+     published (not as a draft) by the Free Software Foundation.  If
+     the Document does not specify a version number of this License,
+     you may choose any version ever published (not as a draft) by the
+     Free Software Foundation.
+
+ADDENDUM: How to use this License for your documents
+====================================================
+
+To use this License in a document you have written, include a copy of
+the License in the document and put the following copyright and license
+notices just after the title page:
+
+       Copyright (C)  YEAR  YOUR NAME.
+       Permission is granted to copy, distribute and/or modify this document
+       under the terms of the GNU Free Documentation License, Version 1.2
+       or any later version published by the Free Software Foundation;
+       with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+       A copy of the license is included in the section entitled ``GNU
+       Free Documentation License''.
+
+   If you have Invariant Sections, Front-Cover Texts and Back-Cover
+Texts, replace the "with...Texts." line with this:
+
+         with the Invariant Sections being LIST THEIR TITLES, with
+         the Front-Cover Texts being LIST, and with the Back-Cover Texts
+         being LIST.
+
+   If you have Invariant Sections without Cover Texts, or some other
+combination of the three, merge those two alternatives to suit the
+situation.
+
+   If your document contains nontrivial examples of program code, we
+recommend releasing these examples in parallel under your choice of
+free software license, such as the GNU General Public License, to
+permit their use in free software.
+
+@endnode
+
+@node "Concept Index" "gccinstall.guide/Concept Index"
+@prev "GNU Free Documentation License"
+@toc "Main"
+
+Concept Index
+*************
+
+@index "Concept Index"
+
+
+
+ @{" Binaries                                 " link "Binaries"}   Binaries
+ @{" Configuration                            " link "Configuration"}   Configuration
+ @{" configurations supported by GCC          " link "Configurations"}   Configurations
+ @{" Downloading GCC                          " link "Downloading the source"}   Downloading the source
+ @{" Downloading the Source                   " link "Downloading the source"}   Downloading the source
+ @{" FDL, GNU Free Documentation License      " link "GNU Free Documentation License"}   GNU Free Documentation License
+ @{" Host specific installation               " link "Specific"}   Specific
+ @{" Installing GCC: Binaries                 " link "Binaries"}   Binaries
+ @{" Installing GCC: Building                 " link "Building"}   Building
+ @{" Installing GCC: Configuration            " link "Configuration"}   Configuration
+ @{" Installing GCC: Testing                  " link "Testing"}   Testing
+ @{" Prerequisites                            " link "Prerequisites"}   Prerequisites
+ @{" Specific                                 " link "Specific"}   Specific
+ @{" Specific installation notes              " link "Specific"}   Specific
+ @{" Target specific installation             " link "Specific"}   Specific
+ @{" Target specific installation notes       " link "Specific"}   Specific
+ @{" Testing                                  " link "Testing"}   Testing
+ @{" Testsuite                                " link "Testing"}   Testing
+
+@endnode
+

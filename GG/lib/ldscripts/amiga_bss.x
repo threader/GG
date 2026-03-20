@@ -1,6 +1,6 @@
 OUTPUT_FORMAT("amiga")
 OUTPUT_ARCH(m68k)
-SEARCH_DIR(/ade/os-lib); SEARCH_DIR(/ade/lib); SEARCH_DIR(/ade/m68k-amigaos/lib);
+ SEARCH_DIR(/gg/m68k-amigaos/lib);
 SECTIONS
 {
   . = 0x0;

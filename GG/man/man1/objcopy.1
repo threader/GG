@@ -1,4 +1,4 @@
-.\" Copyright (c) 1991 Free Software Foundation
+.\" Copyright (c) 1991, 93, 94, 95, 96, 1997 Free Software Foundation
 .\" See section COPYING for conditions for redistribution
 .TH objcopy 1 "October 1994" "cygnus support" "GNU Development Tools"
 .de BP
@@ -24,10 +24,13 @@ objcopy \- copy and translate object files
 .RB "[\|" \-\-strip\-unneeded\fR "\|]" 
 .RB "[\|" \-K\ \fIsymbolname\fR\ |\ \fB\-\-keep\-symbol=\fIsymbolname\fR "\|]" 
 .RB "[\|" \-N\ \fIsymbolname\fR\ |\ \fB\-\-strip\-symbol=\fIsymbolname\fR "\|]" 
+.RB "[\|" \-L\ \fIsymbolname\fR\ |\ \fB\-\-localize\-symbol=\fIsymbolname\fR "\|]" 
+.RB "[\|" \-W\ \fIsymbolname\fR\ |\ \fB\-\-weaken\-symbol=\fIsymbolname\fR "\|]" 
 .RB "[\|" \-x\fR\ |\ \fB\-\-discard\-all\fR "\|]" 
 .RB "[\|" \-X\fR\ |\ \fB\-\-discard\-locals\fR "\|]" 
 .RB "[\|" \-b\ \fIbyte\fR\ |\ \fB\-\-byte=\fIbyte\fR "\|]" 
 .RB "[\|" \-i\ \fIinterleave\fR\ |\ \fB\-\-interleave=\fIinterleave\fR "\|]" 
+.RB "[\|" \-p\fR\ |\ \fB\-\-preserve\-dates\fR "\|]" 
 .RB "[\|" \-\-debugging "\|]"
 .RB "[\|" \-\-gap\-fill=\fIval\fR "\|]"
 .RB "[\|" \-\-pad\-to=\fIaddress\fR "\|]"
@@ -39,7 +42,9 @@ objcopy \- copy and translate object files
 .RB "[\|" \-\-no\-adjust\-warnings\fR "\|]"
 .RB "[\|" \-\-set\-section\-flags=\fIsection=flags\fR "\|]"
 .RB "[\|" \-\-add\-section=\fIsectionname=filename\fR "\|]"
+.RB "[\|" \-\-change\-leading\-char\fR "\|]"
 .RB "[\|" \-\-remove\-leading\-char\fR "\|]"
+.RB "[\|" \-\-weaken\fR "\|]"
 .RB "[\|" \-v\ |\ \-\-verbose\fR "\|]" 
 .RB "[\|" \-V\ |\ \-\-version\fR "\|]" 
 .RB "[\|" \-\-help\fR "\|]" 
@@ -136,8 +141,14 @@ may be given more than once.
 .TP
 .B \-N \fIsymbolname\fR, \fB\-\-strip\-symbol=\fIsymbolname
 Do not copy symbol \fIsymbolname\fP from the source file. This option
-may be given more than once, and may be combined with strip options
-other than \fB\-K\fR.
+may be given more than once.
+.TP
+.B \-L \fIsymbolname\fR, \fB\-\-localize\-symbol=\fIsymbolname
+Make symbol \fIsymbolname\fP local to the file, so that it is not
+visible externally.  This option may be given more than once.
+.TP
+.B \-W \fIsymbolname\fR, \fB\-\-weaken\-symbol=\fIsymbolname
+Make symbol \fIsymbolname\fP weak. This option may be given more than once.
 .TP
 .B \-x\fR, \fB \-\-discard\-all
 Do not copy non-global symbols from the source file.
@@ -157,18 +168,23 @@ Only copy one out of every \fIinterleave\fP bytes.  Which one to copy is
 selected by the \fB\-b\fP or \fB\-\-byte\fP option.  The default is 4.
 The interleave is ignored if neither \fB\-b\fP nor \fB\-\-byte\fP is given.
 .TP
+.B \-p\fR, \fB\-\-preserve\-dates
+Set the access and modification dates of the output file to be the same
+as those of the input file.
+.TP
 .B \-\-debugging
 Convert debugging information, if possible.  This is not the default
 because only certain debugging formats are supported, and the
 conversion process can be time consuming.
 .TP
 .B \-\-gap\-fill=\fIval
-Fill gaps between sections with \fIval\fP.  This is done by increasing
+Fill gaps between sections with \fIval\fP.  This operation applies to
+the \fIload address\fP (LMA) of the sections.  It is done by increasing
 the size of the section with the lower address, and filling in the extra
 space created with \fIval\fP.
 .TP
 .B \-\-pad\-to=\fIaddress
-Pad the output file up to the virtual address \fIaddress\fP.  This is
+Pad the output file up to the load address \fIaddress\fP.  This is
 done by increasing the size of the last section.  The extra space is
 filled in with the value specified by \fB\-\-gap\-fill\fP (default
 zero).
@@ -219,13 +235,29 @@ The size of the section will be the size of the file.  This option
 only works on file formats which can support sections with arbitrary
 names.
 .TP
+.B \-\-change\-leading\-char
+Some object file formats use special characters at the start of
+symbols.  The most common such character is underscore, which compilers
+often add before every symbol.  This option tells 
+.B objcopy
+to change the leading character of every symbol when it converts
+between object file formats.  If the object file formats use the same
+leading character, this option has no effect.  Otherwise, it will add
+a character, or remove a character, or change a character, as
+appropriate.
+.TP
 .B \-\-remove\-leading\-char
 If the first character of a global symbol is a special symbol leading
 character used by the object file format, remove the character.  The
 most common symbol leading character is underscore.  This option will
-remove a leading underscore from all global symbols.  This can be useful
-if you want to link together objects of different file formats with
-different conventions for symbol names.
+remove a leading underscore from all global symbols.  This can be
+useful if you want to link together objects of different file formats
+with different conventions for symbol names.  This is different from
+@code{--change-leading-char} because it always changes the symbol name
+when appropriate, regardless of the object file format of the output
+.TP
+.B \-\-weaken
+Change all global symbols in the file to be weak.
 .TP
 .B \-v\fR, \fB\-\-verbose
 Verbose output: list all object files modified.  In the case of
@@ -251,7 +283,7 @@ The GNU Binary Utilities\c
 \&, Roland H. Pesch (June 1993).
 
 .SH COPYING
-Copyright (c) 1993, 94, 95, 1996 Free Software Foundation, Inc.
+Copyright (c) 1993, 94, 95, 96, 1997 Free Software Foundation, Inc.
 .PP
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
