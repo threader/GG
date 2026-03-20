@@ -1,0 +1,202 @@
+in the amigaos includes dir in your inline dir, you need the new macros.h file (change jsr a6@(%1.w) to jsr -%1(a6)).work too on older gcc,because ggc use now motorola ASM output, thats standard on amiga.also gcc main source dont generate correct code when not use motorola output.
+
+compile of the attached 4.3.2 sources.I test on cygwin with 3.4 compilers:
+
+important do cd to objdir and objdir should be diffrent to source dir or build/gencodes.exe miss error come.
+and the vars should set with 
+export OBJDIR=......
+export SRCDIR=......
+
+to your source and object dir.
+
+now type
+
+cd $OBJDIR
+$SRCDIR/configure --target=m68k-amigaos --with-cpu=m68040 --prefix=/usr/local/amiga
+
+when its done type
+
+make
+
+when its done
+
+make install DESTDIR=xxxx
+
+best use DESTDIR to a temporary dir, so you see what files are create.
+create files are in xxxx/usr/local/amiga
+
+thats all.
+
+************************************************************ steps to build a amigaos GCC from sources from www.gcc.org ************************
+
+Because 68k amiga OS is the only amiga target that is in ggc main source, it is easy to build every version you like.This steps are need
+
+add in gcc-x.x.x/gcc/config.gcc
+
+(search for m68k)
+
+m68k-*-amigaos*)
+	tmake_file=m68k/t-amigaos
+	tm_file="${tm_file} m68k/amigaos.h"
+	tm_p_file="${tm_p_file} m68k/amigaos-protos.h"
+	tm_defines="TARGET_AMIGAOS TARGET_DEFAULT=0" # 68040
+	extra_objs=amigaos.o
+	gnu_ld=yes
+	;;
+
+
+in gcc-x.x.x/gcc/config/m68k dir add files (from the 4.3.2 source)
+
+amigaos.h      
+amigaos.c      
+t-amigaos       
+x-amigaos       
+xm-amigaos.h 
+amigaos-protos.h 
+
+in dir gcc-x.x.x//gcc add file
+amigacollect2.c
+
+thats enough to build the gcc.more steps are need, to build the libs, libgcc libstdc++ when you want new
+
+to build libgcc: add in libgcc/config.host 68k cpu and later amigaos.see file from 4.3.2 or use same.
+
+
+the dir amigaos must add in libstdc++-v3/config (see 4.3.2 source)
+now you can compile all. 
+
+when you get assembler error in atomicity.h change line with the cas so that, the \n is last char.
+ "cas.l %0 , %1 , %2 \n"
+
+for build libstdc++ with the crosscompilers you need do this steps too
+
+in libstdc++/configure
+
+after (search for "GLIBCXX_IS_NATIVE=true")
+
+""""
+if test $hostos = $targetos -o $targetos = darwin ; then
+	  GLIBCXX_IS_NATIVE=true
+	fi
+	;;
+""""
+add this lines
+
+"""
+*-*-amigaos*)
+     LDFLAGS="${LDFLAGS-ld} -noixemul"
+     ;;
+""""
+search for "Base decisions on target environment"
+
+"""" 
+# Base decisions on target environment.
+ case "${host}" in
+""""
+add this lines
+"""
+  m68k-*-amigaos*)
+    #os_include_dir="usr/local/amiga/m68k-amigaos/include"
+    ;;
+"""
+in gccx.x.x/libiberty/configure 
+
+after this lines
+
+""""
+Use these variables to override the choices made by `configure' or to help
+it to find libraries and programs with nonstandard names/locations.
+
+_ACEOF
+fi
+""""
+add this line
+
+LDFLAGS="${LDFLAGS-ld} -noixemul"
+
+
+
+
+if you want build without debug(-g ) type make "CFLAGS=-O2"  "LIBCFLAGS=-O2" "LIBCXXFLAGS=-O2" (but dont work i find out)
+
+if you dont like that the whole debug symbols are in the libs, then use strip -g dir(older gcc are build without complete symbols)
+also you can choose in amidev in linker options that your program have no debug symbols.
+
+
+***************************    build 68k to 68k gcc    *************************************************************************************+
+If you want build a GCC that run on 68k ( MOS OS4 Versions seem too possible, when you have installed the OS4 MOS crosscompilers on cygwin and you choose 
+---host- mos or OS4 identify)
+you need this steps.
+
+Add in file config.host this 
+
+  m68k-*-amigaos*)
+  host_xm_file=m68k/xm-amigaos.h
+  host_xmake_file="${host_xmake_file} m68k/x-amigaos"
+  //host_xmake_file=m68k/x-amigaos
+  out_host_hook_obj=host-amigaos.o
+    ;; 
+
+prefix /gg use older amiga build for geek gadget, so i use that too
+make sure the new libnix is in dir libm020/libnix for best speed
+$SRCDIR/configure --host=m68k-amigaos --target=m68k-amigaos --with-cpu=m68040 --prefix=/gg --disable-nls
+
+then type make.
+
+when compile stop with auto-build.h not found, use the file auto-host.h as auto-build.h.thats ok for the 68k compiler build, but to compile full 68k files, use above files
+
+To build gmp and mpfr library under crosscompiler for gcc that run on 68k(normaly not need, use 68k files in lib dir)
+
+go to the dir 
+
+type 
+./configure --host=m68k-amigaos
+
+now type make and look if the the right compiler is used (show 68k m68k-amigaos-gcc -D....)
+
+*************************** binutil build **********************************************************
+
+the binutil files (as,ld) come in usr/local/amiga/m68k-amigaos/bin 
+
+copy after this in file bfd/config.bfd
+
+m68*-
+
+this
+
+m68k-*-amigaos)   
+    targ_defvec=amiga_vec
+    targ_selvecs=aout_amiga_vec
+    ;;  
+
+add this lines in file bfd/targets.c
+
+extern const bfd_target amiga_vec;
+extern const bfd_target aout_amiga_vec; 
+
+in file bfd/configure add after
+
+for vec in $selvecs do
+    target_size=32 
+   case "$vec" in 
+
+this lines.
+
+amiga_vec)			tb="$tb amigaos.o amigaoslink.o" ;;
+aout_amiga_vec)                                 tb="$tb aout-amiga.o aout32.o stab-syms.o";; 
+
+copy files from old binutil
+
+amigaos.c
+amigaoslink.c
+aout-amiga.c
+libamiga.h
+
+to dir bfd
+
+copy file amigaos.h to bfd/hosts 
+
+not work because of too old amiga files, to be continue....
+
+
+every help/report is welcome, you can mail to me at nospamname@web.de
