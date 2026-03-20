@@ -1,0 +1,80 @@
+This is Info file cpp.info, produced by Makeinfo version 1.68 from the
+input file ./cpp.texi.
+
+INFO-DIR-SECTION Programming
+START-INFO-DIR-ENTRY
+* Cpp: (cpp).		       The GNU C preprocessor.
+END-INFO-DIR-ENTRY
+
+   This file documents the GNU C Preprocessor.
+
+   Copyright 1987, 1989, 1991, 1992, 1993, 1994, 1995, 1997, 1998 Free
+Software Foundation, Inc.
+
+   Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+
+   Permission is granted to copy and distribute modified versions of
+this manual under the conditions for verbatim copying, provided also
+that the entire resulting derived work is distributed under the terms
+of a permission notice identical to this one.
+
+   Permission is granted to copy and distribute translations of this
+manual into another language, under the above conditions for modified
+versions.
+
+
+Indirect:
+cpp.info-1: 928
+cpp.info-2: 50062
+cpp.info-3: 91247
+
+Tag Table:
+(Indirect)
+Node: Top928
+Node: Global Actions3837
+Node: Directives6357
+Node: Header Files8044
+Node: Header Uses8703
+Node: Include Syntax10195
+Node: Include Operation13337
+Node: Once-Only15199
+Node: Inheritance17624
+Node: Macros20157
+Node: Simple Macros21071
+Node: Argument Macros24059
+Node: Predefined29857
+Node: Standard Predefined30287
+Node: Nonstandard Predefined37946
+Node: Stringification41523
+Node: Concatenation44450
+Node: Undefining47723
+Node: Redefining48762
+Node: Macro Pitfalls50062
+Node: Misnesting51166
+Node: Macro Parentheses52180
+Node: Swallow Semicolon54048
+Node: Side Effects55946
+Node: Self-Reference57644
+Node: Argument Prescan59920
+Node: Cascaded Macros64922
+Node: Newlines in Args66067
+Node: Conditionals67412
+Node: Conditional Uses68764
+Node: Conditional Syntax70187
+Node: #if Directive70773
+Node: #else Directive73062
+Node: #elif Directive73729
+Node: Deleted Code75107
+Node: Conditionals-Macros76168
+Node: Assertions79853
+Node: #error Directive84088
+Node: Combining Sources85573
+Node: Other Directives88484
+Node: Output89938
+Node: Invocation91247
+Node: Concept Index106031
+Node: Index109043
+
+End Tag Table

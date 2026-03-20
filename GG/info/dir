@@ -1,0 +1,254 @@
+-*- Text -*-
+This file was generated automatically by gen-dir-node.
+This version was generated on Thu Oct 16 07:58:40 MST 1997
+by fnf@fishbait for /gg/info
+
+This is the file .../info/dir, which contains the topmost node of the
+Info hierarchy.  The first time you invoke Info you start off
+looking at that node, which is (dir)Top.
+
+File: dir	Node: Top	This is the top of the INFO tree
+  This (the Directory node) gives a menu of major topics. 
+  Typing "d" returns here, "q" exits, "?" lists all INFO commands, "h" 
+  gives a primer for first-timers, "mTexinfo<Return>" visits Texinfo topic,
+  etc.
+  Or click mouse button 2 on a menu item or cross reference to select it.
+  --- PLEASE ADD DOCUMENTATION TO THIS TREE. (See INFO topic first.) ---
+
+* Menu: The list of major topics begins on the next line.
+
+
+* As: (as).                     The GNU assembler.
+* Autoconf: (autoconf).         Create source code configuration scripts.
+* Bfd: (bfd).                   The Binary File Descriptor library.
+* Binutils: (binutils).         The GNU binary utilities "ar", "objcopy",
+				"objdump", "nm", "nlmconv", "size",
+                                "strings", "strip", and "ranlib".
+* bugs: (bugs.info).
+* configure: (configure).        Cygnus configure.
+* cpio: (cpio).                 Making tape (or disk) archives.
+* ctax: (ctax).                                 C-like syntax for Guile.
+* cvs: (cvs.info).
+* cvsclient: (cvsclient.info).
+* dc: (dc.info).
+* DejaGnu: (dejagnu).            The GNU testing framework.
+* diff: (diff.info).
+* Dld: (dld).                   Dynamic link/unlink editor.
+* DVIps: (dvips).	 	DVI-to-PostScript translator.
+* ed: (ed.info).
+* Finding Files: (find).        Listing and operating on files
+                                that match certain criteria.
+* g++FAQ: (g++FAQ.info).
+* gasp: (gasp).                     The GNU Assembler Preprocessor
+* Gdb: (gdb).                     The GNU debugger.
+* Gdb-Internals: (gdbint).	The GNU debugger's internals.
+* gdbm: (gdbm.info).
+* GIT: (git).         GNU Interactive Tools
+* Gperf: (gperf).                Perfect Hash Function Generator.
+* gprof: (gprof).                Profiling your program's execution
+* gtcltk: (gtcltk.info).
+* guavac: (guavac).			A free java compiler.
+* guile: (guile.info).
+* gzip: (gzip.info).
+* in: (in).                                     Ice-9.
+* indent: (indent.info).
+* iostream: (iostream).                    The C++ input/output facility.
+* ispell: (ispell).
+* Kpathsea: (kpathsea).		File lookup along search paths.
+* lang: (lang.info).
+* Ld: (ld).                       The GNU linker.
+* Ld-Internals: (ldint).	The GNU linker internals.
+* Libg++: (libg++).             The g++ class library.
+* libnix: (libnix.info).
+* m4: (m4).			A powerful macro processor.
+* makeinfo: (makeinfo).         Convert Texinfo source to Info or plain ASCII.
+* Octave: (octave).	Interactive language for numerical computations.
+* ptx: (ptx).		A permuted indexer for GNU.
+* remsync: (remsync.info).
+* rpm: (rpm.info).
+* Shar utilities: (sharutils).          GNU shar utilities.
+* mail-files: (sharutils)mail-files invocation. Send files to remote site.
+* mailshar: (sharutils)mailshar invocation.     Make and send a shell archive.
+* remsync: (sharutils)remsync invocation.       Synchronize remote files.
+* shar: (sharutils)shar invocation.             Make a shell archive.
+* unshar: (sharutils)unshar invocation.         Explode a shell archive.
+* uudecode: (sharutils)uudecode invocation.     Restore file from 7-bits.
+* uuencode: (sharutils)uuencode invocation.     Force binary file to 7-bits.
+* Stabs: (stabs).                 The "stabs" debugging information format.
+* Standards: (standards).        GNU coding standards.
+* termcap: (termcap.info).
+* time: (time.info).
+* wdiff: (wdiff).       Word difference finder.
+* wget: (wget.info).
+
+Text Utilities
+* dvidvi: (dvidvi).     Convert DVI-file into another DVI-file
+
+Geek Gadgets Project
+
+GNU admin
+* aclocal: (automake)Invoking aclocal.          Generating aclocal.m4
+* automake: (automake).		Making Makefile.in's
+
+Individual utilities
+* Libtool: (libtool).           Generic shared library support script.
+* aclocal: (automake)Invoking aclocal.          Generating aclocal.m4
+* automake: (automake).		Making Makefile.in's
+* libtoolize: (libtool)Invoking libtoolize.     Adding libtool support.
+
+Miscellaneous
+* File utilities: (fileutils).  GNU file utilities.
+* Shell utilities: (sh-utils).          GNU shell utilities.
+* Text utilities: (textutils).          GNU text utilities.
+* cat: (textutils)cat invocation.               Concatenate and write files.
+* cksum: (textutils)cksum invocation.           Print POSIX CRC checksum.
+* comm: (textutils)comm invocation.             Compare sorted files by line.
+* csplit: (textutils)csplit invocation.         Split by context.
+* cut: (textutils)cut invocation.               Print selected parts of lines.
+* expand: (textutils)expand invocation.         Convert tabs to spaces.
+* fmt: (textutils)fmt invocation.               Reformat paragraph text.
+* fold: (textutils)fold invocation.             Wrap long input lines.
+* head: (textutils)head invocation.             Output the first part of files.
+* join: (textutils)join invocation.             Join lines on a common field.
+* md5sum: (textutils)md5sum invocation.         Print or check message-digests.
+* nl: (textutils)nl invocation.                 Number lines and write files.
+* od: (textutils)od invocation.                 Dump files in octal, etc.
+* paste: (textutils)paste invocation.           Merge lines of files.
+* pr: (textutils)pr invocation.                 Paginate or columnate files.
+* sort: (textutils)sort invocation.             Sort text files.
+* split: (textutils)split invocation.           Split into fixed-size pieces.
+* sum: (textutils)sum invocation.               Print traditional checksum.
+* tac: (textutils)tac invocation.               Reverse files.
+* tail: (textutils)tail invocation.             Output the last part of files.
+* tr: (textutils)tr invocation.                 Translate characters.
+* unexpand: (textutils)unexpand invocation.     Convert spaces to tabs.
+* uniq: (textutils)uniq invocation.             Uniqify files.
+* units: (units).	Units conversion.
+* wc: (textutils)wc invocation.                 Byte, word, and line counts.
+* basename: (sh-utils)basename invocation.      Strip directory and suffix.
+* chroot: (sh-utils)chroot invocation.          Specify the root directory.
+* date: (sh-utils)date invocation.              Print/set system date and time.
+* dirname: (sh-utils)dirname invocation.        Strip non-directory suffix.
+* echo: (sh-utils)echo invocation.              Print a line of text.
+* env: (sh-utils)env invocation.                Modify the environment.
+* expr: (sh-utils)expr invocation.              Evaluate expressions.
+* factor: (sh-utils)factor invocation.          Print prime factors
+* false: (sh-utils)false invocation.            Do nothing, unsuccessfully.
+* groups: (sh-utils)groups invocation.          Print group names a user is in.
+* hostname: (sh-utils)hostname invocation.      Print or set system name.
+* id: (sh-utils)id invocation.                  Print real/effective uid/gid.
+* logname: (sh-utils)logname invocation.        Print current login name.
+* nice: (sh-utils)nice invocation.              Modify scheduling priority.
+* nohup: (sh-utils)nohup invocation.            Immunize to hangups.
+* pathchk: (sh-utils)pathchk invocation.        Check file name portability.
+* printenv: (sh-utils)printenv invocation.      Print environment variables.
+* printf: (sh-utils)printf invocation.          Format and print data.
+* pwd: (sh-utils)pwd invocation.                Print working directory.
+* seq: (sh-utils)seq invocation.                Print numeric sequences
+* sleep: (sh-utils)sleep invocation.            Delay for a specified time.
+* stty: (sh-utils)stty invocation.              Print/change terminal settings.
+* su: (sh-utils)su invocation.                  Modify user and group id.
+* tar: (tar).			Making tape (or disk) archives.
+* tee: (sh-utils)tee invocation.                Redirect to multiple files.
+* test: (sh-utils)test invocation.              File/string tests.
+* true: (sh-utils)true invocation.              Do nothing, successfully.
+* tty: (sh-utils)tty invocation.                Print terminal name.
+* uname: (sh-utils)uname invocation.            Print system information.
+* users: (sh-utils)users invocation.            Print current user names.
+* who: (sh-utils)who invocation.                Print who is logged in.
+* whoami: (sh-utils)whoami invocation.          Print effective user id.
+* yes: (sh-utils)yes invocation.                Print a string indefinitely.
+* chgrp: (fileutils)chgrp invocation.           Change file groups.
+* chown: (fileutils)chown invocation.           Change file owners/groups.
+* chmod: (fileutils)chmod invocation.           Change file permissions.
+* cp: (fileutils)cp invocation.                 Copy files.
+* dd: (fileutils)dd invocation.                 Copy and convert a file.
+* df: (fileutils)df invocation.                 Report filesystem disk usage.
+* dir: (fileutils)dir invocation.               List directories briefly.
+* dircolors: (fileutils)dircolors invocation.   Color setup for ls.
+* du: (fileutils)du invocation.                 Report on disk usage.
+* gmp: (gmp.info).               GNU Multiple Precision Arithmetic Library.
+* grep: (grep).                   print lines matching a pattern.
+* install: (fileutils)install invocation.       Copy and change attributes.
+* ln: (fileutils)ln invocation.                 Make links between files.
+* ls: (fileutils)ls invocation.                 List directory contents.
+* mkdir: (fileutils)mkdir invocation.           Create directories.
+* mkfifo: (fileutils)mkfifo invocation.         Create FIFOs (named pipes).
+* mknod: (fileutils)mknod invocation.           Create special files.
+* mv: (fileutils)mv invocation.                 Rename files.
+* rm: (fileutils)rm invocation.                 Remove files.
+* rmdir: (fileutils)rmdir invocation.           Remove empty directories.
+* sed: (sed).                   Stream EDitor.
+* sync: (fileutils)sync invocation.             Synchronize memory and disk.
+* touch: (fileutils)touch invocation.           Change file timestamps.
+* vdir: (fileutils)vdir invocation.             List directories verbosely.
+* Manual utilities: (manutils).                 Geek Gadgets manual utilities.
+* apropos: (manutils)apropos invocation.        Locate commands by keyword lookup.
+* bison: (bison).	GNU Project parser generator (yacc replacement).
+* catman.pl: (manutils)catman invocation.       Preformat man pages.
+* makewhatis.pl: (manutils)makewhatis invocation.  Create whatis database.
+* man: (manutils)man invocation.                Display on-line manual pages.
+* whatis: (manutils)whatis invocation.          Describe what a command is.
+* whereis: (manutils)whereis invocation.        Locate binary, manual, and or source.
+
+Programming Languages
+* Gawk: (gawk.info).           A Text Scanning and Processing Language.
+
+GNU Gettext Utilities
+* Gettext: (gettext).                           GNU gettext utilities.
+* gettextize: (gettext)gettextize Invocation.   Prepare a package for gettext.
+* msgfmt: (gettext)msgfmt Invocation.           Make MO files out of PO files.
+* msgmerge: (gettext)msgmerge Invocation.       Update two PO files into one.
+* xgettext: (gettext)xgettext Invocation.       Extract strings into a PO file.
+
+GNU programming tools
+* Libtool: (libtool).           Generic shared library support script.
+* libtoolize: (libtool)Invoking libtoolize.     Adding libtool support.
+
+Texinfo documentation system
+* Info: (info).                 Documentation browsing system.
+* Texinfo: (texinfo).           The GNU documentation format.
+* install-info: (texinfo)Invoking install-info. Updating info/dir entries.
+* texi2dvi: (texinfo)Format with texi2dvi.      Printing Texinfo documentation.
+* texindex: (texinfo)Format with tex/texindex.  Sorting Texinfo index files.
+* makeinfo: (texinfo)makeinfo Preferred.        Translate Texinfo source.
+* info program: (info-stnd).    Standalone Info-reading program.
+
+Geek Gadgets
+* GG: (GG).                     The Geek Gadgets Project Documentation.
+* GG-Bugs: (GG-Bugs).           The Geek Gadgets Bugs List.
+* GG-Projects: (GG-Projects). The Geek Gadgets Projects List.
+
+The GNU make utility
+     * GNU make: (make.info).           The GNU make utility.
+     * GNU make: (make.info).           The GNU make utility.
+     * GNU make: (make.info).           The GNU make utility.
+     * GNU make: (make.info).           The GNU make utility.
+     * GNU make: (make.info).           The GNU make utility.
+     * GNU make: (make.info).           The GNU make utility.
+     * GNU make: (make.info).           The GNU make utility.
+     * GNU make: (make.info).           The GNU make utility.
+     * GNU make: (make.info).           The GNU make utility.
+     * GNU make: (make.info).           The GNU make utility.
+     * GNU make: (make.info).           The GNU make utility.
+     * Make: (make.info).               The GNU make utility.
+     * Make: (make.info).               The GNU make utility.
+     * Make: (make.info).               The GNU make utility.
+     * Make: (make.info).               The GNU make utility.
+     * Make: (make.info).               The GNU make utility.
+     * Make: (make.info).               The GNU make utility.
+     * Make: (make.info).               The GNU make utility.
+     * Make: (make.info).               The GNU make utility.
+     * Make: (make.info).               The GNU make utility.
+     * Make: (make.info).               The GNU make utility.
+     * Make: (make.info).               The GNU make utility.
+     * Make: (make.info).               The GNU make utility.
+
+Programming
+* Cpp: (cpp).		       The GNU C preprocessor.
+* g77: (g77).                  The GNU Fortran compiler.
+* gcc: (gcc).                  The GNU Compiler Collection.
+
+Libraries
+* History: (history).       The GNU history library API
+* Readline: (readline).       The GNU readline library API
