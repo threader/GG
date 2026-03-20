@@ -1,21 +1,26 @@
-#ifndef _PROTO_REALTIME_H
-#define _PROTO_REALTIME_H
+#ifndef PROTO_REALTIME_H
+#define PROTO_REALTIME_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: realtime.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_REALTIME_PRAGMAS_H
+#include <pragmas/realtime_pragmas.h>
 #endif
-#if !defined(CLIB_REALTIME_PROTOS_H) && !defined(__GNUC__)
-#include <clib/realtime_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct RealTimeBase *RealTimeBase;
-#endif
+extern struct Library * RealTimeBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/realtime.h>
-#elif !defined(__VBCC__)
-#include <pragma/realtime_lib.h>
-#endif
-
-#endif	/*  _PROTO_REALTIME_H  */
+#endif /* PROTO_REALTIME_H */

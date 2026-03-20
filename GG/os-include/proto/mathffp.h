@@ -1,21 +1,26 @@
-#ifndef _PROTO_MATHFFP_H
-#define _PROTO_MATHFFP_H
+#ifndef PROTO_MATHFFP_H
+#define PROTO_MATHFFP_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: mathffp.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_MATHFFP_PRAGMAS_H
+#include <pragmas/mathffp_pragmas.h>
 #endif
-#if !defined(CLIB_MATHFFP_PROTOS_H) && !defined(__GNUC__)
-#include <clib/mathffp_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *MathBase;
-#endif
+extern struct Library * MathBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/mathffp.h>
-#elif !defined(__VBCC__)
-#include <pragma/mathffp_lib.h>
-#endif
-
-#endif	/*  _PROTO_MATHFFP_H  */
+#endif /* PROTO_MATHFFP_H */

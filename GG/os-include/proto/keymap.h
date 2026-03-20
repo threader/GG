@@ -1,21 +1,26 @@
-#ifndef _PROTO_KEYMAP_H
-#define _PROTO_KEYMAP_H
+#ifndef PROTO_KEYMAP_H
+#define PROTO_KEYMAP_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: keymap.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_KEYMAP_PRAGMAS_H
+#include <pragmas/keymap_pragmas.h>
 #endif
-#if !defined(CLIB_KEYMAP_PROTOS_H) && !defined(__GNUC__)
-#include <clib/keymap_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *KeymapBase;
-#endif
+extern struct Library * KeymapBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/keymap.h>
-#elif !defined(__VBCC__)
-#include <pragma/keymap_lib.h>
-#endif
-
-#endif	/*  _PROTO_KEYMAP_H  */
+#endif /* PROTO_KEYMAP_H */

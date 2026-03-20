@@ -1,21 +1,26 @@
-#ifndef _PROTO_RADIOBUTTON_H
-#define _PROTO_RADIOBUTTON_H
+#ifndef PROTO_RADIOBUTTON_H
+#define PROTO_RADIOBUTTON_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: radiobutton.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_RADIOBUTTON_PRAGMAS_H
+#include <pragmas/radiobutton_pragmas.h>
 #endif
-#if !defined(CLIB_RADIOBUTTON_PROTOS_H) && !defined(__GNUC__)
-#include <clib/radiobutton_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *RadioButtonBase;
-#endif
+extern struct Library * RadioButtonBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/radiobutton.h>
-#elif !defined(__VBCC__)
-#include <pragma/radiobutton_lib.h>
-#endif
-
-#endif	/*  _PROTO_RADIOBUTTON_H  */
+#endif /* PROTO_RADIOBUTTON_H */

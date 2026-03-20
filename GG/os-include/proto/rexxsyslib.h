@@ -1,21 +1,26 @@
-#ifndef _PROTO_REXXSYSLIB_H
-#define _PROTO_REXXSYSLIB_H
+#ifndef PROTO_REXXSYSLIB_H
+#define PROTO_REXXSYSLIB_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: rexxsyslib.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_REXXSYSLIB_PRAGMAS_H
+#include <pragmas/rexxsyslib_pragmas.h>
 #endif
-#if !defined(CLIB_REXXSYSLIB_PROTOS_H) && !defined(__GNUC__)
-#include <clib/rexxsyslib_protos.h>
+
+#ifndef REXX_RXSLIB_H
+#include <rexx/rxslib.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct RxsLib *RexxSysBase;
-#endif
+extern struct RxsLib * RexxSysBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/rexxsyslib.h>
-#elif !defined(__VBCC__)
-#include <pragma/rexxsyslib_lib.h>
-#endif
-
-#endif	/*  _PROTO_REXXSYSLIB_H  */
+#endif /* PROTO_REXXSYSLIB_H */

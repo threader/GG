@@ -1,21 +1,26 @@
-#ifndef _PROTO_CLICKTAB_H
-#define _PROTO_CLICKTAB_H
+#ifndef PROTO_CLICKTAB_H
+#define PROTO_CLICKTAB_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: clicktab.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_CLICKTAB_PRAGMAS_H
+#include <pragmas/clicktab_pragmas.h>
 #endif
-#if !defined(CLIB_CLICKTAB_PROTOS_H) && !defined(__GNUC__)
-#include <clib/clicktab_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *ClickTabBase;
-#endif
+extern struct Library * ClickTabBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/clicktab.h>
-#elif !defined(__VBCC__)
-#include <pragma/clicktab_lib.h>
-#endif
-
-#endif	/*  _PROTO_CLICKTAB_H  */
+#endif /* PROTO_CLICKTAB_H */

@@ -1,21 +1,26 @@
-#ifndef _PROTO_MISC_H
-#define _PROTO_MISC_H
+#ifndef PROTO_MISC_H
+#define PROTO_MISC_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: misc.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_MISC_PRAGMAS_H
+#include <pragmas/misc_pragmas.h>
 #endif
-#if !defined(CLIB_MISC_PROTOS_H) && !defined(__GNUC__)
-#include <clib/misc_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *MiscBase;
-#endif
+extern struct Library * MiscBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/misc.h>
-#elif !defined(__VBCC__)
-#include <pragma/misc_lib.h>
-#endif
-
-#endif	/*  _PROTO_MISC_H  */
+#endif /* PROTO_MISC_H */

@@ -1,21 +1,26 @@
-#ifndef _PROTO_GADTOOLS_H
-#define _PROTO_GADTOOLS_H
+#ifndef PROTO_GADTOOLS_H
+#define PROTO_GADTOOLS_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: gadtools.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_GADTOOLS_PRAGMAS_H
+#include <pragmas/gadtools_pragmas.h>
 #endif
-#if !defined(CLIB_GADTOOLS_PROTOS_H) && !defined(__GNUC__)
-#include <clib/gadtools_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *GadToolsBase;
-#endif
+extern struct Library * GadToolsBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/gadtools.h>
-#elif !defined(__VBCC__)
-#include <pragma/gadtools_lib.h>
-#endif
-
-#endif	/*  _PROTO_GADTOOLS_H  */
+#endif /* PROTO_GADTOOLS_H */

@@ -1,21 +1,26 @@
-#ifndef _PROTO_LAYOUT_H
-#define _PROTO_LAYOUT_H
+#ifndef PROTO_LAYOUT_H
+#define PROTO_LAYOUT_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: layout.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_LAYOUT_PRAGMAS_H
+#include <pragmas/layout_pragmas.h>
 #endif
-#if !defined(CLIB_LAYOUT_PROTOS_H) && !defined(__GNUC__)
-#include <clib/layout_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *LayoutBase;
-#endif
+extern struct Library * LayoutBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/layout.h>
-#elif !defined(__VBCC__)
-#include <pragma/layout_lib.h>
-#endif
-
-#endif	/*  _PROTO_LAYOUT_H  */
+#endif /* PROTO_LAYOUT_H */

@@ -1,21 +1,26 @@
-#ifndef _PROTO_WINDOW_H
-#define _PROTO_WINDOW_H
+#ifndef PROTO_WINDOW_H
+#define PROTO_WINDOW_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: window.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_WINDOW_PRAGMAS_H
+#include <pragmas/window_pragmas.h>
 #endif
-#if !defined(CLIB_WINDOW_PROTOS_H) && !defined(__GNUC__)
-#include <clib/window_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *WindowBase;
-#endif
+extern struct Library * WindowBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/window.h>
-#elif !defined(__VBCC__)
-#include <pragma/window_lib.h>
-#endif
-
-#endif	/*  _PROTO_WINDOW_H  */
+#endif /* PROTO_WINDOW_H */

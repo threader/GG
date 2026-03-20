@@ -1,21 +1,26 @@
-#ifndef _PROTO_STRING_H
-#define _PROTO_STRING_H
+#ifndef PROTO_STRING_H
+#define PROTO_STRING_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: string.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_STRING_PRAGMAS_H
+#include <pragmas/string_pragmas.h>
 #endif
-#if !defined(CLIB_STRING_PROTOS_H) && !defined(__GNUC__)
-#include <clib/string_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *StringBase;
-#endif
+extern struct Library * StringBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/string.h>
-#elif !defined(__VBCC__)
-#include <pragma/string_lib.h>
-#endif
-
-#endif	/*  _PROTO_STRING_H  */
+#endif /* PROTO_STRING_H */

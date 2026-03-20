@@ -1,21 +1,26 @@
-#ifndef _PROTO_AMIGAGUIDE_H
-#define _PROTO_AMIGAGUIDE_H
+#ifndef PROTO_AMIGAGUIDE_H
+#define PROTO_AMIGAGUIDE_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: amigaguide.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_AMIGAGUIDE_PRAGMAS_H
+#include <pragmas/amigaguide_pragmas.h>
 #endif
-#if !defined(CLIB_AMIGAGUIDE_PROTOS_H) && !defined(__GNUC__)
-#include <clib/amigaguide_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *AmigaGuideBase;
-#endif
+extern struct Library * AmigaGuideBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/amigaguide.h>
-#elif !defined(__VBCC__)
-#include <pragma/amigaguide_lib.h>
-#endif
-
-#endif	/*  _PROTO_AMIGAGUIDE_H  */
+#endif /* PROTO_AMIGAGUIDE_H */

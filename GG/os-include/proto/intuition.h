@@ -1,21 +1,26 @@
-#ifndef _PROTO_INTUITION_H
-#define _PROTO_INTUITION_H
+#ifndef PROTO_INTUITION_H
+#define PROTO_INTUITION_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: intuition.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_INTUITION_PRAGMAS_H
+#include <pragmas/intuition_pragmas.h>
 #endif
-#if !defined(CLIB_INTUITION_PROTOS_H) && !defined(__GNUC__)
-#include <clib/intuition_protos.h>
+
+#ifndef INTUITION_INTUITIONBASE_H
+#include <intuition/intuitionbase.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct IntuitionBase *IntuitionBase;
-#endif
+extern struct IntuitionBase * IntuitionBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/intuition.h>
-#elif !defined(__VBCC__)
-#include <pragma/intuition_lib.h>
-#endif
-
-#endif	/*  _PROTO_INTUITION_H  */
+#endif /* PROTO_INTUITION_H */

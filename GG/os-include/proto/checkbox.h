@@ -1,21 +1,26 @@
-#ifndef _PROTO_CHECKBOX_H
-#define _PROTO_CHECKBOX_H
+#ifndef PROTO_CHECKBOX_H
+#define PROTO_CHECKBOX_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: checkbox.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_CHECKBOX_PRAGMAS_H
+#include <pragmas/checkbox_pragmas.h>
 #endif
-#if !defined(CLIB_CHECKBOX_PROTOS_H) && !defined(__GNUC__)
-#include <clib/checkbox_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *CheckBoxBase;
-#endif
+extern struct Library * CheckBoxBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/checkbox.h>
-#elif !defined(__VBCC__)
-#include <pragma/checkbox_lib.h>
-#endif
-
-#endif	/*  _PROTO_CHECKBOX_H  */
+#endif /* PROTO_CHECKBOX_H */

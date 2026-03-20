@@ -1,21 +1,26 @@
-#ifndef _PROTO_GLYPH_H
-#define _PROTO_GLYPH_H
+#ifndef PROTO_GLYPH_H
+#define PROTO_GLYPH_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: glyph.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_GLYPH_PRAGMAS_H
+#include <pragmas/glyph_pragmas.h>
 #endif
-#if !defined(CLIB_GLYPH_PROTOS_H) && !defined(__GNUC__)
-#include <clib/glyph_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *GlyphBase;
-#endif
+extern struct Library * GlyphBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/glyph.h>
-#elif !defined(__VBCC__)
-#include <pragma/glyph_lib.h>
-#endif
-
-#endif	/*  _PROTO_GLYPH_H  */
+#endif /* PROTO_GLYPH_H */
