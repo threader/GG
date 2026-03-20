@@ -38,9 +38,6 @@
 #ifndef _NETDB_H_
 #define _NETDB_H_
 
-/* Amiga - 48.3: */
-#include <sys/types.h>
-
 #define	_PATH_HEQUIV		"/etc/hosts.equiv"
 #define	_PATH_HOSTS		"/etc/hosts"
 #define _TCP_PATH_NETWORKS  	"/AmiTCP/db/networks"
@@ -101,76 +98,6 @@ extern int h_errno;
 #define	NO_DATA		4 /* Valid name, no data record of requested type */
 #define	NO_ADDRESS	NO_DATA		/* no address, look for MX record */
 
-
-/* Amiga - 48.3: addrinfo stuff*/
-/*
- * Error codes.
- */
-#define EAI_ADDRFAMILY	1
-#define EAI_AGAIN	2
-#define EAI_BADFLAGS	3
-#define EAI_FAIL	4
-#define EAI_FAMILY	5
-#define EAI_MEMORY	6
-#define EAI_NONAME	7
-#define EAI_OVERFLOW	8
-#define EAI_SERVICE	9
-#define EAI_SOCKTYPE	10
-#define EAI_SYSTEM	11
-
-/*
- * Flags for getaddrinfo().
- */
-#define AI_ADDRCONFIG	0x0001
-#define AI_ALL		0x0002
-#define AI_CANONNAME	0x0004
-#define AI_NUMERICHOST	0x0008
-#define AI_NUMERICSERV	0x0010
-#define AI_PASSIVE	0x0020
-#define AI_V4MAPPED	0x0040
-#define AI_DEFAULT	(AI_V4MAPPED | AI_ADDRCONFIG)
-
-/*
- * Flags for getnameinfo().
- */
-#define NI_DGRAM	0x0001
-#define NI_NAMEREQD	0x0002
-#define NI_NOFQDN	0x0004
-#define NI_NUMERICHOST	0x0008
-#define NI_NUMERICSCOPE	0x0010
-#define NI_NUMERICSERV	0x0020
-
-/*
- * Maximum length of FQDN and servie name for getnameinfo().
- */
-#define NI_MAXHOST	1025
-#define NI_MAXSERV	32
-
-/*
- * Address families and Protocol families.
- */
-#ifndef AF_UNSPEC
-#define AF_UNSPEC AF_INET
-#endif
-#ifndef PF_UNSPEC
-#define PF_UNSPEC PF_INET
-#endif
-
-/*
- * struct addrinfo.
- */
-struct addrinfo {
-    int ai_flags;
-    int ai_family;
-    int ai_socktype;
-    int ai_protocol;
-    socklen_t ai_addrlen;
-    char *ai_canonname;
-    struct sockaddr *ai_addr;
-    struct addrinfo *ai_next;
-};
-
-
 #include <sys/cdefs.h>
 
 __BEGIN_DECLS
@@ -197,15 +124,6 @@ void		sethostent __P((int));
 void		setnetent __P((int));
 void		setprotoent __P((int));
 void		setservent __P((int));
-
-/* Amiga - 48.3: addrinfo stuff */
-/*
- * Functions.
- */
-const char *gai_strerror __P((int));
-void freeaddrinfo __P((struct addrinfo *));
-int getaddrinfo __P((const char *, const char *, const struct addrinfo *, struct addrinfo **));
-int getnameinfo __P((const struct sockaddr *, socklen_t, char *, socklen_t, char *, socklen_t, int));
 __END_DECLS
 
 #endif /* !_NETDB_H_ */

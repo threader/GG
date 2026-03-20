@@ -1,21 +1,26 @@
-#ifndef _PROTO_LABEL_H
-#define _PROTO_LABEL_H
+#ifndef PROTO_LABEL_H
+#define PROTO_LABEL_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: label.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_LABEL_PRAGMAS_H
+#include <pragmas/label_pragmas.h>
 #endif
-#if !defined(CLIB_LABEL_PROTOS_H) && !defined(__GNUC__)
-#include <clib/label_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *LabelBase;
-#endif
+extern struct Library * LabelBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/label.h>
-#elif !defined(__VBCC__)
-#include <pragma/label_lib.h>
-#endif
-
-#endif	/*  _PROTO_LABEL_H  */
+#endif /* PROTO_LABEL_H */

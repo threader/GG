@@ -102,6 +102,6 @@ pv_entry_t	pv_table;		/* array of entries, one per page */
 
 extern	struct pte *Sysmap;
 extern	char *vmmap;			/* map for mem, dumps, etc. */
-#endif	/* _KERNEL */
+#endif	_KERNEL
 
-#endif	/* _PMAP_MACHINE_ */
+#endif	_PMAP_MACHINE_

@@ -40,8 +40,6 @@
  *	@(#)types.h	8.4 (Berkeley) 1/21/94
  */
 
-// 05-Sep-08 14:46:46
-
 #ifndef _SYS_TYPES_H_
 #define	_SYS_TYPES_H_
 
@@ -168,13 +166,6 @@ struct	buf;
 struct	tty;
 struct	uio;
 #endif
-
-/* Amiga - 48.3: */
-#ifndef NO_SOCKLEN_T_PLEASE
-typedef int socklen_t;
-#endif
-typedef u_int16_t in_port_t;
-
 
 #endif /* !_POSIX_SOURCE */
 #endif /* !_SYS_TYPES_H_ */

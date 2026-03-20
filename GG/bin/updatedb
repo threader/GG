@@ -47,7 +47,7 @@ done
 # to override their defaults:
 
 # Non-network directories to put in the database.
-: ${SEARCHPATHS="/"}
+: ${SEARCHPATHS="/devl/gg/"}
 
 # Network (NFS, AFS, RFS, etc.) directories to put in the database.
 : ${NETPATHS=}

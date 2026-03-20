@@ -1,21 +1,26 @@
-#ifndef _PROTO_MATHTRANS_H
-#define _PROTO_MATHTRANS_H
+#ifndef PROTO_MATHTRANS_H
+#define PROTO_MATHTRANS_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: mathtrans.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_MATHTRANS_PRAGMAS_H
+#include <pragmas/mathtrans_pragmas.h>
 #endif
-#if !defined(CLIB_MATHTRANS_PROTOS_H) && !defined(__GNUC__)
-#include <clib/mathtrans_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *MathTransBase;
-#endif
+extern struct Library * MathTransBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/mathtrans.h>
-#elif !defined(__VBCC__)
-#include <pragma/mathtrans_lib.h>
-#endif
-
-#endif	/*  _PROTO_MATHTRANS_H  */
+#endif /* PROTO_MATHTRANS_H */

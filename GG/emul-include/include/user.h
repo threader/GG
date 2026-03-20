@@ -124,9 +124,7 @@ struct vfork_msg {
  */
 
 /* default size */
-/* Amiga - 48.3: enlarged library slots*/
-/*#define A4_POINTERS 100*/
-#define A4_POINTERS 1000
+#define A4_POINTERS 100
 
 /* NB: a list of pointers for shared libraries is allocated *before*
    the start of this struct! So the struct is actually larger, but

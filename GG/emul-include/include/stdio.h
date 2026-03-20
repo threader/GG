@@ -263,10 +263,6 @@ int	 ungetc __P((int, FILE *));
 int	 vfprintf __P((FILE *, const char *, _BSD_VA_LIST_));
 int	 vprintf __P((const char *, _BSD_VA_LIST_));
 int	 vsprintf __P((char *, const char *, _BSD_VA_LIST_));
-
-/* Amiga - 48.3: */
-int fseeko __P((FILE *, off_t, int));
-
 __END_DECLS
 
 /*

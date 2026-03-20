@@ -1,21 +1,26 @@
-#ifndef _PROTO_GETSCREENMODE_H
-#define _PROTO_GETSCREENMODE_H
+#ifndef PROTO_GETSCREENMODE_H
+#define PROTO_GETSCREENMODE_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: getscreenmode.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_GETSCREENMODE_PRAGMAS_H
+#include <pragmas/getscreenmode_pragmas.h>
 #endif
-#if !defined(CLIB_GETSCREENMODE_PROTOS_H) && !defined(__GNUC__)
-#include <clib/getscreenmode_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *GetScreenModeBase;
-#endif
+extern struct Library * GetScreenModeBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/getscreenmode.h>
-#elif !defined(__VBCC__)
-#include <pragma/getscreenmode_lib.h>
-#endif
-
-#endif	/*  _PROTO_GETSCREENMODE_H  */
+#endif /* PROTO_GETSCREENMODE_H */

@@ -1,21 +1,26 @@
-#ifndef _PROTO_CONSOLE_H
-#define _PROTO_CONSOLE_H
+#ifndef PROTO_CONSOLE_H
+#define PROTO_CONSOLE_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: console.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_CONSOLE_PRAGMAS_H
+#include <pragmas/console_pragmas.h>
 #endif
-#if !defined(CLIB_CONSOLE_PROTOS_H) && !defined(__GNUC__)
-#include <clib/console_protos.h>
+
+#ifndef EXEC_DEVICES_H
+#include <exec/devices.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Device *ConsoleDevice;
-#endif
+extern struct Device * ConsoleDevice;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/console.h>
-#elif !defined(__VBCC__)
-#include <pragma/console_lib.h>
-#endif
-
-#endif	/*  _PROTO_CONSOLE_H  */
+#endif /* PROTO_CONSOLE_H */

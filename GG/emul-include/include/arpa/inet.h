@@ -50,11 +50,6 @@ struct in_addr	inet_makeaddr __P((u_long, u_long));
 unsigned long	inet_netof __P((struct in_addr));
 unsigned long	inet_network __P((const char *));
 char		*inet_ntoa __P((struct in_addr));
-
-/* Amiga - 48.3: */
-const char *inet_ntop __P((int, const void *, char *, socklen_t));
-int inet_pton __P((int, const char *, void *));
-
 __END_DECLS
 
 #endif /* !_INET_H_ */

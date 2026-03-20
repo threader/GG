@@ -1,0 +1,658 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>man strlcpy(3)</title>
+	<style type="text/css">
+		a:link {
+			text-decoration: none;
+		}
+
+		a:visited {
+			text-decoration: none;
+		}
+
+		body {
+			background-color: #666666;
+			margin: 0;
+			font-family: Helvetica, sans-serif;
+			font-size: 12pt;
+		}
+		
+		flleft {
+			float: left;
+		}
+		
+		h1.head {
+			color:	#3338E0;
+			text-align: center;
+			font-size: xx-large;
+		}
+
+		p.jn {
+			text-align:justify;
+		}
+		
+		p.j {
+			text-align:justify;
+		}
+		
+		pre.foot {
+			font-size: 9pt;
+			padding: 5pt;
+		}
+		
+		pre.lic {
+			font-size: 10pt;
+			line-height: 14px;
+		}
+		
+		span.date {
+			font-size: 10pt;
+			font-style:	italic;
+		}
+		
+		span.red {
+			color:	red;
+		}
+		
+		span.title {
+			font-size: 14pt;
+		}
+		
+		.banner {
+			background-color: #000;
+			color: white;
+		}
+		
+		.banner a:link {
+			color: white;
+			text-decoration: none;
+		}
+			
+		.banner a:active {
+			color: red;
+			text-decoration: none;
+		}
+			
+		.banner a:hover {
+			color: red;
+			text-decoration: none;
+		}
+			
+		.banner a:visited {
+			color: white;
+			text-decoration: none;
+		}
+		
+		.head {
+			line-height: 14px;
+			padding-bottom: 4px;
+			font-size: 12px;
+			text-align: right;
+		}
+		
+		hr {
+			text-align: center;
+			height:1px;
+			background-color: #8009d4;
+			border: 0;
+		}
+		
+		td.foot {
+			color: white;
+		}
+		
+		td.list {
+			background-color: #D4DBE3;
+		}
+		
+		td.menu {
+			background-color: #D4DBE3;
+			border-right-color:	black;
+			border-right-width:	thick;
+			text-align: left;
+			vertical-align: top;
+			width:	160px;
+		}
+
+		td.story {
+			padding-bottom: 10px;
+			padding-right: 5px;
+		}		
+	
+		td.top {
+			border-bottom-style: solid;
+			border-bottom-width: thin;
+			border-top-style: solid;
+			border-top-width: medium;
+			border-color: gray;
+			padding-bottom: 4px;
+			padding-top: 4px;
+		}
+				
+		td.bottom {
+			border-bottom-style: solid;
+			border-bottom-width: medium;
+			border-color: gray;
+			padding-bottom: 4px;
+			padding-top: 4px;
+		}
+				
+		td.middle {
+			border-bottom-style: solid;
+			border-bottom-width: thin;
+			border-color: gray;
+			padding-bottom: 4px;
+			padding-top: 4px;
+		}
+				
+		td.single {
+			border-bottom-style: solid;
+			border-bottom-width: medium;
+			border-top-style: solid;
+			border-top-width: medium;
+			border-color: gray;
+			padding-bottom: 4px;
+			padding-top: 4px;
+		}
+				
+		#container {
+			width: 920px;
+			margin: 10px auto;
+			margin-top: 0px;
+			padding-top: 0px;
+			background-color: #fff;
+			color: #333;
+			border: 1px solid gray;
+			line-height: 130%;
+		}
+
+		#content {
+			margin-left: 50px;
+			padding: 1em;
+			max-width: 38em;
+		}
+
+		#content a {
+			text-decoration: none;
+		}
+		
+		#content a:hover {
+			text-decoration: underline;
+		}
+		
+		#content h1 {
+			color: #8009d4;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			font-size: 28px;
+			font-weight: normal;
+		}
+		
+		#content h2 {
+			color: #8009d4;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			font-size: 20px;
+			font-weight: normal;
+		}
+		
+		#content div.rss_desc {
+			font-size:14px;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-align: justify;
+			margin-top: 10px;
+		}
+		
+		#content div.list {
+			font-size: 11px;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+		}
+		
+		#content span.rss_date {
+			font-size:10px;
+			padding: 0px;
+			margin:0px auto;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-align: justify;
+			font-style: italic;
+			color: #333333;
+		}
+		
+		#content span.rss_head {
+			font-size:20px;
+			padding: 0px;
+			margin:0px auto;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-align: justify;
+			font-style: normal;
+			padding-bottom: 10px;
+			margin-bottom: 10px;
+		}
+		
+		#content div.sticky {
+			font-size:14px;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-align: justify;
+			margin-top: 10px;
+			background-color: #FFCC00;
+			border-color: #333333;
+			border-style:dashed;
+			border-width:thin;
+			margin: 6px;
+			padding: 15px;
+			margin-bottom: 15px;
+		}
+		
+		#content h2.sticky {
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-align: center;
+		}
+		
+		#content div.noleft {
+			margin-left: 0px;
+			border-left: none;			
+			padding: 1em;
+		}
+		
+		#content pre {
+			font-size: 10pt;
+			line-height: 13px;
+		}
+
+		#contentmenu {
+			background-color: #8009d4;
+			padding: 2px;
+			padding-left: 7px;
+			padding-right: 7px;
+			height: 14px
+			vertical-align: middle;
+			color: white;
+			font-size: 12px;
+		}
+
+		#contentmenu a {
+			color: #cccccc;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-decoration: none;
+		}
+
+		#contentmenu a:hover {
+			color: white;
+			text-decoration: none;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+		}
+			
+		#footer {
+			clear: both;
+			margin: 0;
+			padding: .5em;
+			color: #333;
+			background-color: #ddd;
+			border-top: 1px solid gray;
+		}
+		
+		#footer2 {
+			clear: both;
+			margin: 0;
+			padding: .5em;
+			color: #CCCCCC;
+			background-color: #8009d4;
+			border-top: 1px solid gray;
+		}
+		
+		#footer pre {
+			font-size: 9pt;
+			line-height: 11px;
+		}
+
+		#hmenu {
+			border-bottom: 1px solid gray;
+		}
+		
+		#top {
+			padding: 0.5em;
+			border-bottom: 1px solid gray;
+			height: 110px;
+			background-image:url(/images/bluefiber.png);
+			background-repeat:no-repeat;
+			padding-left:	67px;
+			vertical-align: top;
+		}
+
+		#top span.title {
+			font-family: Courier, serif;
+			color: #FFF;
+			vertical-align: top;
+			padding-top: 5px;
+			padding-bottom: 5px;
+			font-size: 32px;
+			line-height: 36px;
+		}
+
+		#top span.subtitle {
+			font-family: Courier, serif;
+			color: #FFF;
+			vertical-align: top;
+			font-size: 24px;
+			background-position: center;
+			line-height: 28px;
+		}
+
+		#toplink {
+			padding: 4px;
+			background-color: #0fb6c5;
+			border-bottom: 1px solid gray;
+			/*height: 18px;*/
+			vertical-align: middle;
+			color: white;
+			font-size: 14px;
+		}
+
+		#toplink a {
+			color: #cccccc;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-decoration: none;
+		}
+
+		#toplink a:hover {
+			color: #fff;
+			text-decoration: none;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+		}
+
+		/* CSS definitions for fonts */
+		
+		.V9 			{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 8px; color: #000000; }
+		.V10W 			{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 9px; color: #FFFFFF; text-decoration:	none;}
+		.V9W 			{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 8px; color: #FFFFFF; text-decoration:	none;}
+		.V10WB 			{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 9px; color: #FFFFFF; font-weight: 900; }
+		.V9G 			{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 8px; color: #666666; }
+		.V10 			{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 9px; color: #000000; }
+		.V9BOLD 		{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 8px; font-weight: 900; }
+		.G10 			{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 11px;
+			color: #0066FF;
+			line-height: 11px;
+		}
+		.G10B 			{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 11px;
+			color: #000000;
+			line-height: 12px;
+		}
+		ul {
+			list-style-position: outside;
+			list-style-image: url(/Images/ra.gif);
+			list-style-type: square;
+		}
+		.G10BOLD 		{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 11px;
+			font-weight: 700;
+			vertical-align: top;
+			line-height: 12px;
+		}
+		.G10G 			{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #A1A5A9; }
+		.V12 			{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;  color: #000000; line-height: 12px; }
+		.V14 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px;  color: #000000; line-height: 20px; }
+		.eventfont 		{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #FFFFFF; }
+
+		a.summary-letter {text-decoration: none}
+		pre.display {font-family: serif}
+		pre.format {font-family: serif}
+		pre.menu-comment {font-family: serif}
+		pre.menu-preformatted {font-family: serif}
+		pre.smalldisplay {font-family: serif; font-size: smaller}
+		pre.smallexample {font-size: smaller}
+		pre.smallformat {font-family: serif; font-size: smaller}
+		pre.smalllisp {font-size: smaller}
+		span.roman {font-family:serif; font-weight:normal;}
+		span.sansserif {font-family:sans-serif; font-weight:normal;}
+		ul.toc {list-style: none}
+
+	</style>
+</head>
+<body>
+<div id="container">
+<div id="top">
+	<span class="title">
+	manpagez: man pages &amp; more
+	</span><br />
+	<span class="subtitle">
+	man strlcpy(3)
+	</span>
+</div>
+<div id="toplink">
+	<table width="100%" align="center" cellpadding="0">
+		<tr>
+						<td width="200">
+				<table>
+					<tr>
+						<td colspan=2>man pages</td>
+					</tr>
+					<tr>
+						<td>
+							By Section
+						</td><td>
+							<select onchange="location = this.options[this.selectedIndex].value">
+								<option selected value="">Choose...</option>
+								<option value="/man/1/">1</option><option value="/man/2/">2</option><option value="/man/3/">3</option><option value="/man/4/">4</option><option value="/man/5/">5</option><option value="/man/6/">6</option><option value="/man/7/">7</option><option value="/man/8/">8</option><option value="/man/9/">9</option><option value="/man/n/">n</option>							</select>	
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Alphabetically
+						</td><td>
+							<select onchange="location = this.options[this.selectedIndex].value">
+								<option selected value="">Choose...</option>
+								<option value="/man/alpha.php?A">A</option><option value="/man/alpha.php?B">B</option><option value="/man/alpha.php?C">C</option><option value="/man/alpha.php?D">D</option><option value="/man/alpha.php?E">E</option><option value="/man/alpha.php?F">F</option><option value="/man/alpha.php?G">G</option><option value="/man/alpha.php?H">H</option><option value="/man/alpha.php?I">I</option><option value="/man/alpha.php?J">J</option><option value="/man/alpha.php?K">K</option><option value="/man/alpha.php?L">L</option><option value="/man/alpha.php?M">M</option><option value="/man/alpha.php?N">N</option><option value="/man/alpha.php?O">O</option><option value="/man/alpha.php?P">P</option><option value="/man/alpha.php?Q">Q</option><option value="/man/alpha.php?R">R</option><option value="/man/alpha.php?S">S</option><option value="/man/alpha.php?T">T</option><option value="/man/alpha.php?U">U</option><option value="/man/alpha.php?V">V</option><option value="/man/alpha.php?W">W</option><option value="/man/alpha.php?X">X</option><option value="/man/alpha.php?Y">Y</option><option value="/man/alpha.php?Z">Z</option><option value="/man/alpha.php?0">Other</option>							</select>	
+						</td>
+					</tr>
+				</table>
+		
+			<td>
+				<table>
+					<tr>
+						<td colspan=2>Other versions of<br />strlcpy</td>
+					</tr>
+					<tr>
+						<td>
+						<select onchange="location = this.options[this.selectedIndex].value">
+								<option selected value="">Choose...</option>
+								<option value="/man/3/strlcpy/osx-10.4.php">Mac OS X 10.4</option>							</select>	
+						</td>
+					</tr>
+				</table>
+			</td>
+						<td align="right">
+				<script type="text/javascript"><!--
+				google_ad_client = "pub-1710183999564190";
+				/* 468x60, created 9/4/08 */
+				google_ad_slot = "8014332598";
+				google_ad_width = 468;
+				google_ad_height = 60;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="contentmenu">
+<table width="100%" cellpadding="0">
+	<tr>
+		<td>
+			<a href="/">Home</a> | 
+			<a href="/news/?page_id=2">About</a> |
+			<a href="/info/">info</a> | 
+			<a href="/man/">man</a> | 
+			<a href="/news/">News</a>
+		</td>
+		<td align="right" valign="middle">
+			&nbsp;<br/>
+			<form action="http://www.google.com/cse" id="cse-search-box">
+			  <div>
+				<input type="hidden" name="cx" value="015669413821031485611:a_hm66tboz8" />
+				<input type="hidden" name="ie" value="UTF-8" />
+				<input type="text" name="q" size="31" />
+				<input type="submit" name="sa" value="Search" />
+			  </div>
+			</form>
+			<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&lang=en"></script>
+		</td>
+	</tr>
+</table>
+</div>
+
+<div id="content">
+<pre>
+strlcpy(3)               BSD Library Functions Manual               strlcpy(3)
+
+
+</pre>
+<h2>NAME</h2><pre>
+     <b>strlcpy</b>, <b>strlcat</b> -- size-bounded string copying and concatenation
+
+
+</pre>
+<h2>LIBRARY</h2><pre>
+     Standard C Library (libc, -lc)
+
+
+</pre>
+<h2>SYNOPSIS</h2><pre>
+     <b>#include</b> <b>&lt;string.h&gt;</b>
+
+     <i>size</i><b>_</b><i>t</i>
+     <b>strlcpy</b>(<i>char</i> <i>*dst</i>, <i>const</i> <i>char</i> <i>*src</i>, <i>size</i><b>_</b><i>t</i> <i>size</i>);
+
+     <i>size</i><b>_</b><i>t</i>
+     <b>strlcat</b>(<i>char</i> <i>*dst</i>, <i>const</i> <i>char</i> <i>*src</i>, <i>size</i><b>_</b><i>t</i> <i>size</i>);
+
+
+</pre>
+<h2>DESCRIPTION</h2><pre>
+     The <b>strlcpy</b>() and <b>strlcat</b>() functions copy and concatenate strings
+     respectively.  They are designed to be safer, more consistent, and less
+     error prone replacements for <b><a href="/man/3/strncpy/">strncpy(3)</a></b> and <b><a href="/man/3/strncat/">strncat(3)</a></b>.  Unlike those
+     functions, <b>strlcpy</b>() and <b>strlcat</b>() take the full size of the buffer (not
+     just the length) and guarantee to NUL-terminate the result (as long as
+     <i>size</i> is larger than 0 or, in the case of <b>strlcat</b>(), as long as there is
+     at least one byte free in <i>dst</i>).  Note that you should include a byte for
+     the NUL in <i>size</i>.  Also note that <b>strlcpy</b>() and <b>strlcat</b>() only operate on
+     true ``C'' strings.  This means that for <b>strlcpy</b>() <i>src</i> must be NUL-termi-
+     nated and for <b>strlcat</b>() both <i>src</i> and <i>dst</i> must be NUL-terminated.
+
+     The <b>strlcpy</b>() function copies up to <i>size</i> - 1 characters from the NUL-ter-
+     minated string <i>src</i> to <i>dst</i>, NUL-terminating the result.
+
+     The <b>strlcat</b>() function appends the NUL-terminated string <i>src</i> to the end
+     of <i>dst</i>.  It will append at most <i>size</i> - strlen(dst) - 1 bytes, NUL-termi-
+     nating the result.
+
+
+</pre>
+<h2>RETURN VALUES</h2><pre>
+     The <b>strlcpy</b>() and <b>strlcat</b>() functions return the total length of the
+     string they tried to create.  For <b>strlcpy</b>() that means the length of <i>src</i>.
+     For <b>strlcat</b>() that means the initial length of <i>dst</i> plus the length of
+     <i>src</i>.  While this may seem somewhat confusing it was done to make trunca-
+     tion detection simple.
+
+     Note however, that if <b>strlcat</b>() traverses <i>size</i> characters without finding
+     a NUL, the length of the string is considered to be <i>size</i> and the destina-
+     tion string will not be NUL-terminated (since there was no space for the
+     NUL).  This keeps <b>strlcat</b>() from running off the end of a string.  In
+     practice this should not happen (as it means that either <i>size</i> is incor-
+     rect or that <i>dst</i> is not a proper ``C'' string).  The check exists to pre-
+     vent potential security problems in incorrect code.
+
+
+</pre>
+<h2>EXAMPLES</h2><pre>
+     The following code fragment illustrates the simple case:
+
+           char *s, *p, buf[BUFSIZ];
+
+           ...
+
+           (void)strlcpy(buf, s, sizeof(buf));
+           (void)strlcat(buf, p, sizeof(buf));
+
+     To detect truncation, perhaps while building a pathname, something like
+     the following might be used:
+
+           char *dir, *file, pname[MAXPATHLEN];
+
+           ...
+
+           if (strlcpy(pname, dir, sizeof(pname)) &gt;= sizeof(pname))
+                   goto toolong;
+           if (strlcat(pname, file, sizeof(pname)) &gt;= sizeof(pname))
+                   goto toolong;
+
+     Since we know how many characters we copied the first time, we can speed
+     things up a bit by using a copy instead of an append:
+
+           char *dir, *file, pname[MAXPATHLEN];
+           size_t n;
+
+           ...
+
+           n = strlcpy(pname, dir, sizeof(pname));
+           if (n &gt;= sizeof(pname))
+                   goto toolong;
+           if (strlcpy(pname + n, file, sizeof(pname) - n) &gt;= sizeof(pname) - n)
+                   goto toolong;
+
+     However, one may question the validity of such optimizations, as they
+     defeat the whole purpose of <b>strlcpy</b>() and <b>strlcat</b>().  As a matter of
+     fact, the first version of this manual page got it wrong.
+
+
+</pre>
+<h2>SEE ALSO</h2><pre>
+     <b><a href="/man/3/snprintf/">snprintf(3)</a></b>, <b><a href="/man/3/strncat/">strncat(3)</a></b>, <b><a href="/man/3/strncpy/">strncpy(3)</a></b>
+
+
+</pre>
+<h2>HISTORY</h2><pre>
+     The <b>strlcpy</b>() and <b>strlcat</b>() functions first appeared in OpenBSD 2.4, and
+     made their appearance in FreeBSD 3.3.
+
+BSD                              June 22, 1998                             BSD
+</pre>
+<hr>
+Mac OS X 10.5 - Generated Sun Oct 28 21:39:58 EDT 2007
+</div>
+<div id="footer2">
+	<table width="100%" cellpadding="10">
+		<tr>
+			<td align="center">
+			<script type="text/javascript"><!--
+			google_ad_client = "pub-1710183999564190";
+			/* 728x90, created 6/19/08 */
+			google_ad_slot = "1585046737";
+			google_ad_width = 728;
+			google_ad_height = 90;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="footer">
+<pre>
+&copy; manpagez.com 2000-2008
+Individual documents may contain additional copyright information.
+</pre>
+</div>
+</div>
+</body>
+</html>

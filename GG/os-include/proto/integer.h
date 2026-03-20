@@ -1,21 +1,26 @@
-#ifndef _PROTO_INTEGER_H
-#define _PROTO_INTEGER_H
+#ifndef PROTO_INTEGER_H
+#define PROTO_INTEGER_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: integer.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_INTEGER_PRAGMAS_H
+#include <pragmas/integer_pragmas.h>
 #endif
-#if !defined(CLIB_INTEGER_PROTOS_H) && !defined(__GNUC__)
-#include <clib/integer_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *IntegerBase;
-#endif
+extern struct Library * IntegerBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/integer.h>
-#elif !defined(__VBCC__)
-#include <pragma/integer_lib.h>
-#endif
-
-#endif	/*  _PROTO_INTEGER_H  */
+#endif /* PROTO_INTEGER_H */

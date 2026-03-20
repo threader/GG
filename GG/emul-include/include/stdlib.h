@@ -192,13 +192,6 @@ unsigned short *seed48 __P((unsigned short[3]));
 void	 srand48 __P((long));
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
-/* Amiga - 48.3: strtoll/strtoull */
-#define strtoll_WideAsLong(val)	((long)(val))
-#define strtoll_LongAsWide(val)	((long)(val))
-#define strtoll_UCHAR(c) ((unsigned char) (c))
-long long strtoll __P((const char *, char **, int));
-unsigned long long strtoull __P((const char *, char **, int));
-
 __END_DECLS
 
 #endif /* _STDLIB_H_ */

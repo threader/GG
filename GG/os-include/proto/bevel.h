@@ -1,21 +1,26 @@
-#ifndef _PROTO_BEVEL_H
-#define _PROTO_BEVEL_H
+#ifndef PROTO_BEVEL_H
+#define PROTO_BEVEL_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: bevel.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_BEVEL_PRAGMAS_H
+#include <pragmas/bevel_pragmas.h>
 #endif
-#if !defined(CLIB_BEVEL_PROTOS_H) && !defined(__GNUC__)
-#include <clib/bevel_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *BevelBase;
-#endif
+extern struct Library * BevelBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/bevel.h>
-#elif !defined(__VBCC__)
-#include <pragma/bevel_lib.h>
-#endif
-
-#endif	/*  _PROTO_BEVEL_H  */
+#endif /* PROTO_BEVEL_H */

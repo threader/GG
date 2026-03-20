@@ -1,0 +1,49 @@
+The speed of GCC4 in compare to 3.4.
+there is only 1 program found that run slower on GCC 4.4.this hapen on pics > 2000 Pixel and pngcrush.on smaller pics speed is near same.
+
+http://www.netlib.org/benchmark/whetstone.c
+
+its a double whetstone Benchmark.
+
+i change that line
+loopstart = 280000;		/* see the note about LOOP below */
+  
+and add this,#define PRINTOUT
+because all gcc optimize away some code without printout.
+
+Here are results from winuae with a Athlon XP 2500+.1,8 GHZ real clock Rate.(Its not my machine)
+
+GCC3 12 sec. 1166 MIPS
+GCC4.4 8 sec. 1750 MIPS
+
+and also a real amiga 68040/25 MHZ.the values in brackets are with Oxy Patcher.
+diffrences come because whetstone use some sin cos etc instructions.
+
+1. GCC 3.4 -m68040 -m68881 - 365 s. (284 s.)
+2. GCC 3.4 -m68040 - 377 s. (302 s.)
+3. GCC 3.4 -m68040 -msoft-float - 404 s. (324 s.)
+4. GCC 4.4 -m68040 -m68881 - 281 s. (200 sec.)
+5. GCC 4.4 -m68040 - 296 s. (219 s.)
+6. GCC 4.4 -m68040 -msoft-float - 359 s. (280 s.)
+
+
+here are some values of more complex program.
+
+DCRAW
+CANON EOS 350D RAW -> TIFF conversion if faster 
+GCC3.4: 42s 
+GCC4.4: 35s
+
+ffmpeg:
+
+GCC 3.4: 0:27s
+GCC 4.4: 0:23s
+
+sdl_quake:
+
+GCC 3.4: 28.3 fps
+GCC 4.4: 51.2 fps
+
+
+
+

@@ -337,10 +337,5 @@ int	socket __P((int, int, int));
 int	socketpair __P((int, int, int, int *));
 __END_DECLS
 
-/* Amiga  - 48.3: */
-#define AF_INET6 AF_UNSPEC
-#define PF_INET6 AF_UNSPEC
-#define SHUT_RDWR 2
-
 #endif /* !_KERNEL */
 #endif /* !_SYS_SOCKET_H_ */

@@ -1,21 +1,26 @@
-#ifndef _PROTO_EXPANSION_H
-#define _PROTO_EXPANSION_H
+#ifndef PROTO_EXPANSION_H
+#define PROTO_EXPANSION_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: expansion.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_EXPANSION_PRAGMAS_H
+#include <pragmas/expansion_pragmas.h>
 #endif
-#if !defined(CLIB_EXPANSION_PROTOS_H) && !defined(__GNUC__)
-#include <clib/expansion_protos.h>
+
+#ifndef LIBRARIES_EXPANSIONBASE_H
+#include <libraries/expansionbase.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct ExpansionBase *ExpansionBase;
-#endif
+extern struct ExpansionBase * ExpansionBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/expansion.h>
-#elif !defined(__VBCC__)
-#include <pragma/expansion_lib.h>
-#endif
-
-#endif	/*  _PROTO_EXPANSION_H  */
+#endif /* PROTO_EXPANSION_H */

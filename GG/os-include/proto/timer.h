@@ -1,21 +1,26 @@
-#ifndef _PROTO_TIMER_H
-#define _PROTO_TIMER_H
+#ifndef PROTO_TIMER_H
+#define PROTO_TIMER_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: timer.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_TIMER_PRAGMAS_H
+#include <pragmas/timer_pragmas.h>
 #endif
-#if !defined(CLIB_TIMER_PROTOS_H) && !defined(__GNUC__)
-#include <clib/timer_protos.h>
+
+#ifndef EXEC_DEVICES_H
+#include <exec/devices.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Device *TimerBase;
-#endif
+extern struct Device * TimerBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/timer.h>
-#elif !defined(__VBCC__)
-#include <pragma/timer_lib.h>
-#endif
-
-#endif	/*  _PROTO_TIMER_H  */
+#endif /* PROTO_TIMER_H */

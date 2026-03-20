@@ -1,21 +1,26 @@
-#ifndef _PROTO_INPUT_H
-#define _PROTO_INPUT_H
+#ifndef PROTO_INPUT_H
+#define PROTO_INPUT_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: input.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_INPUT_PRAGMAS_H
+#include <pragmas/input_pragmas.h>
 #endif
-#if !defined(CLIB_INPUT_PROTOS_H) && !defined(__GNUC__)
-#include <clib/input_protos.h>
+
+#ifndef EXEC_DEVICES_H
+#include <exec/devices.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Device *InputBase;
-#endif
+extern struct Device * InputBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/input.h>
-#elif !defined(__VBCC__)
-#include <pragma/input_lib.h>
-#endif
-
-#endif	/*  _PROTO_INPUT_H  */
+#endif /* PROTO_INPUT_H */

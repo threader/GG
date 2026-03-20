@@ -102,11 +102,6 @@ extern __inline int sigismember(const sigset_t *set, int signo) {
 }
 #endif
 
-/* Amiga - 48.3-3: This is just a prototype! See 'pthread' for
- * the actual function.
-*/
-int sigwait __P((const sigset_t *, int *));
-
 /* List definitions after function declarations, or Reiser cpp gets upset. */
 #define	sigemptyset(set)	(*(set) = 0, 0)
 #define	sigfillset(set)		(*(set) = ~(sigset_t)0, 0)

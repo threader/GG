@@ -1,21 +1,26 @@
-#ifndef _PROTO_REQUESTER_H
-#define _PROTO_REQUESTER_H
+#ifndef PROTO_REQUESTER_H
+#define PROTO_REQUESTER_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: requester.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_REQUESTER_PRAGMAS_H
+#include <pragmas/requester_pragmas.h>
 #endif
-#if !defined(CLIB_REQUESTER_PROTOS_H) && !defined(__GNUC__)
-#include <clib/requester_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *RequesterBase;
-#endif
+extern struct Library * RequesterBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/requester.h>
-#elif !defined(__VBCC__)
-#include <pragma/requester_lib.h>
-#endif
-
-#endif	/*  _PROTO_REQUESTER_H  */
+#endif /* PROTO_REQUESTER_H */

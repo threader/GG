@@ -1,21 +1,26 @@
-#ifndef _PROTO_CHOOSER_H
-#define _PROTO_CHOOSER_H
+#ifndef PROTO_CHOOSER_H
+#define PROTO_CHOOSER_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: chooser.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_CHOOSER_PRAGMAS_H
+#include <pragmas/chooser_pragmas.h>
 #endif
-#if !defined(CLIB_CHOOSER_PROTOS_H) && !defined(__GNUC__)
-#include <clib/chooser_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *ChooserBase;
-#endif
+extern struct Library * ChooserBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/chooser.h>
-#elif !defined(__VBCC__)
-#include <pragma/chooser_lib.h>
-#endif
-
-#endif	/*  _PROTO_CHOOSER_H  */
+#endif /* PROTO_CHOOSER_H */

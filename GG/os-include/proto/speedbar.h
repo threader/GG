@@ -1,21 +1,26 @@
-#ifndef _PROTO_SPEEDBAR_H
-#define _PROTO_SPEEDBAR_H
+#ifndef PROTO_SPEEDBAR_H
+#define PROTO_SPEEDBAR_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: speedbar.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_SPEEDBAR_PRAGMAS_H
+#include <pragmas/speedbar_pragmas.h>
 #endif
-#if !defined(CLIB_SPEEDBAR_PROTOS_H) && !defined(__GNUC__)
-#include <clib/speedbar_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *SpeedBarBase;
-#endif
+extern struct Library * SpeedBarBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/speedbar.h>
-#elif !defined(__VBCC__)
-#include <pragma/speedbar_lib.h>
-#endif
-
-#endif	/*  _PROTO_SPEEDBAR_H  */
+#endif /* PROTO_SPEEDBAR_H */

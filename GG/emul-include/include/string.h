@@ -89,18 +89,6 @@ char	*strsep __P((char **, const char *));
 void	 swab __P((const void *, void *, size_t));
 int	 stricmp __P((const char *, const char *));
 int	 strnicmp __P((const char *, const char *, size_t));
-
-/* Amiga - 48.3: */
-size_t strlcpy __P((char *, const char *, size_t));
-size_t strlcat __P((char *, const char *, size_t));
-
-/* Amiga - 48.3-3: */
-char *strcasestr __P((const char *, const char *));
-char *strndup __P((const char *, size_t));
-char *strerror_r __P((int, char *, size_t));
-char *strtok_r __P((char *, const char *, char **));
-size_t strnlen __P((const char *, size_t));
-
 #endif 
 __END_DECLS
 

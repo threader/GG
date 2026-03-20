@@ -99,9 +99,6 @@ char	*ttyname __P((int));
 int	 unlink __P((const char *));
 ssize_t	 write __P((int, const void *, size_t));
 
-/* Amiga - 48.3-3: */
-off_t	 lseekw __P((int, off_t, int));
-
 #ifndef	_POSIX_SOURCE
 
 /* structure timeval required for select() */

@@ -1,0 +1,732 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>man inet_ntop(3)</title>
+	<style type="text/css">
+		a:link {
+			text-decoration: none;
+		}
+
+		a:visited {
+			text-decoration: none;
+		}
+
+		body {
+			background-color: #666666;
+			margin: 0;
+			font-family: Helvetica, sans-serif;
+			font-size: 12pt;
+		}
+		
+		flleft {
+			float: left;
+		}
+		
+		h1.head {
+			color:	#3338E0;
+			text-align: center;
+			font-size: xx-large;
+		}
+
+		p.jn {
+			text-align:justify;
+		}
+		
+		p.j {
+			text-align:justify;
+		}
+		
+		pre.foot {
+			font-size: 9pt;
+			padding: 5pt;
+		}
+		
+		pre.lic {
+			font-size: 10pt;
+			line-height: 14px;
+		}
+		
+		span.date {
+			font-size: 10pt;
+			font-style:	italic;
+		}
+		
+		span.red {
+			color:	red;
+		}
+		
+		span.title {
+			font-size: 14pt;
+		}
+		
+		.banner {
+			background-color: #000;
+			color: white;
+		}
+		
+		.banner a:link {
+			color: white;
+			text-decoration: none;
+		}
+			
+		.banner a:active {
+			color: red;
+			text-decoration: none;
+		}
+			
+		.banner a:hover {
+			color: red;
+			text-decoration: none;
+		}
+			
+		.banner a:visited {
+			color: white;
+			text-decoration: none;
+		}
+		
+		.head {
+			line-height: 14px;
+			padding-bottom: 4px;
+			font-size: 12px;
+			text-align: right;
+		}
+		
+		hr {
+			text-align: center;
+			height:1px;
+			background-color: #8009d4;
+			border: 0;
+		}
+		
+		td.foot {
+			color: white;
+		}
+		
+		td.list {
+			background-color: #D4DBE3;
+		}
+		
+		td.menu {
+			background-color: #D4DBE3;
+			border-right-color:	black;
+			border-right-width:	thick;
+			text-align: left;
+			vertical-align: top;
+			width:	160px;
+		}
+
+		td.story {
+			padding-bottom: 10px;
+			padding-right: 5px;
+		}		
+	
+		td.top {
+			border-bottom-style: solid;
+			border-bottom-width: thin;
+			border-top-style: solid;
+			border-top-width: medium;
+			border-color: gray;
+			padding-bottom: 4px;
+			padding-top: 4px;
+		}
+				
+		td.bottom {
+			border-bottom-style: solid;
+			border-bottom-width: medium;
+			border-color: gray;
+			padding-bottom: 4px;
+			padding-top: 4px;
+		}
+				
+		td.middle {
+			border-bottom-style: solid;
+			border-bottom-width: thin;
+			border-color: gray;
+			padding-bottom: 4px;
+			padding-top: 4px;
+		}
+				
+		td.single {
+			border-bottom-style: solid;
+			border-bottom-width: medium;
+			border-top-style: solid;
+			border-top-width: medium;
+			border-color: gray;
+			padding-bottom: 4px;
+			padding-top: 4px;
+		}
+				
+		#container {
+			width: 920px;
+			margin: 10px auto;
+			margin-top: 0px;
+			padding-top: 0px;
+			background-color: #fff;
+			color: #333;
+			border: 1px solid gray;
+			line-height: 130%;
+		}
+
+		#content {
+			margin-left: 50px;
+			padding: 1em;
+			max-width: 38em;
+		}
+
+		#content a {
+			text-decoration: none;
+		}
+		
+		#content a:hover {
+			text-decoration: underline;
+		}
+		
+		#content h1 {
+			color: #8009d4;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			font-size: 28px;
+			font-weight: normal;
+		}
+		
+		#content h2 {
+			color: #8009d4;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			font-size: 20px;
+			font-weight: normal;
+		}
+		
+		#content div.rss_desc {
+			font-size:14px;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-align: justify;
+			margin-top: 10px;
+		}
+		
+		#content div.list {
+			font-size: 11px;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+		}
+		
+		#content span.rss_date {
+			font-size:10px;
+			padding: 0px;
+			margin:0px auto;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-align: justify;
+			font-style: italic;
+			color: #333333;
+		}
+		
+		#content span.rss_head {
+			font-size:20px;
+			padding: 0px;
+			margin:0px auto;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-align: justify;
+			font-style: normal;
+			padding-bottom: 10px;
+			margin-bottom: 10px;
+		}
+		
+		#content div.sticky {
+			font-size:14px;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-align: justify;
+			margin-top: 10px;
+			background-color: #FFCC00;
+			border-color: #333333;
+			border-style:dashed;
+			border-width:thin;
+			margin: 6px;
+			padding: 15px;
+			margin-bottom: 15px;
+		}
+		
+		#content h2.sticky {
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-align: center;
+		}
+		
+		#content div.noleft {
+			margin-left: 0px;
+			border-left: none;			
+			padding: 1em;
+		}
+		
+		#content pre {
+			font-size: 10pt;
+			line-height: 13px;
+		}
+
+		#contentmenu {
+			background-color: #8009d4;
+			padding: 2px;
+			padding-left: 7px;
+			padding-right: 7px;
+			height: 14px
+			vertical-align: middle;
+			color: white;
+			font-size: 12px;
+		}
+
+		#contentmenu a {
+			color: #cccccc;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-decoration: none;
+		}
+
+		#contentmenu a:hover {
+			color: white;
+			text-decoration: none;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+		}
+			
+		#footer {
+			clear: both;
+			margin: 0;
+			padding: .5em;
+			color: #333;
+			background-color: #ddd;
+			border-top: 1px solid gray;
+		}
+		
+		#footer2 {
+			clear: both;
+			margin: 0;
+			padding: .5em;
+			color: #CCCCCC;
+			background-color: #8009d4;
+			border-top: 1px solid gray;
+		}
+		
+		#footer pre {
+			font-size: 9pt;
+			line-height: 11px;
+		}
+
+		#hmenu {
+			border-bottom: 1px solid gray;
+		}
+		
+		#top {
+			padding: 0.5em;
+			border-bottom: 1px solid gray;
+			height: 110px;
+			background-image:url(/images/bluefiber.png);
+			background-repeat:no-repeat;
+			padding-left:	67px;
+			vertical-align: top;
+		}
+
+		#top span.title {
+			font-family: Courier, serif;
+			color: #FFF;
+			vertical-align: top;
+			padding-top: 5px;
+			padding-bottom: 5px;
+			font-size: 32px;
+			line-height: 36px;
+		}
+
+		#top span.subtitle {
+			font-family: Courier, serif;
+			color: #FFF;
+			vertical-align: top;
+			font-size: 24px;
+			background-position: center;
+			line-height: 28px;
+		}
+
+		#toplink {
+			padding: 4px;
+			background-color: #0fb6c5;
+			border-bottom: 1px solid gray;
+			/*height: 18px;*/
+			vertical-align: middle;
+			color: white;
+			font-size: 14px;
+		}
+
+		#toplink a {
+			color: #cccccc;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+			text-decoration: none;
+		}
+
+		#toplink a:hover {
+			color: #fff;
+			text-decoration: none;
+			font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+		}
+
+		/* CSS definitions for fonts */
+		
+		.V9 			{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 8px; color: #000000; }
+		.V10W 			{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 9px; color: #FFFFFF; text-decoration:	none;}
+		.V9W 			{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 8px; color: #FFFFFF; text-decoration:	none;}
+		.V10WB 			{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 9px; color: #FFFFFF; font-weight: 900; }
+		.V9G 			{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 8px; color: #666666; }
+		.V10 			{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 9px; color: #000000; }
+		.V9BOLD 		{ font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 8px; font-weight: 900; }
+		.G10 			{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 11px;
+			color: #0066FF;
+			line-height: 11px;
+		}
+		.G10B 			{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 11px;
+			color: #000000;
+			line-height: 12px;
+		}
+		ul {
+			list-style-position: outside;
+			list-style-image: url(/Images/ra.gif);
+			list-style-type: square;
+		}
+		.G10BOLD 		{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 11px;
+			font-weight: 700;
+			vertical-align: top;
+			line-height: 12px;
+		}
+		.G10G 			{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #A1A5A9; }
+		.V12 			{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;  color: #000000; line-height: 12px; }
+		.V14 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px;  color: #000000; line-height: 20px; }
+		.eventfont 		{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #FFFFFF; }
+
+		a.summary-letter {text-decoration: none}
+		pre.display {font-family: serif}
+		pre.format {font-family: serif}
+		pre.menu-comment {font-family: serif}
+		pre.menu-preformatted {font-family: serif}
+		pre.smalldisplay {font-family: serif; font-size: smaller}
+		pre.smallexample {font-size: smaller}
+		pre.smallformat {font-family: serif; font-size: smaller}
+		pre.smalllisp {font-size: smaller}
+		span.roman {font-family:serif; font-weight:normal;}
+		span.sansserif {font-family:sans-serif; font-weight:normal;}
+		ul.toc {list-style: none}
+
+	</style>
+</head>
+<body>
+<div id="container">
+<div id="top">
+	<span class="title">
+	manpagez: man pages &amp; more
+	</span><br />
+	<span class="subtitle">
+	man inet_ntop(3)
+	</span>
+</div>
+<div id="toplink">
+	<table width="100%" align="center" cellpadding="0">
+		<tr>
+						<td width="200">
+				<table>
+					<tr>
+						<td colspan=2>man pages</td>
+					</tr>
+					<tr>
+						<td>
+							By Section
+						</td><td>
+							<select onchange="location = this.options[this.selectedIndex].value">
+								<option selected value="">Choose...</option>
+								<option value="/man/1/">1</option><option value="/man/2/">2</option><option value="/man/3/">3</option><option value="/man/4/">4</option><option value="/man/5/">5</option><option value="/man/6/">6</option><option value="/man/7/">7</option><option value="/man/8/">8</option><option value="/man/9/">9</option><option value="/man/n/">n</option>							</select>	
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Alphabetically
+						</td><td>
+							<select onchange="location = this.options[this.selectedIndex].value">
+								<option selected value="">Choose...</option>
+								<option value="/man/alpha.php?A">A</option><option value="/man/alpha.php?B">B</option><option value="/man/alpha.php?C">C</option><option value="/man/alpha.php?D">D</option><option value="/man/alpha.php?E">E</option><option value="/man/alpha.php?F">F</option><option value="/man/alpha.php?G">G</option><option value="/man/alpha.php?H">H</option><option value="/man/alpha.php?I">I</option><option value="/man/alpha.php?J">J</option><option value="/man/alpha.php?K">K</option><option value="/man/alpha.php?L">L</option><option value="/man/alpha.php?M">M</option><option value="/man/alpha.php?N">N</option><option value="/man/alpha.php?O">O</option><option value="/man/alpha.php?P">P</option><option value="/man/alpha.php?Q">Q</option><option value="/man/alpha.php?R">R</option><option value="/man/alpha.php?S">S</option><option value="/man/alpha.php?T">T</option><option value="/man/alpha.php?U">U</option><option value="/man/alpha.php?V">V</option><option value="/man/alpha.php?W">W</option><option value="/man/alpha.php?X">X</option><option value="/man/alpha.php?Y">Y</option><option value="/man/alpha.php?Z">Z</option><option value="/man/alpha.php?0">Other</option>							</select>	
+						</td>
+					</tr>
+				</table>
+		
+			<td>
+				<table>
+					<tr>
+						<td colspan=2>Other versions of<br />inet_ntop</td>
+					</tr>
+					<tr>
+						<td>
+						<select onchange="location = this.options[this.selectedIndex].value">
+								<option selected value="">Choose...</option>
+								<option value="/man/3/inet_ntop/osx-10.4.php">Mac OS X 10.4</option>							</select>	
+						</td>
+					</tr>
+				</table>
+			</td>
+						<td align="right">
+				<script type="text/javascript"><!--
+				google_ad_client = "pub-1710183999564190";
+				/* 468x60, created 9/4/08 */
+				google_ad_slot = "8014332598";
+				google_ad_width = 468;
+				google_ad_height = 60;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="contentmenu">
+<table width="100%" cellpadding="0">
+	<tr>
+		<td>
+			<a href="/">Home</a> | 
+			<a href="/news/?page_id=2">About</a> |
+			<a href="/info/">info</a> | 
+			<a href="/man/">man</a> | 
+			<a href="/news/">News</a>
+		</td>
+		<td align="right" valign="middle">
+			&nbsp;<br/>
+			<form action="http://www.google.com/cse" id="cse-search-box">
+			  <div>
+				<input type="hidden" name="cx" value="015669413821031485611:a_hm66tboz8" />
+				<input type="hidden" name="ie" value="UTF-8" />
+				<input type="text" name="q" size="31" />
+				<input type="submit" name="sa" value="Search" />
+			  </div>
+			</form>
+			<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&lang=en"></script>
+		</td>
+	</tr>
+</table>
+</div>
+
+<div id="content">
+<pre>
+inet(3)                  BSD Library Functions Manual                  inet(3)
+
+
+</pre>
+<h2>NAME</h2><pre>
+     <b>inet_addr</b>, <b>inet_aton</b>, <b>inet_lnaof</b>, <b>inet_makeaddr</b>, <b>inet_netof</b>,
+     <b>inet_network</b>, <b>inet_ntoa</b>, <b>inet_ntop</b>, <b>inet_pton</b> -- Internet address manipu-
+     lation routines
+
+
+</pre>
+<h2>LIBRARY</h2><pre>
+     Standard C Library (libc, -lc)
+
+
+</pre>
+<h2>SYNOPSIS</h2><pre>
+     <b>#include</b> <b>&lt;arpa/inet.h&gt;</b>
+
+     <i>in</i><b>_</b><i>addr</i><b>_</b><i>t</i>
+     <b>inet_addr</b>(<i>const</i> <i>char</i> <i>*cp</i>);
+
+     <i>int</i>
+     <b>inet_aton</b>(<i>const</i> <i>char</i> <i>*cp</i>, <i>struct</i> <i>in</i><b>_</b><i>addr</i> <i>*pin</i>);
+
+     <i>in</i><b>_</b><i>addr</i><b>_</b><i>t</i>
+     <b>inet_lnaof</b>(<i>struct</i> <i>in</i><b>_</b><i>addr</i> <i>in</i>);
+
+     <i>struct</i> <i>in</i><b>_</b><i>addr</i>
+     <b>inet_makeaddr</b>(<i>in</i><b>_</b><i>addr</i><b>_</b><i>t</i> <i>net</i>, <i>in</i><b>_</b><i>addr</i><b>_</b><i>t</i> <i>lna</i>);
+
+     <i>in</i><b>_</b><i>addr</i><b>_</b><i>t</i>
+     <b>inet_netof</b>(<i>struct</i> <i>in</i><b>_</b><i>addr</i> <i>in</i>);
+
+     <i>in</i><b>_</b><i>addr</i><b>_</b><i>t</i>
+     <b>inet_network</b>(<i>const</i> <i>char</i> <i>*cp</i>);
+
+     <i>char</i> <i>*</i>
+     <b>inet_ntoa</b>(<i>struct</i> <i>in</i><b>_</b><i>addr</i> <i>in</i>);
+
+     <i>const</i> <i>char</i> <i>*</i>
+     <b>inet_ntop</b>(<i>int</i> <i>af</i>, <i>const</i> <i>void</i> <i>*restrict</i> <i>src</i>, <i>char</i> <i>*restrict</i> <i>dst</i>,
+         <i>socklen</i><b>_</b><i>t</i> <i>size</i>);
+
+     <i>int</i>
+     <b>inet_pton</b>(<i>int</i> <i>af</i>, <i>const</i> <i>char</i> <i>*restrict</i> <i>src</i>, <i>void</i> <i>*restrict</i> <i>dst</i>);
+
+
+</pre>
+<h2>DESCRIPTION</h2><pre>
+     The routines <b>inet_aton</b>(), <b>inet_addr</b>(), and <b>inet_network</b>() interpret char-
+     acter strings representing numbers expressed in the Internet standard `.'
+     notation.
+
+     The <b>inet_pton</b>() function converts a presentation format address (that is,
+     printable form as held in a character string) to network format (usually
+     a <i>struct</i> <i>in</i><b>_</b><i>addr</i> or some other internal binary representation, in network
+     byte order).  It returns 1 if the address was valid for the specified
+     address family, or 0 if the address wasn't parseable in the specified
+     address family, or -1 if some system error occurred (in which case <i>errno</i>
+     will have been set).  This function is presently valid for AF_INET and
+     AF_INET6.
+
+     The <b>inet_aton</b>() routine interprets the specified character string as an
+     Internet address, placing the address into the structure provided.  It
+     returns 1 if the string was successfully interpreted, or 0 if the string
+     is invalid.  The <b>inet_addr</b>() and <b>inet_network</b>() functions return numbers
+     suitable for use as Internet addresses and Internet network numbers,
+     respectively.
+
+     The function <b>inet_ntop</b>() converts an address <i>*src</i> from network format
+     (usually a <i>struct</i> <i>in</i><b>_</b><i>addr</i> or some other binary form, in network byte
+     order) to presentation format (suitable for external display purposes).
+     The <i>size</i> argument specifies the size, in bytes, of the buffer <i>*dst</i>.  It
+     returns NULL if a system error occurs (in which case, <i>errno</i> will have
+     been set), or it returns a pointer to the destination string.  This func-
+     tion is presently valid for AF_INET and AF_INET6.
+
+     The routine <b>inet_ntoa</b>() takes an Internet address and returns an ASCII
+     string representing the address in `.' notation.  The routine
+     <b>inet_makeaddr</b>() takes an Internet network number and a local network
+     address and constructs an Internet address from it.  The routines
+     <b>inet_netof</b>() and <b>inet_lnaof</b>() break apart Internet host addresses,
+     returning the network number and local network address part, respec-
+     tively.
+
+     All Internet addresses are returned in network order (bytes ordered from
+     left to right).  All network numbers and local address parts are returned
+     as machine byte order integer values.
+
+
+</pre>
+<h2>INTERNET ADDRESSES</h2><pre>
+     Values specified using the `.' notation take one of the following forms:
+
+           a.b.c.d
+           a.b.c
+           a.b
+           a
+
+     When four parts are specified, each is interpreted as a byte of data and
+     assigned, from left to right, to the four bytes of an Internet address.
+     Note that when an Internet address is viewed as a 32-bit integer quantity
+     on the VAX the bytes referred to above appear as ``d.c.b.a''.  That is,
+     VAX bytes are ordered from right to left.
+
+     When a three part address is specified, the last part is interpreted as a
+     16-bit quantity and placed in the right-most two bytes of the network
+     address.  This makes the three part address format convenient for speci-
+     fying Class B network addresses as ``128.net.host''.
+
+     When a two part address is supplied, the last part is interpreted as a
+     24-bit quantity and placed in the right most three bytes of the network
+     address.  This makes the two part address format convenient for specify-
+     ing Class A network addresses as ``net.host''.
+
+     When only one part is given, the value is stored directly in the network
+     address without any byte rearrangement.
+
+     All numbers supplied as ``parts'' in a `.' notation may be decimal,
+     octal, or hexadecimal, as specified in the C language (i.e., a leading 0x
+     or 0X implies hexadecimal; otherwise, a leading 0 implies octal; other-
+     wise, the number is interpreted as decimal).
+
+     The <b>inet_aton</b>() and <b>inet_ntoa</b>() functions are semi-deprecated in favor of
+     the <b><a href="/man/3/addr2ascii/">addr2ascii(3)</a></b> family.  However, since those functions are not yet
+     widely implemented, portable programs cannot rely on their presence and
+     will continue to use the inet(3) functions for some time.
+
+
+</pre>
+<h2>DIAGNOSTICS</h2><pre>
+     The constant INADDR_NONE is returned by <b>inet_addr</b>() and <b>inet_network</b>()
+     for malformed requests.
+
+
+</pre>
+<h2>ERRORS</h2><pre>
+     The <b>inet_ntop</b>() call fails if:
+
+     [EAFNOSUPPORT]     <i>*src</i> was not an AF_INET or AF_INET6 family address.
+
+     [ENOSPC]           <i>size</i> was not large enough to store the presentation
+                        form of the address.
+
+
+</pre>
+<h2>LEGACY SYNOPSIS</h2><pre>
+     <b>#include</b> <b>&lt;sys/types.h&gt;</b>
+     <b>#include</b> <b>&lt;sys/socket.h&gt;</b>
+     <b>#include</b> <b>&lt;sys/netinet/in.h&gt;</b>
+     <b>#include</b> <b>&lt;sys/arpa/inet.h&gt;</b>
+
+     These include files are necessary for all functions.
+
+
+</pre>
+<h2>SEE ALSO</h2><pre>
+     <b><a href="/man/3/addr2ascii/">addr2ascii(3)</a></b>, <b><a href="/man/3/byteorder/">byteorder(3)</a></b>, <b><a href="/man/3/gethostbyname/">gethostbyname(3)</a></b>, <b><a href="/man/3/getnetent/">getnetent(3)</a></b>, <b>inet_net(3)</b>,
+     <b><a href="/man/5/compat/">compat(5)</a></b>, <b><a href="/man/5/hosts/">hosts(5)</a></b>, <b><a href="/man/5/networks/">networks(5)</a></b>
+
+     <i>IP</i> <i>Version</i> <i>6</i> <i>Addressing</i> <i>Architecture</i>, RFC, 2373, July 1998.
+
+
+</pre>
+<h2>STANDARDS</h2><pre>
+     The <b>inet_ntop</b>() and <b>inet_pton</b>() functions conform to X/Open Networking
+     Services Issue 5.2 (``XNS5.2'').  Note that <b>inet_pton</b>() does not accept
+     1-, 2-, or 3-part dotted addresses; all four parts must be specified and
+     are interpreted only as decimal values.  This is a narrower input set
+     than that accepted by <b>inet_aton</b>().
+
+
+</pre>
+<h2>HISTORY</h2><pre>
+     These functions appeared in 4.2BSD.
+
+
+</pre>
+<h2>BUGS</h2><pre>
+     The value INADDR_NONE (0xffffffff) is a valid broadcast address, but
+     <b>inet_addr</b>() cannot return that value without indicating failure.  The
+     newer <b>inet_aton</b>() function does not share this problem.  The problem of
+     host byte ordering versus network byte ordering is confusing.  The string
+     returned by <b>inet_ntoa</b>() resides in a static memory area.
+
+     Inet_addr should return a <i>struct</i> <i>in</i><b>_</b><i>addr</i>.
+
+BSD                              June 14, 2004                             BSD
+</pre>
+<hr>
+Mac OS X 10.5 - Generated Sun Oct 28 21:33:07 EDT 2007
+</div>
+<div id="footer2">
+	<table width="100%" cellpadding="10">
+		<tr>
+			<td align="center">
+			<script type="text/javascript"><!--
+			google_ad_client = "pub-1710183999564190";
+			/* 728x90, created 6/19/08 */
+			google_ad_slot = "1585046737";
+			google_ad_width = 728;
+			google_ad_height = 90;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="footer">
+<pre>
+&copy; manpagez.com 2000-2008
+Individual documents may contain additional copyright information.
+</pre>
+</div>
+</div>
+</body>
+</html>

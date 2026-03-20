@@ -1,21 +1,26 @@
-#ifndef _PROTO_ICON_H
-#define _PROTO_ICON_H
+#ifndef PROTO_ICON_H
+#define PROTO_ICON_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: icon.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_ICON_PRAGMAS_H
+#include <pragmas/icon_pragmas.h>
 #endif
-#if !defined(CLIB_ICON_PROTOS_H) && !defined(__GNUC__)
-#include <clib/icon_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *IconBase;
-#endif
+extern struct Library * IconBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/icon.h>
-#elif !defined(__VBCC__)
-#include <pragma/icon_lib.h>
-#endif
-
-#endif	/*  _PROTO_ICON_H  */
+#endif /* PROTO_ICON_H */

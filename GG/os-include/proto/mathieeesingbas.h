@@ -1,21 +1,26 @@
-#ifndef _PROTO_MATHIEEESINGBAS_H
-#define _PROTO_MATHIEEESINGBAS_H
+#ifndef PROTO_MATHIEEESINGBAS_H
+#define PROTO_MATHIEEESINGBAS_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: mathieeesingbas.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_MATHIEEESINGBAS_PRAGMAS_H
+#include <pragmas/mathieeesingbas_pragmas.h>
 #endif
-#if !defined(CLIB_MATHIEEESINGBAS_PROTOS_H) && !defined(__GNUC__)
-#include <clib/mathieeesingbas_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct MathIEEEBase *MathIeeeSingBasBase;
-#endif
+extern struct Library * MathIeeeSingBasBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/mathieeesingbas.h>
-#elif !defined(__VBCC__)
-#include <pragma/mathieeesingbas_lib.h>
-#endif
-
-#endif	/*  _PROTO_MATHIEEESINGBAS_H  */
+#endif /* PROTO_MATHIEEESINGBAS_H */

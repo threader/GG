@@ -30,7 +30,7 @@
 #else
 #define	BYTE_ORDER	BIG_ENDIAN	/* mc68000, tahoe, most others */
 #endif
-#endif /* BYTE_ORDER */
+#endif BYTE_ORDER
 
 typedef	u_long	tcp_seq;
 /*

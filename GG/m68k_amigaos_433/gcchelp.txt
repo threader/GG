@@ -1,0 +1,143 @@
+You need for this 68k Version at least ixemul V51(attached in that archive)
+
+For general help see this page from Shinkuro
+
+http://amigaitalia.altervista.org/shinky/Develop_1-3.lha
+
+http://shinkuro.altervista.org/amiga/guida/english/index.htm
+
+what is missed in this guide:
+
+You can use the MCP guru Requester and segtracker to find the offset.
+On Aminet there is a program gccFindHit, this show the sourceline with the offset address.
+winuae offer the feature that a illegal address access stop the program, when you start winuaeenforcer 2
+
+To increase the stacksize of a GCC program declare at this in your program
+
+int  __stack  = 500000;
+ (2* _)
+
+Add 500 kb for stack and should be large enough in most programs.But if you get random crashes, try to increase
+
+in the lib dir is a dir pkgconfig.Here is a file for each linker lib with path to lib and includedir
+
+much faster libnix for fileio is in lib/lib040/libnix.a.choose it for linking 
+
+Changes to older compilers.
+
+the special 68k amiga gcc feature for register arg passing in Function Head is not support, to keep a build of a new gcc very easy.
+MOS and OS4 have this feature too not and of course other platforms.you can go the way they do or use for tat files a old gcc to compile
+
+The amiga OS libstubs in the inline dir that use the LPx macros work ok.But there are some older libstubs out, that dont work on this gcc.
+See in the inline dir of release for newest files.
+
+also the SDI macros(attached) work with new compiler 
+
+but what you need change is this 
+
+for example, only on amigaos 68k was possible
+
+Uint32 RunThread(char *args __asm("a0") )
+{
+...
+
+now do the way all other System (and MOS OS4 do too)
+
+Uint32 RunThread(char *args dummy1)  // this is optimize away, dummy is only use to get well work with -wall
+{
+register char *args  __asm("a0");
+
+....
+
+
+to make new versions of gcc available witlhot much work, the amiga 68k version use now no extra features that other systems dont have and 
+are not in main GCC source.they are just not important need.
+
+the gcc4.3.2 do now output in Motorola Assembler Format, old format is not work correct and is not used on amiga assemblers.only gcc assembler understand it.
+Motorola Format have the advantage, that the compiler can use with -S to generate source
+that can on other assemblers, for example amiblitz.
+
+the system libraries are all build with symbols in.This have the advantage of more precise linker errors when compile, but your exe size get very big.you can call 
+strip -g 
+to remove the debug symbols in program or lib if you like, amidev have a linker setting for this or use Option -s on compiler
+
+
++++++++++++++++++++++++++++++++++++ now come diffrence that happen on gcc >2.0 ++++++++++++++++++++
+
+The paste operator work diffrent in GCC > 2.0. in gcc2.95 this work ok
+
+#define CONSTRUCTOR(name,pri) \
+VOID __ctor_##name##(VOID)
+
+CONSTRUCTOR(mylib_lib)
+{
+
+}
+
+but on compilers > 2.0 you get this error
+
+error: pasting "__ctor_mylib_lib" and "(" does not give a valid preprocessing token
+
+to avoid this remove the paste ## command.
+
+#define CONSTRUCTOR(name,pri) \
+VOID __ctor_##name(VOID)
+
+thats correct for compilers >2.
+
+Problem with 
+error: asm specifer for variable __RawPutChar_c conflicts with asm clobber list.
+
+#define RawPutChar(c) ({ \
+  ULONG _RawPutChar_c = (c); \
+  { \
+  register struct Library * const __RawPutChar__bn __asm("a6") = SysBase;\
+  register ULONG __RawPutChar_c __asm("d0") = (_RawPutChar_c); \
+  __asm volatile ("jsr a6@(-516:W)" \
+  : \
+  : "r"(__RawPutChar__bn), "r"(__RawPutChar_c) \
+  : "d0" "d1", "a0", "a1", "fp0", "fp1", "cc", "memory"); \
+  } \
+})
+
+this happen because d0 is in clobber list but is used as register for variable __RawPutChar_c.
+
+correct is  
+
+#define RawPutChar(c) ({ \
+  ULONG _RawPutChar_c = (c); \
+  { \
+  register struct Library * const __RawPutChar__bn __asm("a6") = SysBase;\
+  register ULONG __RawPutChar_c __asm("d0") = (_RawPutChar_c); \
+  __asm volatile ("jsr a6@(-516:W)" \
+  : \
+  : "r"(__RawPutChar__bn), "r"(__RawPutChar_c) \
+  : "d1", "a0", "a1", "fp0", "fp1", "cc", "memory"); \
+  } \
+})
+
+if the gcc assembler bring an strange error or crash it happen because  a \n\ is miss at the end of the asm line.(also need \n if only 1 asm line )
+
+if you want use a specs file, put it in usr/local/amiga/lib/gcc/m68k-amigaos/4.3.2 
+
+the make_68k and make_68k_4 shell scripts are for the cygwin shell.You can copy to bin and use this to start diffrent compilers.
+
+ 
+make CFLAGS=-v       (depend on makefile)
+
+usefull gcc flags:
+
+-v show version of gcc and give more precise info about include path etc
+-S only asm output in current .o dest file
+-E output of preprocessor in ascii (expandet macros) in current .o dest file
+-O0 set optimizer to 0 -O3 optimizer set to 3.
+-g debug build
+-s avoid debug symbol build
+-V choose the compiler Version for build (-V 3.4.0 use 3.4.0 compiler)
+-b choose the target machine (-b m68k-amigaos) use
+
+add own includes to usr/local/amiga/m68k-amigaos/sys-include
+
+if you get __decimalpoint miss linker error use -noixemul linker flag or when you want use ixemul link with libc.a
+
+

@@ -121,10 +121,6 @@ double	y1 __P((double));
 double	yn __P((int, double));
 #endif
 
-/* Amiga - 48.3: */
-float roundf __P((float));
-float truncf __P((float));
-
 __END_DECLS
 
 #endif /* __HAVE_68881__ */

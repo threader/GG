@@ -1,21 +1,26 @@
-#ifndef _PROTO_ASL_H
-#define _PROTO_ASL_H
+#ifndef PROTO_ASL_H
+#define PROTO_ASL_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: asl.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_ASL_PRAGMAS_H
+#include <pragmas/asl_pragmas.h>
 #endif
-#if !defined(CLIB_ASL_PROTOS_H) && !defined(__GNUC__)
-#include <clib/asl_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *AslBase;
-#endif
+extern struct Library * AslBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/asl.h>
-#elif !defined(__VBCC__)
-#include <pragma/asl_lib.h>
-#endif
-
-#endif	/*  _PROTO_ASL_H  */
+#endif /* PROTO_ASL_H */

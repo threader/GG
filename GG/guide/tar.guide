@@ -4631,8 +4631,8 @@ username as the username on the remote machine.
 be a file on another machine.  If the archive file is @{b}USER@HOST:FILE@{ub},
 then FILE is used on the host HOST.  The remote host is accessed using
 the @{b}rsh@{ub} program, with a username of USER.  If the username is omitted
-(along with the @{b}\@@{ub} sign), then your user name will be used.  (This is the
-normal @{b}rsh@{ub} behavior.)  It is necessary for the remote machine, in
+(along with the @{b}\\@@{ub} sign), then your user name will be used.  (This is
+the normal @{b}rsh@{ub} behavior.)  It is necessary for the remote machine, in
 addition to permitting your @{b}rsh@{ub} access, to have the @{b}/usr/ucb/rmt@{ub}
 program installed.  If you need to use a file whose name includes a
 colon, then the remote tape drive behavior can be inhibited by using
@@ -5865,7 +5865,7 @@ program, be sure to write it using the @{b}--old-archive@{ub} option (@{b}-o@{ub
    Traditionally, old @{b}tar@{ub}s have a limit of 100 characters.  GNU @{b}tar@{ub}
 attempted two different approaches to overcome this limit, using and
 extending a format specified by a draft of some P1003.1.  The first way
-was not that successful, and involved @{b}\@MaNgLeD@@{ub} file names, or such;
+was not that successful, and involved @{b}\\@MaNgLeD@@{ub} file names, or such;
 while a second approach used @{b}././@LongLink@{ub} and other tricks, yielding
 better success.  In theory, GNU @{b}tar@{ub} should be able to handle file names
 of practically unlimited length.  So, if GNU @{b}tar@{ub} fails to dump and
@@ -5890,7 +5890,7 @@ extensions, would it be for very long file names or other specialities,
 this archive becomes non-portable to other @{b}tar@{ub} implementations.  In
 fact, anything can happen.  The most forgiving @{b}tar@{ub}s will merely unpack
 the file using a wrong name, and maybe create another file named
-something like @{b}\@LongName@{ub}, with the true file name in it.  @{b}tar@{ub}s not
+something like @{b}\\@LongName@{ub}, with the true file name in it.  @{b}tar@{ub}s not
 protecting themselves may segment violate!
 
    Compatibility concerns make all this thing more difficult, as we

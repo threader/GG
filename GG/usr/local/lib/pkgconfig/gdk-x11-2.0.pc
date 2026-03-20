@@ -1,0 +1,12 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+target=x11
+
+Name: GDK
+Description: GIMP Drawing Kit (${target} target)
+Version: 2.4.4
+Requires: gdk-pixbuf-2.0 pangoxft pangox
+Libs: -L${libdir} -lgdk-${target}-2.0  -L/usr/X11R6.3/lib -lXext  -L/usr/X11R6.3/lib -lXcursor -lXrender -lX11   
+Cflags: -I${includedir}/gtk-2.0 -I${libdir}/gtk-2.0/include -I/usr/X11R6.3/include   

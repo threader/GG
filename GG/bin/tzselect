@@ -28,7 +28,7 @@
 
 
 # Specify default values for environment variables if they are unset.
-: ${AWK=mawk}
+: ${AWK=gawk}
 : ${TZDIR=/usr/local/etc/zoneinfo}
 
 # Check for awk Posix compliance.

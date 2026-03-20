@@ -1,21 +1,26 @@
-#ifndef _PROTO_POPCYCLE_H
-#define _PROTO_POPCYCLE_H
+#ifndef PROTO_POPCYCLE_H
+#define PROTO_POPCYCLE_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: popcycle.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_POPCYCLE_PRAGMAS_H
+#include <pragmas/popcycle_pragmas.h>
 #endif
-#if !defined(CLIB_POPCYCLE_PROTOS_H) && !defined(__GNUC__)
-#include <clib/popcycle_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *PopCycleBase;
-#endif
+extern struct Library * PopCycleBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/popcycle.h>
-#elif !defined(__VBCC__)
-#include <pragma/popcycle_lib.h>
-#endif
-
-#endif	/*  _PROTO_POPCYCLE_H  */
+#endif /* PROTO_POPCYCLE_H */

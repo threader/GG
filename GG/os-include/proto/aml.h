@@ -1,21 +1,26 @@
-#ifndef _PROTO_AML_H
-#define _PROTO_AML_H
+#ifndef PROTO_AML_H
+#define PROTO_AML_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: aml.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_AML_PRAGMAS_H
+#include <pragmas/aml_pragmas.h>
 #endif
-#if !defined(CLIB_AML_PROTOS_H) && !defined(__GNUC__)
-#include <clib/aml_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *AmlBase;
-#endif
+extern struct Library * AmlBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/aml.h>
-#elif !defined(__VBCC__)
-#include <pragma/aml_lib.h>
-#endif
-
-#endif	/*  _PROTO_AML_H  */
+#endif /* PROTO_AML_H */

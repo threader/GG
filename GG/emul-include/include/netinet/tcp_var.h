@@ -42,8 +42,8 @@
 #define	SB_MAX	SB_MAXCOUNT	/* Sun has to be a little bit different... */
 #else
 #define SB_MAX	32767		/* XXX */
-#endif	/* SB_MAXCOUNT */
-#endif	/* SB_MAX */
+#endif	SB_MAXCOUNT
+#endif	SB_MAX
 
 #ifndef IP_MAXPACKET
 #define	IP_MAXPACKET	65535		/* maximum packet size */
@@ -171,7 +171,7 @@ struct	tcpstat {
 #define	tcps_badoff	tcps_rcvbadoff
 #define	tcps_hdrops	tcps_rcvshort
 
-#endif /* OLDSTAT */
+#endif OLDSTAT
 	u_long	tcps_connattempt;	/* connections initiated */
 	u_long	tcps_accepts;		/* connections accepted */
 	u_long	tcps_connects;		/* connections established */

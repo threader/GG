@@ -1,21 +1,26 @@
-#ifndef _PROTO_COMMODITIES_H
-#define _PROTO_COMMODITIES_H
+#ifndef PROTO_COMMODITIES_H
+#define PROTO_COMMODITIES_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: commodities.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_COMMODITIES_PRAGMAS_H
+#include <pragmas/commodities_pragmas.h>
 #endif
-#if !defined(CLIB_COMMODITIES_PROTOS_H) && !defined(__GNUC__)
-#include <clib/commodities_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *CxBase;
-#endif
+extern struct Library * CxBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/commodities.h>
-#elif !defined(__VBCC__)
-#include <pragma/commodities_lib.h>
-#endif
-
-#endif	/*  _PROTO_COMMODITIES_H  */
+#endif /* PROTO_COMMODITIES_H */

@@ -94,11 +94,6 @@ time_t mktime __P((struct tm *));
 size_t strftime __P((char *, size_t, const char *, const struct tm *));
 time_t time __P((time_t *));
 
-/* Amiga - 48.3: */
-time_t timegm __P((struct tm *));
-struct tm *gmtime_r __P((const time_t *, struct tm *));
-struct tm *localtime_r __P((const time_t *, struct tm *));
-
 #if !defined(_ANSI_SOURCE)
 #define CLK_TCK		100
 extern char *tzname[2];

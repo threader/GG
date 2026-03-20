@@ -1,21 +1,26 @@
-#ifndef _PROTO_PENMAP_H
-#define _PROTO_PENMAP_H
+#ifndef PROTO_PENMAP_H
+#define PROTO_PENMAP_H
 
-#ifndef EXEC_TYPES_H
-#include <exec/types.h>
+/*
+**	$VER: penmap.h 44.1 (1.11.1999)
+**	Includes Release 45.1
+**
+**	Lattice `C' style prototype/pragma header file combo
+**
+**	(C) Copyright 2001 Amiga, Inc.
+**	    All Rights Reserved
+*/
+
+#ifndef PRAGMAS_PENMAP_PRAGMAS_H
+#include <pragmas/penmap_pragmas.h>
 #endif
-#if !defined(CLIB_PENMAP_PROTOS_H) && !defined(__GNUC__)
-#include <clib/penmap_protos.h>
+
+#ifndef EXEC_LIBRARIES_H
+#include <exec/libraries.h>
 #endif
 
 #ifndef __NOLIBBASE__
-extern struct Library *PenMapBase;
-#endif
+extern struct Library * PenMapBase;
+#endif /* __NOLIBBASE__ */
 
-#ifdef __GNUC__
-#include <inline/penmap.h>
-#elif !defined(__VBCC__)
-#include <pragma/penmap_lib.h>
-#endif
-
-#endif	/*  _PROTO_PENMAP_H  */
+#endif /* PROTO_PENMAP_H */
